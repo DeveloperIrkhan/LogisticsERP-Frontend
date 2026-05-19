@@ -32,7 +32,7 @@ export default function HeroSection() {
 
           <div className="flex gap-4">
             <CustomButton
-              buttonText="Book Your Fleet"
+              buttonText="Add Vehicle To the Fleet"
               buttonColor="bg-red-600"
               buttonHoverColor="bg-red-900"
               className="px-6 py-3 rounded-full font-bold"

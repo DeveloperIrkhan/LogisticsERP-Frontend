@@ -1,48 +1,46 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import {
-  Car,
-  Building2,
-  Calendar,
-  ShieldCheck,
-  DollarSign,
-  Hash,
-  BadgeInfo,
-  Toolbox,
-  Van,
-  Activity,
-  Icon,
-  HdIcon,
-  Edit,
-  Trash,
-} from "lucide-react";
-
-import Spinner from "@/components/Spinner";
 import Container from "@/components/Container";
-import { getVehicleById } from "./api";
+import Spinner from "@/components/Spinner";
+import { getDriverById } from "@/modules/drivers/api";
+import { DriverStatus, IDriverResponseDto } from "@/modules/drivers/types";
+import { images } from "@/public/images";
+import {
+  Calendar,
+  Currency,
+  Edit,
+  Home,
+  PhoneIcon,
+  Timeline,
+  Trash,
+  TypeIcon,
+} from "lucide-react";
+import Image from "next/image";
 import Link from "next/link";
-import { VehicleStatus } from "./types";
+import { useParams } from "next/navigation";
+import { useEffect, useState } from "react";
+import { BiCard } from "react-icons/bi";
+import { GoNumber } from "react-icons/go";
 import { GrUserWorker } from "react-icons/gr";
+import { MdOutlineEmail } from "react-icons/md";
+import { RxDividerVertical } from "react-icons/rx";
+import { SiNamemc, SiRemark } from "react-icons/si";
 
-interface PageProps {
-  params: {
-    vehicleId: string;
-  };
-}
+const page = () => {
+  const params = useParams();
+  const id = params?.driverId as string;
 
-const GetOnlyVehicle = ({ params }: PageProps) => {
   const [isLoading, setIsLoading] = useState(false);
-  const [vehicle, setVehicle] = useState<any>(null);
+  const [driver, setDriver] = useState<IDriverResponseDto>();
 
   useEffect(() => {
-    const fetchVehicle = async () => {
+    const fetchDriverAsync = async () => {
       try {
         setIsLoading(true);
+        const response = await getDriverById(id);
 
-        const response = await getVehicleById(params.vehicleId);
-
-        setVehicle(response);
+        setDriver(response);
+        console.log("driver found", response);
       } catch (error) {
         console.error("Error fetching vehicle:", error);
       } finally {
@@ -50,8 +48,8 @@ const GetOnlyVehicle = ({ params }: PageProps) => {
       }
     };
 
-    fetchVehicle();
-  }, [params.vehicleId]);
+    fetchDriverAsync();
+  }, [id]);
 
   if (isLoading) {
     return (
@@ -61,102 +59,77 @@ const GetOnlyVehicle = ({ params }: PageProps) => {
     );
   }
 
-  if (!vehicle) {
+  if (!driver) {
     return (
       <Container className="flex justify-center items-center min-h-[70vh]">
-        <p className="text-xl text-red-500 font-semibold">Vehicle not found</p>
+        <p className="text-xl text-red-500 font-semibold">no driver found</p>
       </Container>
     );
   }
 
-  const details = [
+  const driverDetails = [
     {
-      label: "Vehicle Number",
-      value: vehicle.number,
-      icon: Car,
+      label: "Driver Id",
+      value: driver.driverId,
+      icon: GoNumber,
     },
     {
-      label: "Model Name",
-      value: vehicle.modelName,
-      icon: BadgeInfo,
+      label: "Name",
+      value: driver.fullName,
+      icon: SiNamemc,
     },
     {
-      label: "Company",
-      value: vehicle.company,
-      icon: Building2,
+      label: "CNIC",
+      value: driver.cnic,
+      icon: BiCard,
     },
     {
-      label: "Engine Number",
-      value: vehicle.engineNumber,
-      icon: Toolbox,
+      label: "Mobile Number",
+      value: driver.mobileNumber,
+      icon: PhoneIcon,
     },
     {
-      label: "Chassis Number",
-      value: vehicle.chassisNumber,
-      icon: Hash,
+      label: "Email Adress",
+      value: driver.email,
+      icon: MdOutlineEmail,
     },
     {
-      label: "Vehicle Type",
-      value: vehicle.vehicleType,
-      icon: Van,
+      label: "Address",
+      value: driver.address,
+      icon: Home,
     },
     {
-      label: "Doner",
-      value: vehicle.doner,
-      icon: Building2,
+      label: "license Number",
+      value: driver.licenseNumber,
+      icon: BiCard,
     },
     {
-      label: "Purchased Cost",
-      value: `PRK-${vehicle.purchsedCast}`,
-      icon: DollarSign,
+      label: "license Expiry",
+      value: driver.licenseExpiry,
+      icon: Timeline,
     },
     {
-      label: "Depreciation",
-      value: `PRK-${vehicle.depreciation}`,
-      icon: DollarSign,
+      label: "Type of License",
+      value: driver.typeOfLicence,
+      icon: TypeIcon,
     },
     {
-      label: "Registration Date",
-      value: new Date(vehicle.registrationDate).toDateString(),
+      label: "Date of Joining",
+      value: driver.dateOfJoining,
       icon: Calendar,
     },
     {
-      label: "Registration Expiry",
-      value: new Date(vehicle.registrationExpiry).toDateString(),
-      icon: Calendar,
+      label: "Salary",
+      value: driver.salary,
+      icon: Currency,
     },
     {
-      label: "Fitness Expiry",
-      value: new Date(vehicle.fitnessExpiry).toDateString(),
-      icon: Activity,
-    },
-    {
-      label: "Insured By",
-      value: vehicle.insuredBy,
-      icon: ShieldCheck,
-    },
-    {
-      label: "Insurance Type",
-      value: vehicle.typeOfInsurance,
-      icon: ShieldCheck,
-    },
-    {
-      label: "Insurance From",
-      value: new Date(vehicle.insuranceFrom).toDateString(),
-      icon: Calendar,
-    },
-    {
-      label: "Insurance To",
-      value: new Date(vehicle.insuranceTo).toDateString(),
-      icon: Calendar,
-    },
-    {
-      label: "Insurance Expiry",
-      value: new Date(vehicle.insuranceExpiry).toDateString(),
-      icon: ShieldCheck,
+      label: "Driver Remarks",
+      value: driver.description,
+      icon: SiRemark,
     },
   ];
-
+  // status , licenseUrl photoUrl
   return (
     <Container className="py-8">
       <div className="max-w-7xl mx-auto">
@@ -164,24 +137,59 @@ const GetOnlyVehicle = ({ params }: PageProps) => {
           <div className="bg-linear-to-r from-red-600 via-red-700 to-red-900 p-8 md:p-10">
             <div className="flex flex-col md:flex-row md:items-center gap-5">
               <div className="bg-white/20 backdrop-blur-md p-5 rounded-3xl w-fit">
-                <Car className="w-12 h-12 text-white" />
+                <RxDividerVertical className="w-12 h-12 text-white" />
               </div>
 
               <div>
                 <h1 className="text-4xl font-extrabold text-white tracking-wide">
-                  Vehicle Information
+                  Driver Information
                 </h1>
 
                 <p className="text-red-100 mt-2 text-sm break-all">
-                  {vehicle.vehicleId}
+                  {driver.driverId}
                 </p>
               </div>
             </div>
           </div>
 
           <div className="p-6 md:p-10">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 bg-gray-50 p-6 rounded-2xl shadow-md">
+              {/* Driver Photo */}
+              <div className="flex flex-col items-center bg-white rounded-xl shadow-sm p-4 hover:shadow-md transition">
+                <p className="text-sm font-semibold text-gray-600 mb-6">
+                  Driver Photo
+                </p>
+
+                <div className="overflow-hidden rounded-xl border border-gray-200">
+                  <Image
+                    height={220}
+                    width={220}
+                    alt="driver photo"
+                    src={driver.photoUrl ?? images.profile}
+                    className="object-cover hover:scale-105 transition duration-300"
+                  />
+                </div>
+              </div>
+
+              {/* License Image */}
+              <div className="flex flex-col items-center bg-white rounded-xl shadow-sm p-4 hover:shadow-md transition">
+                <p className="text-sm font-semibold text-gray-600 mb-6">
+                  License Image
+                </p>
+
+                <div className="overflow-hidden rounded-xl border border-gray-200">
+                  <Image
+                    height={220}
+                    width={220}
+                    alt="driver license"
+                    src={driver.licenseUrl ?? images.profile}
+                    className="object-cover hover:scale-105 transition duration-300"
+                  />
+                </div>
+              </div>
+            </div>
             <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
-              {details.map((item, index) => {
+              {driverDetails.map((item, index) => {
                 const Icon = item.icon;
 
                 return (
@@ -202,7 +210,7 @@ const GetOnlyVehicle = ({ params }: PageProps) => {
                         </p>
 
                         <h3 className="text-lg font-bold text-slate-800 mt-1 wrap-break-word">
-                          {item.value || "-"}
+                          {(item.value as string) || "-"}
                         </h3>
                       </div>
                     </div>
@@ -212,7 +220,7 @@ const GetOnlyVehicle = ({ params }: PageProps) => {
               <div className="uppercase rounded-2xl border border-slate-200 bg-linear-to-br from-white to-slate-100 p-6 shadow-md hover:shadow-2xl hover:-translate-y-1 transition-all duration-300">
                 <div className="flex items-center justify-center gap-4">
                   <Link
-                    href={"/vehicle/update-vehicle/" + vehicle.vehicleId}
+                    href={"/vehicle/update-vehicle/" + driver.driverId}
                     className="bg-red-100 text-red-600 p-4 rounded-2xl hover:bg-red-600 hover:text-white transition-all duration-300"
                   >
                     <Edit className="w-6 h-6" />
@@ -232,18 +240,20 @@ const GetOnlyVehicle = ({ params }: PageProps) => {
               <div className="flex flex-col lg:flex-row justify-between items-center gap-6">
                 <div>
                   <h2 className="text-3xl uppercase font-bold text-white">
-                    {vehicle.company} {vehicle.modelName}
+                    {driver.fullName} {driver.cnic}
                   </h2>
 
                   <p className="text-red-100 mt-2 text-lg">
-                    Registration #: {vehicle.vehicleId}
+                    Registration #: {driver.driverId}
                   </p>
                 </div>
 
                 <div className="bg-white/20 backdrop-blur-lg px-8 py-5 rounded-2xl border border-white/20">
-                  <p className="text-red-100 text-sm">Vehicle Status</p>
+                  <p className="text-red-100 text-sm">Driver Status</p>
 
-                  <h3 className="text-2xl font-bold text-white">{VehicleStatus[vehicle.status]}</h3>
+                  <h3 className="text-2xl font-bold text-white">
+                    {DriverStatus[driver.status]}
+                  </h3>
                 </div>
               </div>
             </div>
@@ -254,4 +264,4 @@ const GetOnlyVehicle = ({ params }: PageProps) => {
   );
 };
 
-export default GetOnlyVehicle;
+export default page;

@@ -14,6 +14,7 @@ import {
 } from "lucide-react";
 
 import Link from "next/link";
+import { VehicleStatus } from "./types";
 
 const GetAllVehicles = () => {
   const [isLoading, setIsLoading] = useState(false);
@@ -93,7 +94,12 @@ const GetAllVehicles = () => {
                   className="group relative overflow-hidden rounded-3xl bg-white border border-slate-200 shadow-lg hover:shadow-2xl hover:-translate-y-2 transition-all duration-500"
                 >
                   {/* Top Gradient */}
-                  <div className="h-4 bg-linear-to-r from-red-400 to-red-900 group-hover:bg-linear-to-r group-hover:from-red-900 group-hover:to-red-400 duration-400 transition-colors"></div>
+                  <div className="bg-linear-to-r p-2 from-red-400 to-red-900 group-hover:bg-linear-to-r group-hover:from-red-900 group-hover:to-red-400 duration-400 transition-colors">
+                    <div className="flex w-full items-center justify-between px-4">
+                      <p className="text-white/90 font-medium text-lg">Vehicle Status</p>
+                      <span className="bg-white/20 px-2.5 py-1 text-white rounded-md">{VehicleStatus[vehicle.status]}</span>
+                    </div>
+                  </div>
 
                   {/* Decorative Blur */}
                   <div className="absolute top-0 right-0 w-40 h-40 bg-red-100 rounded-full blur-3xl opacity-40"></div>
@@ -205,7 +211,8 @@ const GetAllVehicles = () => {
 
                       <Link
                         href={`/vehicle/get-vehicle-by-id/${vehicle.vehicleId}`}
-                        className="group/button flex items-center gap-2 bg-linear-to-r from-dark-color to-dark-color
+                        className="group/button flex items-center gap-2 bg-linear-to-r 
+                        from-red-400 to-red-900
                          hover:from-red-600 hover:to-red-900
                           text-white px-5 py-3 rounded-xl font-semibold 
                           shadow-lg transition-color duration-600"

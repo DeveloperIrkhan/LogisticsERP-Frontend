@@ -1,27 +1,45 @@
-export interface DriverResponseDto {
-  DriverId: string;
-  FullName: string;
-  CNIC: string;
-  MobileNumber: string;
-  Email: string;
-  Address: string;
-  LicenseNumber: string;
-  LicenseExpiry: Date;
-  TypeOfLicence: string;
-  DateOfJoining: Date;
-  Salary: string;
-  Status: DriverStatus;
-  Description: string;
-  CreatedAt: Date;
-  PhotoUrl: string;
-  VehicleId?: string;
+import { IVehicleResponse } from "../vehicle/types";
+export interface IDriverCreateDto {
+  driverId?: string;
+  fullName: string;
+  cnic: string;
+  mobileNumber: string;
+  email: string;
+  address: string;
+  licenseNumber: string;
+  licenseExpiry: Date;
+  typeOfLicence: string;
+  dateOfJoining: Date;
+  salary: string;
+  status: DriverStatus;
+  description: string;
+  Photo?: File;
+  License?: File;
+  vehicleId?: string;
+  vehicle?: IVehicleResponse;
+}
+export interface IDriverResponseDto {
+  fullName: string;
+  cnic: string;
+  mobileNumber: string;
+  email: string;
+  address: string;
+  licenseNumber: string;
+  licenseExpiry: Date;
+  typeOfLicence: string;
+  dateOfJoining: Date;
+  salary: string;
+  status: DriverStatus;
+  description: string;
+  photoUrl: string;
+  licenseUrl: string;
+  driverId?: string;
 }
 
 export enum DriverStatus {
   ACTIVE = 0,
   INACTIVE = 1,
 }
-
 
 export interface ApiResponse<T> {
   success: boolean;

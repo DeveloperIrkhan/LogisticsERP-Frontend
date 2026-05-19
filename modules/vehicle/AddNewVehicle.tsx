@@ -205,8 +205,8 @@ const AddNewVehicle = () => {
                   Icon={TruckElectric}
                   placeholder="Truck, Ambulance, Car"
                   className="custom-input w-full"
-                  value={vehicle.type}
-                  onChange={(value) => handleChange("type", value)}
+                  value={vehicle.vehicleType}
+                  onChange={(value) => handleChange("vehicleType", value)}
                 />
                 <CustomInput
                   label="Enter Donner Name"

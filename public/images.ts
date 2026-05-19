@@ -9,8 +9,10 @@ import engin from "@/public/engin.jpg";
 import dashboard from "@/public/dashboard.jpg";
 import dashboard2 from "@/public/dashboard-2.jpg";
 import cars from "@/public/cars.jpg";
+import profile from "@/public/Profile.png";
 
 export const images = {
+  profile,
   hero,
   car,
   setting,

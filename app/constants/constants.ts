@@ -14,10 +14,6 @@ export const MenuItems = [
         label: "Get All Vehicles",
         href: "/vehicle/get-vehicle",
       },
-      {
-        label: "update vehicle",
-        href: "/vehicles/update-vehicle",
-      },
     ],
   },
   {
@@ -25,11 +21,11 @@ export const MenuItems = [
     dropdown: [
       {
         label: "add new driver",
-        href: "/drivers/create",
+        href: "/driver/create-driver",
       },
-      {
-        label: "update driver",
-        href: "/drivers/update",
+       {
+        label: "drivers List",
+        href: "/driver/get-all-driver",
       },
     ],
   },
