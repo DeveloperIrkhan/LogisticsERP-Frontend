@@ -33,17 +33,16 @@ export default function Navbar() {
         }`}
       >
         {/* Logo */}
-        <div className="flex items-center">
+        <div className="flex items-center gap-2">
           <Image
-            src={images.Logo}
+            src={images.logo}
             alt="Logo"
-            width={100}
-            height={100}
-            className="h-12 w-auto"
+            width={400}
+            height={400}
+            className="h-15 w-auto"
           />
+          {/* Desktop Nav */}
         </div>
-
-        {/* Desktop Nav */}
         <nav className="hidden md:flex items-center gap-8 uppercase tracking-widest text-md">
           {MenuItems.map((item, index) => (
             <NavLinkButtons

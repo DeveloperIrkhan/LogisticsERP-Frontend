@@ -7,32 +7,36 @@ export default function HeroSection() {
     <section className="relative h-screen w-full font-raleway">
       {/* Background Image */}
       <Image
-        src={images.hero}
+        src={images.herojpg}
         alt="hero image"
         fill
-        className="absolute w-full h-full object-cover"
+        className="absolute bg-black/20 w-full h-full object-cover"
       />
 
       {/* Overlay */}
-      <div className="absolute inset-0 bg-black/40" />
+      <div className="absolute inset-0 bg-black/85" />
 
       {/* Content */}
       <div className="relative z-10 flex items-center h-full px-6 md:px-12 text-white">
         <div className="max-w-2xl">
+          <h1 className="text-2xl md:text-2xl text-gray-color  italic font-raleway leading-tight mb-6">
+            Digitally Driven 
+            <span className="px-3 white-color md:text-5xl not-italic font-semibold uppercase">
+              Intelligent <br />
+              <span className="text-4xl md:text-7xl text-dark-color font-Archivo">
+                Fleet & Logistics
+              </span>{" "}
+              <br />
+              Solutions
+            </span>
+          </h1>
           <p className="uppercase text-gray-color tracking-widest text-sm md:text-lg mb-4">
             Pakistan Red Crescent Society - PRCS
           </p>
 
-          <h1 className="text-2xl md:text-4xl text-gray-color  italic font-raleway leading-tight mb-6">
-            Digitally Driven <br />
-            <span className="text-4xl text-gray-color md:text-6xl not-italic font-semibold">
-              Intelligent Fleet & Logistics Solutions
-            </span>
-          </h1>
-
           <div className="flex gap-4">
             <CustomButton
-              buttonText="Add Vehicle To the Fleet"
+              buttonText="Add Vehicle To Fleet"
               buttonColor="bg-red-600"
               buttonHoverColor="bg-red-900"
               className="px-6 py-3 rounded-full font-bold"

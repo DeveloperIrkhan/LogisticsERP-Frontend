@@ -4,7 +4,7 @@ export const MenuItems = [
     href: "/",
   },
   {
-    label: "Our Vehicles",
+    label: "Fleet Solution",
     dropdown: [
       {
         label: "add new vehicle",
@@ -17,7 +17,7 @@ export const MenuItems = [
     ],
   },
   {
-    label: "Our Driver",
+    label: "Driver Management",
     dropdown: [
       {
         label: "add new driver",

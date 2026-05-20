@@ -1,4 +1,4 @@
-import Container from "@/components/Container";
+import BadgeSection from "@/components/Badge/Badge";
 import HeroSection from "@/components/HeroSection";
 
 export default function Home() {
@@ -6,6 +6,7 @@ export default function Home() {
     <div className="bg-background">
       <section>
         <HeroSection />
+        <BadgeSection />
       </section>
     </div>
   );
