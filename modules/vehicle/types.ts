@@ -1,8 +1,7 @@
 import { DocumentResponseDto } from "../documents/type";
-import { DriverResponseDto } from "../drivers/types";
+import { IDriverResponseDto } from "../drivers/types";
 
 export interface IVehicleCreateRequest {
-  vehicleId?: string;
   number: string;
   modelName: string;
   company: string;
@@ -34,29 +33,52 @@ export interface IVehicleResponse {
   doner: string;
   purchsedCast: number;
   depreciation: number;
-  registrationDate: Date;
-  registrationExpiry: Date;
-  fitnessExpiry: Date;
+  registrationDate: string;
+  registrationExpiry: string;
+  fitnessExpiry: string;
   insuredBy: string;
-  insuranceExpiry: Date;
+  insuranceExpiry: string;
   typeOfInsurance: string;
-  insuranceFrom: Date;
-  insuranceTo: Date;
+  insuranceFrom: string;
+  insuranceTo: string;
   status: VehicleStatus;
-  drivers?: Array<DriverResponseDto>;
+  drivers?: Array<IDriverResponseDto>;
   documents?: Array<DocumentResponseDto>;
 }
 
 export enum VehicleStatus {
   Active,
-  InActive,
+  Inactive,
   Maintenance,
   Decommissioned,
+}
+
+export interface VehicleFilterDto {
+  number?: string;
+  company?: string;
+  doner?: string;
+  insuredBy?: string;
+  driverId?: string;
+  status?: VehicleStatus;
+  vehicleType: string;
+  fromDate?: Date;
+  toDate?: Date;
 }
 
 export interface ApiResponse<T> {
   success: boolean;
   message: string;
-  statusCode: number;
   data: T;
 }
+
+
+export const vehicleTypes = [
+  "Car",
+  "Jeep",
+  "Truck",
+  "Ambulance",
+  "Pickup",
+  "Van",
+  "Bus",
+  "Motorcycle",
+];

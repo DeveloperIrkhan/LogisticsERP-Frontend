@@ -12,18 +12,17 @@ import {
   Toolbox,
   Van,
   Activity,
-  Icon,
-  HdIcon,
   Edit,
   Trash,
 } from "lucide-react";
 
 import Spinner from "@/components/Spinner";
 import Container from "@/components/Container";
-import { getVehicleById } from "./api";
+import { getVehicleByIdAsync } from "./api";
 import Link from "next/link";
-import { VehicleStatus } from "./types";
 import { GrUserWorker } from "react-icons/gr";
+import { BiDetail } from "react-icons/bi";
+import { toast } from "react-toastify";
 
 interface PageProps {
   params: {
@@ -34,15 +33,20 @@ interface PageProps {
 const GetOnlyVehicle = ({ params }: PageProps) => {
   const [isLoading, setIsLoading] = useState(false);
   const [vehicle, setVehicle] = useState<any>(null);
-
+  const customStyle =
+    "absolute -top-12 left-1/2 -translate-x-1/2 bg-black/60 text-white text-xs px-3 py-1 rounded opacity-0 group-hover:opacity-100 transition";
   useEffect(() => {
     const fetchVehicle = async () => {
       try {
         setIsLoading(true);
 
-        const response = await getVehicleById(params.vehicleId);
-
-        setVehicle(response);
+        const response = await getVehicleByIdAsync(params.vehicleId);
+        if (response.success) {
+          setVehicle(response.data);
+          toast.success(response.message);
+        } else {
+          toast.error(response.message);
+        }
       } catch (error) {
         console.error("Error fetching vehicle:", error);
       } finally {
@@ -211,17 +215,38 @@ const GetOnlyVehicle = ({ params }: PageProps) => {
               })}
               <div className="uppercase rounded-2xl border border-slate-200 bg-linear-to-br from-white to-slate-100 p-6 shadow-md hover:shadow-2xl hover:-translate-y-1 transition-all duration-300">
                 <div className="flex items-center justify-center gap-4">
-                  <Link
-                    href={"/vehicle/update-vehicle/" + vehicle.vehicleId}
-                    className="bg-red-100 text-red-600 p-4 rounded-2xl hover:bg-red-600 hover:text-white transition-all duration-300"
-                  >
-                    <Edit className="w-6 h-6" />
-                  </Link>
-                  <div className="bg-red-100 text-red-600 p-4 rounded-2xl hover:bg-red-600 hover:text-white transition-all duration-300">
-                    <Trash className="w-6 h-6" />
+                  <div className="relative flex group">
+                    <Link
+                      href={"/vehicle/update-vehicle/" + vehicle.vehicleId}
+                      className="bg-red-100 text-red-600 p-4 rounded-2xl hover:bg-red-600 hover:text-white transition-all duration-300"
+                    >
+                      <Edit className="w-6 h-6" />
+                    </Link>
+                    <span className={customStyle}>Edit Driver</span>
                   </div>
-                  <div className="bg-red-100 text-red-600 p-4 rounded-2xl hover:bg-red-600 hover:text-white transition-all duration-300">
-                    <GrUserWorker className="w-6 h-6" />
+                  <div className="flex group relative">
+                    <div className="bg-red-100 text-red-600 p-4 rounded-2xl hover:bg-red-600 hover:text-white transition-all duration-300">
+                      <Trash className="w-6 h-6" />
+                    </div>
+                    <span className={customStyle}>Delete Vehicle</span>
+                  </div>
+                  <div className="flex group relative">
+                    <Link
+                      href={"/vehicle/get-full-record/" + vehicle.vehicleId}
+                      className="bg-red-100 text-red-600 p-4 rounded-2xl hover:bg-red-600 hover:text-white transition-all duration-300"
+                    >
+                      <BiDetail className="w-6 h-6" />
+                    </Link>
+                    <span className={customStyle}>Driver Details</span>
+                  </div>
+                  <div className="flex group relative">
+                    <Link
+                      href={"/driver/assign-driver/" + vehicle.vehicleId}
+                      className="bg-red-100 text-red-600 p-4 rounded-2xl hover:bg-red-600 hover:text-white transition-all duration-300"
+                    >
+                      <GrUserWorker className="w-6 h-6" />
+                    </Link>
+                    <span className={customStyle}>Assign Driver</span>
                   </div>
                 </div>
               </div>
@@ -243,7 +268,9 @@ const GetOnlyVehicle = ({ params }: PageProps) => {
                 <div className="bg-white/20 backdrop-blur-lg px-8 py-5 rounded-2xl border border-white/20">
                   <p className="text-red-100 text-sm">Vehicle Status</p>
 
-                  <h3 className="text-2xl font-bold text-white">{VehicleStatus[vehicle.status]}</h3>
+                  <h3 className="text-2xl font-bold text-white">
+                    [vehicle.status]
+                  </h3>
                 </div>
               </div>
             </div>

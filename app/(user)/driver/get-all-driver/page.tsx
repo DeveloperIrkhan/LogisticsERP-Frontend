@@ -1,6 +1,5 @@
 "use client";
 import Spinner from "@/components/Spinner";
-import { getVehicles } from "@/modules/vehicle/api";
 import { useEffect, useState } from "react";
 import {
   Car,
@@ -14,12 +13,12 @@ import {
   Phone,
 } from "lucide-react";
 
+import { toast } from "react-toastify";
 import Link from "next/link";
 import { DriverStatus, IDriverResponseDto } from "@/modules/drivers/types";
 import { getDrivers } from "@/modules/drivers/api";
 import Image from "next/image";
 import { images } from "@/public/images";
-
 const GetAllDrivers = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [drivers, setDrivers] = useState<IDriverResponseDto[]>([]);
@@ -28,8 +27,11 @@ const GetAllDrivers = () => {
       try {
         setIsLoading(true);
         const response = await getDrivers();
-        setDrivers(response);
-        console.log(response);
+        console.log(response.data);
+        if (response.success) {
+          setDrivers(response.data);
+          toast.success(response.message);
+        }
       } catch (error) {
         console.error("Error fetching vehicles:", error);
       } finally {
@@ -103,10 +105,10 @@ const GetAllDrivers = () => {
                 <div className="absolute top-0 right-0 w-40 h-40 bg-red-100 rounded-full blur-3xl opacity-40"></div>
 
                 <div className="relative">
-                  <div className="flex py-2 justify-center items-center rounded-lg">
+                  <div className="flex justify-center items-center rounded-lg">
                     <Image
                       src={driver.photoUrl ?? images.profile}
-                      className="rounded-lg"
+                      className="w-full h-70"
                       height={200}
                       width={200}
                       alt=""
@@ -118,8 +120,8 @@ const GetAllDrivers = () => {
                         {driver.fullName}
                       </h2>
 
-                      <p className="text-slate-500 uppercase tracking-wider mt-1">
-                        {dateOfJoining}
+                      <p className="text-sm text-black uppercase tracking-wider mt-1">
+                        {driver.cnic}
                       </p>
                     </div>
 

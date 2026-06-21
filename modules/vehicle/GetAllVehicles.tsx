@@ -1,7 +1,9 @@
 "use client";
 import Spinner from "@/components/Spinner";
-import { getVehicles } from "@/modules/vehicle/api";
+import { getVehiclesAsync } from "@/modules/vehicle/api";
 import { useEffect, useState } from "react";
+import { PiAmbulanceFill, PiJeepBold } from "react-icons/pi";
+import { BiSolidAmbulance } from "react-icons/bi";
 import {
   Car,
   Calendar,
@@ -14,7 +16,11 @@ import {
 } from "lucide-react";
 
 import Link from "next/link";
-import { VehicleStatus } from "./types";
+import { toast } from "react-toastify";
+import PageTitlelCard from "@/components/Badge/PageTitlelCard";
+import { FaMotorcycle, FaShuttleVan, FaTruckPickup } from "react-icons/fa";
+import { BsBusFrontFill } from "react-icons/bs";
+import { FaCarSide } from "react-icons/fa";
 
 const GetAllVehicles = () => {
   const [isLoading, setIsLoading] = useState(false);
@@ -23,8 +29,12 @@ const GetAllVehicles = () => {
     const fetchVehicles = async () => {
       try {
         setIsLoading(true);
-        const response = await getVehicles();
-        setVehicles(response);
+        const response = await getVehiclesAsync();
+        if (response.success) {
+          setVehicles(response.data);
+          toast.success(response.message);
+        } else toast.error(response.message);
+
         console.log(response);
       } catch (error) {
         console.error("Error fetching vehicles:", error);
@@ -41,7 +51,7 @@ const GetAllVehicles = () => {
 
   if (!isLoading && vehicles.length === 0) {
     return (
-      <div className="flex flex-col items-center justify-center h-full">
+      <div className="flex h-screen flex-col items-center justify-center">
         <Car className="w-16 h-16 text-gray-400 mb-4" />
         <h2 className="text-2xl font-semibold text-gray-600">
           No Vehicles Found
@@ -52,28 +62,15 @@ const GetAllVehicles = () => {
 
   if (!isLoading && vehicles.length > 0) {
     return (
-      <div className="min-h-screen bg-linear-to-br from-slate-100 via-red-50 to-slate-200 p-6">
+      <div className="min-h-screen  p-6">
         <div className="max-w-7xl mx-auto">
           <div className="mb-10">
-            <div className="flex flex-col lg:flex-row justify-between items-start lg:items-center gap-5">
-              <div>
-                <h1 className="text-2xl font-extrabold text-slate-800">
-                  Vehicle Management
-                </h1>
-
-                <p className="text-slate-500 mt-2 text-lg">
-                  Manage and monitor all registered vehicles
-                </p>
-              </div>
-
-              <div className="bg-white shadow-lg border border-slate-200 rounded-2xl px-6 py-4">
-                <p className="text-slate-500 text-sm">Total Vehicles</p>
-
-                <h2 className="text-3xl font-bold text-dark-color">
-                  {vehicles.length}
-                </h2>
-              </div>
-            </div>
+            <PageTitlelCard
+              h2="Vehicle Management"
+              p="Total Number of Registerd Vehicles in Pakistan Red Crecent Socity Fleet"
+              boxTitle="Total Vehicles"
+              Total={vehicles.length}
+            />
           </div>
 
           {/* Vehicle Grid */}
@@ -96,8 +93,12 @@ const GetAllVehicles = () => {
                   {/* Top Gradient */}
                   <div className="bg-linear-to-r p-2 from-red-400 to-red-900 group-hover:bg-linear-to-r group-hover:from-red-900 group-hover:to-red-400 duration-400 transition-colors">
                     <div className="flex w-full items-center justify-between px-4">
-                      <p className="text-white/90 font-medium text-lg">Vehicle Status</p>
-                      <span className="bg-white/20 px-2.5 py-1 text-white rounded-md">{VehicleStatus[vehicle.status]}</span>
+                      <p className="text-white/90 font-medium text-lg">
+                        Vehicle Status
+                      </p>
+                      <span className="bg-white/20 px-2.5 py-1 text-white rounded-md">
+                        {vehicle.status}
+                      </span>
                     </div>
                   </div>
 
@@ -118,8 +119,20 @@ const GetAllVehicles = () => {
                       </div>
 
                       <div className="bg-red-100 text-red-600 p-4 rounded-2xl">
-                        {vehicle.type === "Car" ? (
-                          <Car className="w-7 h-7" />
+                        {vehicle.vehicleType === "Car" ? (
+                          <FaCarSide  className="w-7 h-7" />
+                        ) : vehicle.vehicleType === "Jeep" ? (
+                          <PiJeepBold className="w-7 h-7" />
+                        ) : vehicle.vehicleType == "Ambulance" ? (
+                          <PiAmbulanceFill  className="w-7 h-7" />
+                        ) : vehicle.vehicleType == "Pickup" ? (
+                          <FaTruckPickup className="w-7 h-7" />
+                        ) : vehicle.vehicleType == "Van" ? (
+                          <FaShuttleVan w-7 h-7 />
+                        ) : vehicle.vehicleType == "Bus" ? (
+                          <BsBusFrontFill className="w-7 h-7" />
+                        ) : vehicle.vehicleType == "Motorcycle" ? (
+                          <FaMotorcycle className="w-7 h-7" />
                         ) : (
                           <Truck className="w-7 h-7" />
                         )}
@@ -129,7 +142,7 @@ const GetAllVehicles = () => {
                     {/* Type Badge */}
                     <div className="mt-5">
                       <span className="bg-red-100 text-dark-coloto-gray-color text-sm font-semibold px-4 py-2 uppercase rounded-full">
-                        {vehicle.type}
+                        {vehicle.vehicleType}
                       </span>
                     </div>
 

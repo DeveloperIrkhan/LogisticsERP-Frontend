@@ -7,6 +7,8 @@
 @custom-variant dark (&:is(.dark *));
 
 @theme inline {
+  --color-black-color: #0d0d0d;
+  --color-darkgray-color: ##1c1c1c;
   --color-default-color: #d92243;
   --color-dark-color: #ff0000;
   --color-hover-color: #ff0000;
@@ -133,7 +135,7 @@
     @apply border-border outline-ring/50;
   }
   body {
-    @apply bg-background text-foreground;
+    @apply bg-black-color text-foreground;
   }
   html {
     @apply font-raleway;

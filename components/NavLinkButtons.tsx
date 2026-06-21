@@ -21,7 +21,7 @@ const NavLinkButtons = ({ title, href, dropdown }: NavLinkButtonsProps) => {
 
   return (
     <div
-      className="relative uppercase transition-all duration-300 hover:text-dark-color cursor-pointer group"
+      className="relative capitalize transition-all duration-300 hover:text-dark-color cursor-pointer group"
       onMouseEnter={() => hasDropdown && setOpen(true)}
       onMouseLeave={() => hasDropdown && setOpen(false)}
     >
@@ -33,7 +33,7 @@ const NavLinkButtons = ({ title, href, dropdown }: NavLinkButtonsProps) => {
           <ChevronDown size={16} />
 
           {open && (
-            <div className="absolute top-7 left-0 w-52 bg-white text-black rounded-md shadow-lg z-10 overflow-hidden">
+            <div className="absolute top-6 left-0 w-52 bg-white text-black rounded-md shadow-lg z-10 overflow-hidden">
               {dropdown.map((item) => (
                 <Link
                   key={item.href}

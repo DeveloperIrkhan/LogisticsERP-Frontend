@@ -1,60 +1,96 @@
 import type { Metadata } from "next";
 import "@/app/globals.css";
 import { ToastContainer } from "react-toastify";
-import React from "react";
-import Image from "next/image";
-import SideBarComponent from "@/components/Admin/SideBarComponent";
-import Container from "@/components/ui/Container";
-import PageTitle from "@/components/ui/PageTitle";
-import { images } from "@/app/Images";
-import UserLoginButton from "@/components/UserLoginButton";
-import Link from "next/link";
+import { FaUserTie } from "react-icons/fa";
+import SlideMenu from "@/components/SlideMenu";
+import { MenuItems } from "@/components/MenuItem";
+import { BsGraphUpArrow } from "react-icons/bs";
+import { Bell, CarFront, Home, Search, User } from "lucide-react";
+import { ImStatsDots } from "react-icons/im";
+import GreetingContainer from "@/components/dashboard/GreetingContainer";
 
 export const metadata: Metadata = {
-  title: "Admin Panel | Ticket Management System",
-  description: "this is admin panel used for Ticket managment system.",
-  icons: {
-    icon: "/favicon.ico",
-  },
+  title: "Admin Panel | Fleet Management System",
+  description: "this is admin panel used for Fleet Management System",
 };
+const getGreeting = (): string => {
+  const hour = new Date().getHours();
 
-export default function RootLayout({
+  if (hour >= 5 && hour < 12) {
+    return "Good Morning";
+  } else if (hour >= 12 && hour < 17) {
+    return "Good Afternoon";
+  } else {
+    return "Good Evening";
+  }
+};
+export default function AdminLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
   return (
-    <div className="flex h-screen">
-      <ToastContainer autoClose={10} position="top-center" />
-      <SideBarComponent />
-      <div className="flex-1 flex flex-col">
-        <header className="flex justify-between items-center py-1 px-4 shadow-md md:ml-0 ml-7">
-          <div className="ml-3">
-            <Link href="/dashboard">
-              <Image
-                src={images.Logo}
-                height={75}
-                className="p-2"
-                width={75}
-                alt="logo"
-              />
-            </Link>
-          </div>
-          <div className="">
-            <PageTitle className="text-center uppercase border-b md:block hidden text-main-brand-color tracking-wider text-shadow-2xs text-shadow-main-brand-color">
-              Admin Section
-            </PageTitle>
-          </div>
-          <div className="flex gap-2">
-            <UserLoginButton />
-          </div>
-        </header>
-        <main className="p-3">
-          <Container className="">{children}</Container>
-        </main>
-      </div>
+    <div className="flex h-screen font-raleway">
+      <ToastContainer position="top-right" autoClose={3000} />
+      <SlideMenu>
+        <MenuItems icon={<Home />} text="Home" alert="Home" href="/dashboard" />
+        <MenuItems
+          icon={<BsGraphUpArrow />}
+          text="Reports"
+          alert="Reports"
+          href="/dashboard/reports"
+        />
+        <MenuItems
+          icon={<User />}
+          text="Users"
+          alert="Users"
+          href="/dashboard/users"
+        />
+        <MenuItems
+          icon={<ImStatsDots />}
+          text="Statistics"
+          alert="Manage Drivers"
+          href="/dashboard/stats"
+        />
+        <MenuItems
+          icon={<FaUserTie />}
+          text="Drivers"
+          alert="Manage Drivers"
+          href="/dashboard/drivers"
+        />
+        <MenuItems
+          icon={<CarFront />}
+          text="Vehicles"
+          alert="Manage Vehicles"
+          href="/dashboard/vehicles"
+        />
+      </SlideMenu>
 
-      {/* Main Section */}
+      <div className="flex-1 flex flex-col bg-gray-200 overflow-hidden">
+        <div className="flex md:flex-row flex-col items-center p-3 shrink-0">
+          <GreetingContainer text={getGreeting()} user="irfan" />
+          <div className="relative flex flex-row items-center">
+            <input
+              type="text"
+              placeholder="Search..."
+              className="px-4 py-1 bg-white rounded-full border border-gray-600
+               text-gray-900 focus:outline-none focus:ring-1 focus:ring-default-color 
+               transition-all duration-300"
+            />
+            <Search
+              className="absolute top-2 right-14 text-gray-700"
+              size={15}
+            />
+            <div className="px-3">
+              <Bell className="text-gray-700" size={23} />
+            </div>
+          </div>
+        </div>
+
+        <section className="flex-1 overflow-y-auto flex p-2 font-raleway">
+          {children}
+        </section>
+      </div>
     </div>
   );
 }

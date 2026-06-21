@@ -1,8 +1,8 @@
 import CustomInput from "@/components/CustomInput";
 import { useState } from "react";
-import { IVehicleCreateRequest, VehicleStatus } from "./types";
+import { IVehicleCreateRequest, VehicleStatus, vehicleTypes } from "./types";
 import Spinner from "@/components/Spinner";
-import { createVehicle } from "./api";
+import { createVehicleAsync } from "./api";
 import {
   BadgeInfo,
   Building,
@@ -14,11 +14,17 @@ import {
   HashIcon,
   Save,
   ShieldCheck,
-  TruckElectric,
 } from "lucide-react";
 import Container from "@/components/Container";
 import CustomButton from "@/components/CustomButton";
 import { toast } from "react-toastify";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 const AddNewVehicle = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [vehicle, setVehicle] = useState<IVehicleCreateRequest>({
@@ -39,7 +45,7 @@ const AddNewVehicle = () => {
     insuranceExpiry: new Date(),
     insuranceTo: new Date(),
     typeOfInsurance: "",
-    status: VehicleStatus.InActive,
+    status: VehicleStatus.Inactive,
   });
   const isFormInvalid = () => {
     return (
@@ -100,8 +106,10 @@ const AddNewVehicle = () => {
     e.preventDefault();
     try {
       setIsLoading(true);
-      const response = await createVehicle(vehicle);
-      toast.success("Vehicle created successfully:");
+      const response = await createVehicleAsync(vehicle);
+      if (response.success) {
+        toast.success(response.message);
+      } else toast.error(response.message);
       console.log("Vehicle created successfully:", response);
       setVehicle({
         number: "",
@@ -121,13 +129,12 @@ const AddNewVehicle = () => {
         insuranceExpiry: new Date(),
         insuranceTo: new Date(),
         typeOfInsurance: "",
-        status: VehicleStatus.InActive,
+        status: VehicleStatus.Inactive,
       });
     } catch (error) {
       console.error("Error saving vehicle:", error);
     } finally {
       setIsLoading(false);
-      console.log("Vehicle Data:", vehicle);
     }
   };
   return (
@@ -200,14 +207,29 @@ const AddNewVehicle = () => {
                   value={vehicle.chassisNumber}
                   onChange={(value) => handleChange("chassisNumber", value)}
                 />
-                <CustomInput
-                  label="Enter Vehicle Type"
-                  Icon={TruckElectric}
-                  placeholder="Truck, Ambulance, Car"
-                  className="custom-input w-full"
-                  value={vehicle.vehicleType}
-                  onChange={(value) => handleChange("vehicleType", value)}
-                />
+                <div className="flex group items-center  justify-between px-4 bg-gray-200 gap-3 custom-input w-full hover:bg-gray-300">
+                  <div className="bg-red-100 text-red-600 p-4 rounded-full group-hover:bg-red-600 group-hover:text-white transition-all duration-300">
+                    <Car className="h-5 w-5 group" />
+                  </div>
+                  <Select
+                    value={vehicle.vehicleType}
+                    onValueChange={(value: string) =>
+                      handleChange("vehicleType", value)
+                    }
+                  >
+                    <SelectTrigger className="w-full bg-white mt-1">
+                      <SelectValue placeholder="Select Vehicle Type" />
+                    </SelectTrigger>
+
+                    <SelectContent>
+                      {vehicleTypes.map((type) => (
+                        <SelectItem key={type} value={type}>
+                          {type}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                </div>
                 <CustomInput
                   label="Enter Donner Name"
                   Icon={BadgeInfo}

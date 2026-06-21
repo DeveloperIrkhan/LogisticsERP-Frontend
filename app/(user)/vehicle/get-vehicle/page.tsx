@@ -2,7 +2,7 @@ import GetAllVehicles from "@/modules/vehicle/GetAllVehicles";
 
 const page = () => {
   return (
-    <div>
+    <div className="bg-gray-100">
       <GetAllVehicles />
     </div>
   );

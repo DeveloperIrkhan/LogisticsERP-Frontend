@@ -14,12 +14,17 @@ import {
   Building,
   Trash,
 } from "lucide-react";
-import { getVehicleById, updateVehicle } from "./api";
+import { getVehicleByIdAsync, updateVehicleAsync } from "./api";
 import { toast } from "react-toastify";
 import Container from "@/components/Container";
 import Spinner from "@/components/Spinner";
 import CustomButton from "@/components/CustomButton";
-import { IVehicleCreateRequest, VehicleStatus } from "./types";
+import {
+  IVehicleCreateRequest,
+  IVehicleResponse,
+  VehicleStatus,
+  vehicleTypes,
+} from "./types";
 import CustomInput from "@/components/CustomInput";
 import {
   Select,
@@ -35,7 +40,7 @@ interface params {
 
 const UpdateVehicle = ({ vehicleId }: params) => {
   const [isLoading, setIsLoading] = useState(false);
-  const [vehicle, setVehicle] = useState<any>(null);
+  const [vehicle, setVehicle] = useState<IVehicleResponse>();
 
   const [updatedVehicle, setUpdatedVehicle] = useState<any>({
     vehicleId: "",
@@ -63,15 +68,20 @@ const UpdateVehicle = ({ vehicleId }: params) => {
     const fetchVehicle = async () => {
       try {
         setIsLoading(true);
-        const response = await getVehicleById(vehicleId);
-        setVehicle(response);
+        const response = await getVehicleByIdAsync(vehicleId);
+        if (response.success) {
+          setVehicle(response.data);
+          toast.success(response.message);
+        } else {
+          toast.error(response.message);
+        }
+
         console.log("vehicle data", response);
       } catch (error) {
         toast.error("Failed to fetch vehicle details. Please try again.");
         console.error("Error fetching vehicle:", error);
       } finally {
         setIsLoading(false);
-        toast.success("Vehicle details fetched successfully.");
       }
     };
 
@@ -179,7 +189,7 @@ const UpdateVehicle = ({ vehicleId }: params) => {
     e.preventDefault();
     try {
       setIsLoading(true);
-      const response = await updateVehicle(updatedVehicle);
+      const response = await updateVehicleAsync(updatedVehicle);
       toast.success("Vehicle updated successfully:");
       console.log("Vehicle updated successfully:", response);
     } catch (error) {
@@ -284,14 +294,29 @@ const UpdateVehicle = ({ vehicleId }: params) => {
                     value={updatedVehicle.chassisNumber}
                     onChange={(value) => handleChange("chassisNumber", value)}
                   />
-                  <CustomInput
-                    label="Enter Vehicle Type"
-                    Icon={TruckElectric}
-                    placeholder="Truck, Ambulance, Car"
-                    className="custom-input w-full"
-                    value={updatedVehicle.vehicleType}
-                    onChange={(value) => handleChange("vehicleType", value)}
-                  />
+                  <div className="flex group items-center  justify-between px-4 bg-gray-200 gap-3 custom-input w-full hover:bg-gray-300">
+                    <div className="bg-red-100 text-red-600 p-4 rounded-full group-hover:bg-red-600 group-hover:text-white transition-all duration-300">
+                      <Car className="h-5 w-5 group"/>
+                    </div>
+                    <Select
+                      value={vehicle.vehicleType}
+                      onValueChange={(value: string) =>
+                        handleChange("vehicleType", value)
+                      }
+                    >
+                      <SelectTrigger className="w-full bg-white mt-1">
+                        <SelectValue placeholder="Select Vehicle Type" />
+                      </SelectTrigger>
+
+                      <SelectContent>
+                        {vehicleTypes.map((type) => (
+                          <SelectItem key={type} value={type}>
+                            {type}
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                  </div>
                   <CustomInput
                     label="Enter Donner Name"
                     Icon={BadgeInfo}
@@ -390,7 +415,7 @@ const UpdateVehicle = ({ vehicleId }: params) => {
                     {<Trash className="w-5 h-5" />}
                   </div>
                   <div className="flex gap-3">
-                    <Select 
+                    <Select
                       value={updatedVehicle.status.toString()}
                       onValueChange={(value) =>
                         handleChange("status", Number(value))

@@ -1,21 +1,14 @@
 import type { Metadata } from "next";
-import "@/app/globals.css";
+import "../globals.css";
 import { ToastContainer } from "react-toastify";
+import React from "react";
+import Image from "next/image";
+import { images } from "@/public/images";
+
 export const metadata: Metadata = {
-  title: "Admin Panel | Complaint Registeration System",
-  description: "this is admin panel used for Complaint Registeration System",
+  title: "Complaint Registeration System",
+  description: "this is webapp used for Ticket managment system.",
   icons: {},
-  keywords: [
-    "PRCS complaint registration system",
-    "Red Cresent Pakistan",
-    "PRCS complaint management",
-    "online complaint system",
-    "public complaint portal",
-    "PRCS",
-  ],
-  authors: [{ name: "PRCS Admin" }],
-  creator: "PRCS",
-  publisher: "PRCS",
 };
 
 export default function RootLayout({
@@ -24,10 +17,10 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <div>
-      <ToastContainer autoClose={10} position="top-center" />
-      <main>
-      </main>
+    <div className="w-full">
+      <ToastContainer position="top-right" autoClose={3000} />
+      <section className="w-full h-22 font-raleway bg-black"></section>
+      {children}
     </div>
   );
 }

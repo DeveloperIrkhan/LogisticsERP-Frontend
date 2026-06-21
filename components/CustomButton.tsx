@@ -32,7 +32,6 @@ const CustomButton = ({
         ${buttonColor || "bg-default-color"} 
         ${disabled && "bg-light-color cursor-not-allowed"}`,
         className,
-        className,
       )}
     >
       <span

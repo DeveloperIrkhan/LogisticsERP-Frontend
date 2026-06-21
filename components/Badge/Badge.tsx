@@ -19,7 +19,7 @@ const BadgeSection = () => {
       />
 
       {/* Overlay */}
-      <div className="absolute inset-0 bg-black/85" />
+      <div className="absolute inset-0 bg-black/90" />
       <div className="relative z-10 flex items-center justify-center h-full px-6">
         <div className="flex justify-center items-center">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-20">

@@ -1,25 +1,11 @@
 "use client";
-import {
-  BadgeInfo,
-  Building,
-  Building2Icon,
-  Calendar,
-  Car,
-  CardSim,
-  DollarSign,
-  Hash,
-  HashIcon,
-  Save,
-  ShieldCheck,
-  TruckElectric,
-  User,
-} from "lucide-react";
+import { Calendar, Car, CardSim, Save, User } from "lucide-react";
 import Container from "@/components/Container";
 import CustomButton from "@/components/CustomButton";
 import { toast } from "react-toastify";
 import { useState } from "react";
 import { DriverStatus, IDriverCreateDto } from "./types";
-import { createDriver } from "./api";
+import { createDriverAsync } from "./api";
 import Spinner from "@/components/Spinner";
 import CustomInput from "@/components/CustomInput";
 import ImageUpload from "@/components/ImageUpload";
@@ -39,11 +25,11 @@ const CreateDriver = () => {
     typeOfLicence: "",
     dateOfJoining: new Date(),
     salary: "",
-    status: DriverStatus.ACTIVE,
+    status: DriverStatus.Active,
     description: "",
     Photo: undefined,
     License: undefined,
-    driverId: "",
+    vehicleId: "",
   });
   const isFormInvalid = () => {
     return (
@@ -120,7 +106,7 @@ const CreateDriver = () => {
         formData.append("License", driver.License);
       }
 
-      const response = await createDriver(formData);
+      const response = await createDriverAsync(formData);
       toast.success("driver created successfully:");
       console.log("driver created successfully:", response);
       setDriver({
@@ -134,11 +120,11 @@ const CreateDriver = () => {
         typeOfLicence: "",
         dateOfJoining: new Date(),
         salary: "",
-        status: DriverStatus.ACTIVE,
+        status: DriverStatus.Active,
         description: "",
         Photo: undefined,
         License: undefined,
-        driverId: "",
+        vehicleId: "",
       });
     } catch (error) {
       console.error("Error saving driver:", error);

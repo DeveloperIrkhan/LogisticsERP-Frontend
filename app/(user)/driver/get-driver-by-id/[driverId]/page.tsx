@@ -2,7 +2,7 @@
 
 import Container from "@/components/Container";
 import Spinner from "@/components/Spinner";
-import { getDriverById } from "@/modules/drivers/api";
+import { getDriverByIdAsync } from "@/modules/drivers/api";
 import { DriverStatus, IDriverResponseDto } from "@/modules/drivers/types";
 import { images } from "@/public/images";
 import {
@@ -25,6 +25,7 @@ import { GrUserWorker } from "react-icons/gr";
 import { MdOutlineEmail } from "react-icons/md";
 import { RxDividerVertical } from "react-icons/rx";
 import { SiNamemc, SiRemark } from "react-icons/si";
+import { toast } from "react-toastify";
 
 const page = () => {
   const params = useParams();
@@ -37,10 +38,13 @@ const page = () => {
     const fetchDriverAsync = async () => {
       try {
         setIsLoading(true);
-        const response = await getDriverById(id);
-
-        setDriver(response);
-        console.log("driver found", response);
+        const response = await getDriverByIdAsync(id);
+        if (response.success) {
+          setDriver(response.data);
+          toast.success(response.message);
+        } else {
+          toast.error(response.message);
+        }
       } catch (error) {
         console.error("Error fetching vehicle:", error);
       } finally {
@@ -153,7 +157,7 @@ const page = () => {
           </div>
 
           <div className="p-6 md:p-10">
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 bg-gray-50 p-6 rounded-2xl shadow-md">
+            <div className="grid grid-cols-1 items-start md:grid-cols-2 gap-6 bg-gray-50 p-6 rounded-2xl shadow-md">
               {/* Driver Photo */}
               <div className="flex flex-col items-center bg-white rounded-xl shadow-sm p-4 hover:shadow-md transition">
                 <p className="text-sm font-semibold text-gray-600 mb-6">
@@ -166,7 +170,7 @@ const page = () => {
                     width={220}
                     alt="driver photo"
                     src={driver.photoUrl ?? images.profile}
-                    className="object-cover hover:scale-105 transition duration-300"
+                    className="object-cover h-72 w-72 hover:scale-105 transition duration-300"
                   />
                 </div>
               </div>
@@ -183,7 +187,7 @@ const page = () => {
                     width={220}
                     alt="driver license"
                     src={driver.licenseUrl ?? images.profile}
-                    className="object-cover hover:scale-105 transition duration-300"
+                    className="object-cover h-72 w-full hover:scale-105 transition duration-300"
                   />
                 </div>
               </div>
@@ -195,7 +199,7 @@ const page = () => {
                 return (
                   <div
                     key={index}
-                    className="group uppercase relative overflow-hidden rounded-2xl border border-slate-200 bg-linear-to-br from-gray-color to-slate-100 p-6 shadow-md hover:shadow-2xl hover:-translate-y-1 transition-all duration-300"
+                    className="group capitalize relative overflow-hidden rounded-2xl border border-slate-200 bg-linear-to-br from-gray-color to-slate-100 p-6 shadow-md hover:shadow-2xl hover:-translate-y-1 transition-all duration-300"
                   >
                     <div className="absolute top-0 right-0 w-24 h-24 bg-gray-color rounded-full blur-3xl opacity-40"></div>
 
@@ -205,11 +209,14 @@ const page = () => {
                       </div>
 
                       <div className="flex-1">
-                        <p className="text-sm text-slate-500 font-medium">
+                        <p className="text-sm text-black font-medium uppercase">
                           {item.label}
                         </p>
 
-                        <h3 className="text-lg font-bold text-slate-800 mt-1 wrap-break-word">
+                        <h3
+                          className="text-sm font-normal overflow-hidden
+                         text-slate-800 mt-1 wrap-break-word"
+                        >
                           {(item.value as string) || "-"}
                         </h3>
                       </div>
