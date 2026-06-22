@@ -97,7 +97,7 @@ const GetAllDrivers = () => {
                       Driver Status
                     </p>
                     <span className="bg-white/20 lowercase px-2.5 py-1 text-white text-sm rounded-md">
-                      {DriverStatus[driver.status]}
+                      {driver.status}
                     </span>
                   </div>
                 </div>
@@ -107,7 +107,7 @@ const GetAllDrivers = () => {
                 <div className="relative">
                   <div className="flex justify-center items-center rounded-lg">
                     <Image
-                      src={driver.photoUrl ?? images.profile}
+                      src={driver.photoUrl?.trim() ? driver.photoUrl : images.profile}
                       className="w-full h-70"
                       height={200}
                       width={200}

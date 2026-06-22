@@ -60,10 +60,10 @@ export const getVehiclesAsync = async (): Promise<
 };
 
 export const updateVehicleAsync = async (
-  data: Partial<IVehicleCreateRequest>,
+  data: Promise<ApiResponse<IVehicleCreateRequest>>,
 ) => {
   const response = await api.put(`${VEHICLE_ENDPOINTS.update}`, data);
-  return response.data.data;
+  return response.data;
 };
 
 export const deleteVehicleAsync = async (
@@ -167,4 +167,3 @@ export const getVehicleByStatusAsync = async (
   });
   return response.data;
 };
-

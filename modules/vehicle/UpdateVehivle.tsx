@@ -195,10 +195,10 @@ const UpdateVehicle = ({ vehicleId }: params) => {
       const response = await updateVehicleAsync(updatedVehicle);
 
       if (response.success) {
-        toast.success(response.message || "Vehicle updated successfully!");
+        toast.success(response.message);
         router.push(`/vehicle/get-vehicle-by-id/${vehicleId}`);
       } else {
-        toast.error(response.message || "Failed to update vehicle.");
+        toast.error(response.message);
       }
     } catch (error) {
       console.error("Error saving vehicle:", error);

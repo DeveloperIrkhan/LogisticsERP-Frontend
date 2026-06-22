@@ -24,6 +24,7 @@ import { FaMotorcycle, FaShuttleVan, FaTruckPickup } from "react-icons/fa";
 import { BsBusFrontFill } from "react-icons/bs";
 import { FaCarSide } from "react-icons/fa";
 import { IVehicleResponse } from "./types";
+import VehicleType from "@/components/VehicleType";
 
 const GetAllVehicles = () => {
   const [isLoading, setIsLoading] = useState(false);
@@ -120,25 +121,7 @@ const GetAllVehicles = () => {
                       </p>
                     </div>
 
-                    <div className="bg-red-100 text-red-600 p-4 rounded-2xl">
-                      {vehicle.vehicleType === "Car" ? (
-                        <FaCarSide className="w-7 h-7" />
-                      ) : vehicle.vehicleType === "Jeep" ? (
-                        <PiJeepBold className="w-7 h-7" />
-                      ) : vehicle.vehicleType === "Ambulance" ? (
-                        <PiAmbulanceFill className="w-7 h-7" />
-                      ) : vehicle.vehicleType === "Pickup" ? (
-                        <FaTruckPickup className="w-7 h-7" />
-                      ) : vehicle.vehicleType === "Van" ? (
-                        <FaShuttleVan className="w-7 h-7" />
-                      ) : vehicle.vehicleType === "Bus" ? (
-                        <BsBusFrontFill className="w-7 h-7" />
-                      ) : vehicle.vehicleType === "Motorcycle" ? (
-                        <FaMotorcycle className="w-7 h-7" />
-                      ) : (
-                        <Truck className="w-7 h-7" />
-                      )}
-                    </div>
+                    <VehicleType vehicleType={vehicle.vehicleType} />
                   </div>
 
                   {/* Type Badge + Driver/Document count badges */}

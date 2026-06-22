@@ -17,7 +17,7 @@ export default function RootLayout({
     <html lang="en" className="h-full font-raleway">
       <body className="h-full">
         <Navbar />
-        <StrictMode>{children}</StrictMode>
+        <div>{children}</div>
       </body>
     </html>
   );

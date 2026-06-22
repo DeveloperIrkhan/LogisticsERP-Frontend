@@ -11,14 +11,21 @@ import { Car, IdCard, Phone, Truck, User } from "lucide-react";
 import { images } from "@/public/images";
 import { DriverStatus } from "../drivers/types";
 import { toast } from "react-toastify";
+import { FaCarSide } from "react-icons/fa";
+import { PiJeepBold } from "react-icons/pi";
+import VehicleType from "@/components/VehicleType";
 
 interface IVehicleFullRecordProps {
   id: string;
 }
 
 const GetVehicleFullRecord = ({ id }: IVehicleFullRecordProps) => {
+
   const [vehicle, setVehicle] = useState<IVehicleResponse | null>(null);
   const [isLoading, setIsLoading] = useState(false);
+
+
+
 
   const formatDate = (date: string | Date) =>
     format(new Date(date), "dd MMM yyyy");
@@ -40,7 +47,10 @@ const GetVehicleFullRecord = ({ id }: IVehicleFullRecordProps) => {
     };
     fetchVehicle();
   }, [id]);
+  useEffect(() => {
+    console.log(vehicle)
 
+  }, [vehicle])
   if (isLoading)
     return (
       <div className="flex justify-center items-center min-h-[70vh]">
@@ -56,18 +66,12 @@ const GetVehicleFullRecord = ({ id }: IVehicleFullRecordProps) => {
     );
 
   return (
-    <Container className="py-8 space-y-8">
+    <Container className="py-8 space-y-8 bg-black">
       {/* HERO */}
       <div className="relative rounded-3xl p-8 bg-linear-to-br from-red-600 via-red-700 to-red-900 shadow-xl overflow-hidden">
         <div className="flex justify-between items-start flex-wrap gap-4">
           <div className="flex items-center gap-5">
-            <div className="bg-white/20 p-4 rounded-2xl backdrop-blur-md">
-              {vehicle.vehicleType === "truck" ? (
-                <Truck className="w-10 h-10 text-white" />
-              ) : (
-                <Car className="w-10 h-10 text-white" />
-              )}
-            </div>
+            <VehicleType vehicleType={vehicle.vehicleType} />
 
             <div>
               <h1 className="text-3xl font-bold text-white">
@@ -80,7 +84,7 @@ const GetVehicleFullRecord = ({ id }: IVehicleFullRecordProps) => {
           </div>
 
           <div className="p-4 rounded-lg font-bold bg-white/20 backdrop-blur text-white text-lg">
-            {VehicleStatus[vehicle.status]}
+            {vehicle.status}
           </div>
         </div>
       </div>
@@ -157,12 +161,14 @@ const GetVehicleFullRecord = ({ id }: IVehicleFullRecordProps) => {
                         <span className="font-medium tracking-wide">CNIC:</span>
                         {driver.cnic}
                       </span>
-                      <span className="flex gap-2">
-                        <div className="w-4 h-4 bg-lime-500 rounded-full" />
+                      <span className="flex items-center gap-2">
+                        <div className={`w-3 h-3 rounded-full
+                           ${driver.status.toString() === "Active"
+                            ? "bg-lime-500" : "bg-yellow-500"}`} />
                         <span className="font-medium tracking-wide">
                           Status:
                         </span>
-                        {DriverStatus[driver.status]}
+                        {driver.status}
                       </span>
                     </div>
                     <div className="flex flex-col mt-4 my-2 gap-3">
