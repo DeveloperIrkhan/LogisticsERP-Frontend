@@ -33,6 +33,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { useRouter } from "next/navigation";
 
 interface params {
   vehicleId: string;
@@ -41,6 +42,8 @@ interface params {
 const UpdateVehicle = ({ vehicleId }: params) => {
   const [isLoading, setIsLoading] = useState(false);
   const [vehicle, setVehicle] = useState<IVehicleResponse>();
+  const router = useRouter();
+
 
   const [updatedVehicle, setUpdatedVehicle] = useState<any>({
     vehicleId: "",
@@ -190,13 +193,18 @@ const UpdateVehicle = ({ vehicleId }: params) => {
     try {
       setIsLoading(true);
       const response = await updateVehicleAsync(updatedVehicle);
-      toast.success("Vehicle updated successfully:");
-      console.log("Vehicle updated successfully:", response);
+
+      if (response.success) {
+        toast.success(response.message || "Vehicle updated successfully!");
+        router.push(`/vehicle/get-vehicle-by-id/${vehicleId}`);
+      } else {
+        toast.error(response.message || "Failed to update vehicle.");
+      }
     } catch (error) {
       console.error("Error saving vehicle:", error);
+      toast.error("Something went wrong while updating the vehicle.");
     } finally {
-      setIsLoading(false);
-      console.log("Vehicle Data:", vehicle);
+      setIsLoading(false)
     }
   };
 
@@ -296,10 +304,10 @@ const UpdateVehicle = ({ vehicleId }: params) => {
                   />
                   <div className="flex group items-center  justify-between px-4 bg-gray-200 gap-3 custom-input w-full hover:bg-gray-300">
                     <div className="bg-red-100 text-red-600 p-4 rounded-full group-hover:bg-red-600 group-hover:text-white transition-all duration-300">
-                      <Car className="h-5 w-5 group"/>
+                      <Car className="h-5 w-5 group" />
                     </div>
                     <Select
-                      value={vehicle.vehicleType}
+                      value={updatedVehicle.vehicleType}
                       onValueChange={(value: string) =>
                         handleChange("vehicleType", value)
                       }

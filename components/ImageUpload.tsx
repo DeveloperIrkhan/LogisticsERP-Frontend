@@ -1,21 +1,29 @@
 "use client";
 
-import { useRef, useState } from "react";
+import { useRef, useState, useEffect } from "react";
 import { UploadCloud, X } from "lucide-react";
 
 type ImageUploadProps = {
   label?: string;
   value?: File | null;
+  existingUrl?: string;
   onChange: (file: File | null) => void;
 };
 
 const ImageUpload = ({
   label = "Upload Image",
   value,
+  existingUrl,
   onChange,
 }: ImageUploadProps) => {
   const inputRef = useRef<HTMLInputElement | null>(null);
   const [preview, setPreview] = useState<string | null>(null);
+
+  useEffect(() => {
+    if (!value && existingUrl) {
+      setPreview(existingUrl);
+    }
+  }, [existingUrl, value]);
 
   const handleFileChange = (file: File | null) => {
     onChange(file);
@@ -27,7 +35,7 @@ const ImageUpload = ({
       };
       reader.readAsDataURL(file);
     } else {
-      setPreview(null);
+      setPreview(existingUrl || null);
     }
   };
 
@@ -36,6 +44,9 @@ const ImageUpload = ({
     const file = e.dataTransfer.files?.[0] || null;
     handleFileChange(file);
   };
+
+  // True only when the visible preview is the original server image
+  const isShowingExistingOnly = !value && !!existingUrl && preview === existingUrl;
 
   return (
     <div className="w-full">
@@ -50,22 +61,30 @@ const ImageUpload = ({
         className="relative flex flex-col items-center justify-center border-2 border-dashed border-gray-300 rounded-2xl p-6 cursor-pointer bg-white hover:border-red-500 hover:bg-red-50 transition"
       >
         {preview ? (
-          <div className="relative w-full flex justify-center">
+          <div className="relative w-full flex flex-col items-center gap-2">
             <img
               src={preview}
               alt="preview"
               className="h-40 object-cover rounded-xl shadow-md"
             />
 
-            <button
-              onClick={(e) => {
-                e.stopPropagation();
-                handleFileChange(null);
-              }}
-              className="absolute top-2 right-2 bg-white shadow-md rounded-full p-1 hover:bg-red-500 hover:text-white transition"
-            >
-              <X size={16} />
-            </button>
+            {isShowingExistingOnly && (
+              <span className="text-xs font-medium text-amber-600 bg-amber-50 px-2.5 py-1 rounded-full">
+                Current file — click or drop to replace
+              </span>
+            )}
+
+            {!isShowingExistingOnly && (
+              <button
+                onClick={(e) => {
+                  e.stopPropagation();
+                  handleFileChange(null);
+                }}
+                className="absolute top-2 right-2 bg-white shadow-md rounded-full p-1 hover:bg-red-500 hover:text-white transition"
+              >
+                <X size={16} />
+              </button>
+            )}
           </div>
         ) : (
           <div className="flex flex-col items-center text-center gap-2 py-6">

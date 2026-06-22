@@ -13,7 +13,8 @@ const Spinner = () => {
           src={images.Spinner}
           width={200}
           height={200}
-          alt="Loading Spinner"
+          alt="Loading"
+          loading="eager"
           className="w-28 h-28 relative z-20 animate"
         />
       </div>

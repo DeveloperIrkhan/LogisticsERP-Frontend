@@ -16,7 +16,7 @@ import {
 import { toast } from "react-toastify";
 import Link from "next/link";
 import { DriverStatus, IDriverResponseDto } from "@/modules/drivers/types";
-import { getDrivers } from "@/modules/drivers/api";
+import { getDriversAsync } from "@/modules/drivers/api";
 import Image from "next/image";
 import { images } from "@/public/images";
 const GetAllDrivers = () => {
@@ -26,7 +26,7 @@ const GetAllDrivers = () => {
     const fetchDrivers = async () => {
       try {
         setIsLoading(true);
-        const response = await getDrivers();
+        const response = await getDriversAsync();
         console.log(response.data);
         if (response.success) {
           setDrivers(response.data);

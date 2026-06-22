@@ -227,7 +227,7 @@ const page = () => {
               <div className="uppercase rounded-2xl border border-slate-200 bg-linear-to-br from-white to-slate-100 p-6 shadow-md hover:shadow-2xl hover:-translate-y-1 transition-all duration-300">
                 <div className="flex items-center justify-center gap-4">
                   <Link
-                    href={"/vehicle/update-vehicle/" + driver.driverId}
+                    href={"/driver/update-driver/" + driver.driverId}
                     className="bg-red-100 text-red-600 p-4 rounded-2xl hover:bg-red-600 hover:text-white transition-all duration-300"
                   >
                     <Edit className="w-6 h-6" />
@@ -247,7 +247,7 @@ const page = () => {
               <div className="flex flex-col lg:flex-row justify-between items-center gap-6">
                 <div>
                   <h2 className="text-3xl uppercase font-bold text-white">
-                    {driver.fullName} {driver.cnic}
+                    {driver.fullName}
                   </h2>
 
                   <p className="text-red-100 mt-2 text-lg">
@@ -259,7 +259,7 @@ const page = () => {
                   <p className="text-red-100 text-sm">Driver Status</p>
 
                   <h3 className="text-2xl font-bold text-white">
-                    {DriverStatus[driver.status]}
+                    {driver.status}
                   </h3>
                 </div>
               </div>

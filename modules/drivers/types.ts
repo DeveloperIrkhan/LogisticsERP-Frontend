@@ -45,9 +45,9 @@ export interface IDriverUpdateDto {
   email?: string;
   address?: string;
   licenseNumber?: string;
-  licenseExpiry?: string;
+  licenseExpiry?: Date;
   typeOfLicence?: string;
-  dateOfJoining?: string;
+  dateOfJoining?: Date;
   salary?: string;
   status?: DriverStatus;
   description?: string;
@@ -71,8 +71,8 @@ export interface IDriverDutyStatsDto {
 }
 
 export enum DriverStatus {
-  Active = "Active",
-  Inactive = "Inactive",
+  Active,
+  Inactive,
 }
 
 export interface ApiResponse<T> {

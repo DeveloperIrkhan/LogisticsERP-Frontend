@@ -2,37 +2,50 @@
 import Container from "@/components/Container";
 import CustomButton from "@/components/CustomButton";
 import Spinner from "@/components/Spinner";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { assignDriverToVehicle, getDrivers } from "@/modules/drivers/api";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import {
+  assignDriverToVehicleAsync,
+  getDriversAsync,
+} from "@/modules/drivers/api";
 import { IDriverResponseDto } from "@/modules/drivers/types";
-import { IVehicleResponse } from "@/modules/vehicle/types";
-import { Save, Truck, User } from "lucide-react";
+import { Save, User } from "lucide-react";
 import { useParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 
 const page = () => {
   const params = useParams();
-  const driverId = params?.driverId as string;
+  const vehicleId = params?.vehicleId as string;
   const [drivers, setDrivers] = useState<IDriverResponseDto[]>([]);
   const [selectedDriverId, setSelectedDriverId] = useState<string>("");
   const [isLoading, setIsLoading] = useState(false);
   const [selectedVehicleId, setSelectedVehicleId] = useState<string>("");
 
+
+
   useEffect(() => {
     const fetchDrivers = async () => {
       try {
-        setSelectedVehicleId(driverId);
+        setSelectedVehicleId(vehicleId);
         setIsLoading(true);
-        const response = await getDrivers();
-        setDrivers(response);
-        console.log(response);
+        const response = await getDriversAsync();
+        if (response.success) {
+          setDrivers(response.data);
+          console.log(response.data)
+        }
       } catch (error) {
         console.error("Error fetching vehicles:", error);
       } finally {
         setIsLoading(false);
       }
     };
+
     fetchDrivers();
   }, []);
 
@@ -41,19 +54,17 @@ const page = () => {
   };
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const response = await assignDriverToVehicle(
+    const response = await assignDriverToVehicleAsync(
       selectedDriverId,
       selectedVehicleId,
     );
     console.log(response);
-    if (response.data.success) {
-      toast.success(
-        response.data.message || "Driver assigned to vehicle successfully!",
-      );
+    if (response.success) {
+      toast.success(response.message);
     } else {
       toast.error(
         response.message ||
-          "Failed to assign driver to vehicle. Please try again.",
+        "Failed to assign driver to vehicle. Please try again.",
       );
     }
   };
@@ -83,11 +94,7 @@ const page = () => {
             </div>
           </div>{" "}
           <div className="p-6 md:p-10">
-            <form
-              onSubmit={handleSubmit}
-              className="grid grid-cols-1 md:grid-cols-2 gap-4"
-            >
-              
+            <form onSubmit={handleSubmit} className="flex flex-col gap-4">
               <div className="flex items-center gap-6 px-4 py-4 bg-gray-200 hover:bg-gray-300 rounded-2xl group transition-all duration-300">
                 <div className="bg-red-100 text-red-600 p-4 rounded-full group-hover:bg-red-600 group-hover:text-white transition-all duration-300">
                   {<User className="w-5 h-5" />}

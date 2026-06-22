@@ -19,7 +19,7 @@ export default function RootLayout({
   return (
     <div className="w-full">
       <ToastContainer position="top-right" autoClose={3000} />
-      <section className="w-full h-22 font-raleway bg-black">
+      <section className="w-full h-22 font-raleway">
         {children}
       </section>
     </div>

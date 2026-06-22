@@ -35,6 +35,16 @@ export const createDriverAsync = async (
   });
   return res.data;
 };
+export const updateDriverAsync = async (
+  formDate: FormData,
+): Promise<ApiResponse<IDriverResponseDto>> => {
+  const response = await api.put(`${DRIVER_ENDPOINTS.UpdateDriver}`, formDate, {
+    headers: {
+      "Content-Type": "multipart/form-data",
+    },
+  });
+  return response.data;
+};
 
 export const deleteDriverAsync = async (
   driverId: string,

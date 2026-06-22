@@ -14,6 +14,12 @@ import {
   Activity,
   Edit,
   Trash,
+  ExternalLink,
+  FileText,
+  Mail,
+  Phone,
+  User,
+  Users,
 } from "lucide-react";
 
 import Spinner from "@/components/Spinner";
@@ -23,6 +29,7 @@ import Link from "next/link";
 import { GrUserWorker } from "react-icons/gr";
 import { BiDetail } from "react-icons/bi";
 import { toast } from "react-toastify";
+import { IVehicleResponse, VehicleStatus } from "./types";
 
 interface PageProps {
   params: {
@@ -32,7 +39,7 @@ interface PageProps {
 
 const GetOnlyVehicle = ({ params }: PageProps) => {
   const [isLoading, setIsLoading] = useState(false);
-  const [vehicle, setVehicle] = useState<any>(null);
+  const [vehicle, setVehicle] = useState<IVehicleResponse>();
   const customStyle =
     "absolute -top-12 left-1/2 -translate-x-1/2 bg-black/60 text-white text-xs px-3 py-1 rounded opacity-0 group-hover:opacity-100 transition";
   useEffect(() => {
@@ -44,6 +51,7 @@ const GetOnlyVehicle = ({ params }: PageProps) => {
         if (response.success) {
           setVehicle(response.data);
           toast.success(response.message);
+          console.log(vehicle)
         } else {
           toast.error(response.message);
         }
@@ -72,6 +80,9 @@ const GetOnlyVehicle = ({ params }: PageProps) => {
       </Container>
     );
   }
+
+  const drivers = vehicle.drivers ?? [];
+  const documents = vehicle.documents ?? [];
 
   const details = [
     {
@@ -239,19 +250,160 @@ const GetOnlyVehicle = ({ params }: PageProps) => {
                     </Link>
                     <span className={customStyle}>Driver Details</span>
                   </div>
-                  <div className="flex group relative">
-                    <Link
-                      href={"/driver/assign-driver/" + vehicle.vehicleId}
-                      className="bg-red-100 text-red-600 p-4 rounded-2xl hover:bg-red-600 hover:text-white transition-all duration-300"
-                    >
-                      <GrUserWorker className="w-6 h-6" />
-                    </Link>
-                    <span className={customStyle}>Assign Driver</span>
-                  </div>
                 </div>
               </div>
             </div>
+            {/* ── Assigned Drivers Section ────────────────── */}
+            <div className="mt-10">
+              <div className="flex items-center justify-between mb-5">
+                <div className="flex items-center gap-3">
+                  <div className="bg-red-100 text-red-600 p-3 rounded-2xl">
+                    <Users className="w-6 h-6" />
+                  </div>
+                  <div>
+                    <h2 className="text-xl font-bold text-slate-800">
+                      Assigned Drivers
+                    </h2>
+                    <p className="text-sm text-slate-500">
+                      {drivers.length} driver{drivers.length !== 1 ? "s" : ""}{" "}
+                      assigned to this vehicle
+                    </p>
+                  </div>
+                </div>
 
+                <Link
+                  href={"/vehicle/assign-driver/" + vehicle.vehicleId}
+                  className="flex items-center gap-2 bg-red-600 hover:bg-red-700 text-white px-4 py-2.5 rounded-xl text-sm font-semibold shadow-md transition-colors"
+                >
+                  <GrUserWorker className="w-4 h-4" />
+                  Assign Driver
+                </Link>
+              </div>
+
+              {drivers.length === 0 ? (
+                <div className="rounded-2xl border border-dashed border-slate-300 bg-slate-50 p-10 text-center">
+                  <Users className="w-10 h-10 text-slate-300 mx-auto mb-3" />
+                  <p className="text-slate-500 font-medium">
+                    No drivers assigned to this vehicle yet.
+                  </p>
+                </div>
+              ) : (
+                <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-5">
+                  {drivers.map((driver: any) => (
+                    <div
+                      key={driver.driverId}
+                      className="rounded-2xl border border-slate-200 bg-white p-5 shadow-md hover:shadow-xl hover:-translate-y-1 transition-all duration-300"
+                    >
+                      <div className="flex items-center gap-3">
+                        <div className="bg-blue-100 text-blue-600 p-3 rounded-2xl">
+                          <User className="w-6 h-6" />
+                        </div>
+                        <div className="flex-1 min-w-0">
+                          <h3 className="font-bold text-slate-800 truncate">
+                            {driver.fullName}
+                          </h3>
+                          <span
+                            className={`inline-block mt-1 text-xs font-semibold px-2 py-0.5 rounded-full ${
+                              driver.status === "Active"
+                                ? "bg-green-100 text-green-700"
+                                : "bg-slate-100 text-slate-500"
+                            }`}
+                          >
+                            {driver.status}
+                          </span>
+                        </div>
+                      </div>
+
+                      <div className="mt-4 space-y-2 text-sm">
+                        <div className="flex items-center gap-2 text-slate-600">
+                          <Phone className="w-4 h-4 text-slate-400" />
+                          {driver.mobileNumber}
+                        </div>
+                        <div className="flex items-center gap-2 text-slate-600 truncate">
+                          <Mail className="w-4 h-4 text-slate-400 shrink-0" />
+                          <span className="truncate">{driver.email}</span>
+                        </div>
+                        <div className="flex items-center gap-2 text-slate-600">
+                          <BadgeInfo className="w-4 h-4 text-slate-400" />
+                          {driver.licenseNumber} ({driver.typeOfLicence})
+                        </div>
+                      </div>
+
+                      <Link
+                        href={`/driver/get-driver-by-id/${driver.driverId}`}
+                        className="mt-4 flex items-center justify-center gap-2 bg-red-50 hover:bg-red-600 hover:text-white text-red-600 text-sm font-semibold py-2 rounded-xl transition-colors"
+                      >
+                        View Driver
+                        <ExternalLink className="w-3.5 h-3.5" />
+                      </Link>
+                    </div>
+                  ))}
+                </div>
+              )}
+            </div>
+
+            {/* ── Documents Section ────────────────────────── */}
+            <div className="mt-10">
+              <div className="flex items-center justify-between mb-5">
+                <div className="flex items-center gap-3">
+                  <div className="bg-red-100 text-red-600 p-3 rounded-2xl">
+                    <FileText className="w-6 h-6" />
+                  </div>
+                  <div>
+                    <h2 className="text-xl font-bold text-slate-800">
+                      Vehicle Documents
+                    </h2>
+                    <p className="text-sm text-slate-500">
+                      {documents.length} document
+                      {documents.length !== 1 ? "s" : ""} uploaded
+                    </p>
+                  </div>
+                </div>
+
+                <Link
+                  href={"/document/upload/" + vehicle.vehicleId}
+                  className="flex items-center gap-2 bg-red-600 hover:bg-red-700 text-white px-4 py-2.5 rounded-xl text-sm font-semibold shadow-md transition-colors"
+                >
+                  <FileText className="w-4 h-4" />
+                  Upload Document
+                </Link>
+              </div>
+
+              {documents.length === 0 ? (
+                <div className="rounded-2xl border border-dashed border-slate-300 bg-slate-50 p-10 text-center">
+                  <FileText className="w-10 h-10 text-slate-300 mx-auto mb-3" />
+                  <p className="text-slate-500 font-medium">
+                    No documents uploaded for this vehicle yet.
+                  </p>
+                </div>
+              ) : (
+                <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-5">
+                  {documents.map((doc: any) => (
+                    <a
+                      key={doc.documentId}
+                      href={doc.fileUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="group rounded-2xl border border-slate-200 bg-white p-5 shadow-md hover:shadow-xl hover:-translate-y-1 transition-all duration-300 flex items-center gap-4"
+                    >
+                      <div className="bg-green-100 text-green-600 p-3 rounded-2xl group-hover:bg-green-600 group-hover:text-white transition-all duration-300">
+                        <FileText className="w-6 h-6" />
+                      </div>
+                      <div className="flex-1 min-w-0">
+                        <h3 className="font-bold text-slate-800 truncate">
+                          {doc.documentType}
+                        </h3>
+                        <p className="text-xs text-slate-500 mt-1">
+                          Uploaded:{" "}
+                          {new Date(doc.uploadedAt).toLocaleDateString()}
+                        </p>
+                      </div>
+                      <ExternalLink className="w-4 h-4 text-slate-400 group-hover:text-red-600 flex-shrink-0 transition-colors" />
+                    </a>
+                  ))}
+                </div>
+              )}
+            </div>
             {/* Footer Banner */}
             <div className="mt-10 rounded-3xl bg-linear-to-r from-red-600 to-red-900 p-8 shadow-xl">
               <div className="flex flex-col lg:flex-row justify-between items-center gap-6">
@@ -269,7 +421,7 @@ const GetOnlyVehicle = ({ params }: PageProps) => {
                   <p className="text-red-100 text-sm">Vehicle Status</p>
 
                   <h3 className="text-2xl font-bold text-white">
-                    [vehicle.status]
+                    {vehicle.status}
                   </h3>
                 </div>
               </div>

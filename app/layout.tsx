@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import { StrictMode } from "react";
+import Navbar from "@/components/Navbar";
 
 export const metadata: Metadata = {
   title: "Pakistan Red Crescent Society | Logistics Management System",
@@ -15,6 +16,7 @@ export default function RootLayout({
   return (
     <html lang="en" className="h-full font-raleway">
       <body className="h-full">
+        <Navbar />
         <StrictMode>{children}</StrictMode>
       </body>
     </html>
