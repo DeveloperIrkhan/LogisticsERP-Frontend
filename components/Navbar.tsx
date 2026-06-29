@@ -1,6 +1,5 @@
 "use client";
 
-import NavbarComponent from "@/components/Navbar/Navbar";
 import Image from "next/image";
 import { useEffect, useState } from "react";
 import NavLinkButtons from "./NavLinkButtons";
@@ -9,7 +8,7 @@ import { Phone } from "lucide-react";
 import { MenuItems } from "@/app/constants/constants";
 import { images } from "@/public/images";
 import Link from "next/link";
-import TopBar from "./Navbar/TopBar";
+import TopBar from "./ToolTip";
 
 export default function Navbar() {
   const [open, setOpen] = useState(false);
@@ -27,6 +26,7 @@ export default function Navbar() {
   return (
     <>
       <TopBar />
+
       <header
         className={`top-0 left-0 w-full z-50 font-raleway transition-all duration-300`}
       >
@@ -39,7 +39,7 @@ export default function Navbar() {
           <Link href="/" className="flex items-center gap-2">
             <Image
               // src={images.logo}
-              src={isScrolled ? images.PrcsLogo : images.logo}
+              src={isScrolled ? images.logo : images.logo}
               alt="Logo"
               width={400}
               height={400}
@@ -63,7 +63,7 @@ export default function Navbar() {
             <CustomButton
               icon={<Phone className="w-5 h-5" />}
               buttonText="Get in touch"
-              buttonColor="bg-default-color"
+              buttonColor="bg-hover-color"
               buttonHoverColor="bg-red-900"
               className="px-6 py-3 rounded-full font-bold hover:shadow-lg transition-shadow duration-300"
             />

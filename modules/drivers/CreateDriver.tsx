@@ -24,7 +24,6 @@ const CreateDriver = () => {
     licenseExpiry: new Date(),
     typeOfLicence: "",
     dateOfJoining: new Date(),
-    salary: "",
     status: DriverStatus.Active,
     description: "",
     Photo: undefined,
@@ -40,7 +39,6 @@ const CreateDriver = () => {
       driver.address === "" ||
       driver.licenseNumber === "" ||
       driver.typeOfLicence === "" ||
-      driver.salary === "" ||
       driver.description === ""
     );
   };
@@ -93,9 +91,7 @@ const CreateDriver = () => {
       formData.append("address", driver.address);
       formData.append("licenseNumber", driver.licenseNumber);
       formData.append("typeOfLicence", driver.typeOfLicence);
-      formData.append("salary", driver.salary);
       formData.append("description", driver.description);
-
       formData.append("dateOfJoining", driver.dateOfJoining.toISOString());
       formData.append("licenseExpiry", driver.licenseExpiry.toISOString());
 
@@ -119,7 +115,6 @@ const CreateDriver = () => {
         licenseExpiry: new Date(),
         typeOfLicence: "",
         dateOfJoining: new Date(),
-        salary: "",
         status: DriverStatus.Active,
         description: "",
         Photo: undefined,
@@ -246,14 +241,6 @@ const CreateDriver = () => {
                   onChange={(value) => handleChange("licenseExpiry", value)}
                 />
 
-                <CustomInput
-                  label="Enter Enter Driver Salary"
-                  Icon={GoNumber}
-                  type="text"
-                  className="custom-input w-full"
-                  value={driver.salary}
-                  onChange={(value) => handleChange("salary", value)}
-                />
                 <CustomInput
                   label="Enter Enter Licence Type"
                   Icon={GoNumber}

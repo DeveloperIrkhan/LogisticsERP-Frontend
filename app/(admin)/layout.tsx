@@ -6,8 +6,8 @@ import Image from "next/image";
 import { images } from "@/public/images";
 
 export const metadata: Metadata = {
-  title: "Complaint Registeration System",
-  description: "this is webapp used for Ticket managment system.",
+  title: "Pakistan Red Crecent Socity | Logestics ERP",
+  description: "this is webapp used for PRCS's Fleet Logestics",
   icons: {},
 };
 

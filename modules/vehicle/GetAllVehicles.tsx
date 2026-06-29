@@ -2,7 +2,6 @@
 import Spinner from "@/components/Spinner";
 import { getVehiclesAsync } from "@/modules/vehicle/api";
 import { useEffect, useState } from "react";
-import { PiAmbulanceFill, PiJeepBold } from "react-icons/pi";
 import {
   Car,
   Calendar,
@@ -11,18 +10,13 @@ import {
   ArrowRight,
   Building,
   HeartPulse,
-  Truck,
   User,
   FileText,
-  Phone,
 } from "lucide-react";
 
 import Link from "next/link";
 import { toast } from "react-toastify";
 import PageTitlelCard from "@/components/Badge/PageTitlelCard";
-import { FaMotorcycle, FaShuttleVan, FaTruckPickup } from "react-icons/fa";
-import { BsBusFrontFill } from "react-icons/bs";
-import { FaCarSide } from "react-icons/fa";
 import { IVehicleResponse } from "./types";
 import VehicleType from "@/components/VehicleType";
 
@@ -80,7 +74,7 @@ const GetAllVehicles = () => {
 
         {/* Vehicle Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-8">
-          {vehicles.map((vehicle: any) => {
+          {vehicles.map((vehicle: IVehicleResponse) => {
             const RegistrationExpiry = new Date(vehicle.registrationExpiry).toDateString();
             const InsuranceExpiry = new Date(vehicle.insuranceExpiry).toDateString();
             const fitnessExpiry = new Date(vehicle.fitnessExpiry).toDateString();

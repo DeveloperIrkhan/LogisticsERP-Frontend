@@ -45,7 +45,7 @@ const AddNewVehicle = () => {
     insuranceExpiry: new Date(),
     insuranceTo: new Date(),
     typeOfInsurance: "",
-    status: VehicleStatus.Inactive,
+    status: VehicleStatus.InActive,
   });
   const isFormInvalid = () => {
     return (
@@ -129,7 +129,7 @@ const AddNewVehicle = () => {
         insuranceExpiry: new Date(),
         insuranceTo: new Date(),
         typeOfInsurance: "",
-        status: VehicleStatus.Inactive,
+        status: VehicleStatus.InActive,
       });
     } catch (error) {
       console.error("Error saving vehicle:", error);
@@ -172,7 +172,7 @@ const AddNewVehicle = () => {
                   className="custom-input w-full"
                   placeholder="e.g ABC-1234"
                   value={vehicle.number}
-                  onChange={(value) => handleChange("number", value)}
+                  onChange={(value) => handleChange("number", value as string)}
                 />
                 <CustomInput
                   label="Enter Model Name"
@@ -180,7 +180,7 @@ const AddNewVehicle = () => {
                   className="custom-input w-full"
                   value={vehicle.modelName}
                   placeholder="e.g GLI, Revo, Prado"
-                  onChange={(value) => handleChange("modelName", value)}
+                  onChange={(value) => handleChange("modelName", value as string)}
                 />
                 <CustomInput
                   label="Enter Company Name"
@@ -188,7 +188,7 @@ const AddNewVehicle = () => {
                   placeholder="e.g Toyota, Honda"
                   className="custom-input w-full"
                   value={vehicle.company}
-                  onChange={(value) => handleChange("company", value)}
+                  onChange={(value) => handleChange("company", value as string)}
                 />
                 <CustomInput
                   label="Enter Engine Number"
@@ -196,7 +196,7 @@ const AddNewVehicle = () => {
                   placeholder="e.g 12312323213"
                   className="custom-input w-full"
                   value={vehicle.engineNumber}
-                  onChange={(value) => handleChange("engineNumber", value)}
+                  onChange={(value) => handleChange("engineNumber", value as string)}
                 />
 
                 <CustomInput
@@ -205,7 +205,7 @@ const AddNewVehicle = () => {
                   className="custom-input w-full"
                   placeholder="e.g 12312323213"
                   value={vehicle.chassisNumber}
-                  onChange={(value) => handleChange("chassisNumber", value)}
+                  onChange={(value) => handleChange("chassisNumber", value as string)}
                 />
                 <div className="flex group items-center  justify-between px-4 bg-gray-200 gap-3 custom-input w-full hover:bg-gray-300">
                   <div className="bg-red-100 text-red-600 p-4 rounded-full group-hover:bg-red-600 group-hover:text-white transition-all duration-300">
@@ -236,7 +236,7 @@ const AddNewVehicle = () => {
                   placeholder="e.g Turk Kizilay, GRC, Red Cross"
                   className="custom-input w-full"
                   value={vehicle.doner}
-                  onChange={(value) => handleChange("doner", value)}
+                  onChange={(value) => handleChange("doner", value as string)}
                 />
 
                 <CustomInput
@@ -245,7 +245,7 @@ const AddNewVehicle = () => {
                   placeholder="e.g 7000000"
                   className="custom-input w-full"
                   value={vehicle.purchsedCast}
-                  onChange={(value) => handleChange("purchsedCast", value)}
+                  onChange={(value) => handleChange("purchsedCast", value as string)}
                 />
                 <CustomInput
                   label="Enter Depreciation Cost"
@@ -253,7 +253,7 @@ const AddNewVehicle = () => {
                   Icon={DollarSign}
                   className="custom-input w-full"
                   value={vehicle.depreciation}
-                  onChange={(value) => handleChange("depreciation", value)}
+                  onChange={(value) => handleChange("depreciation", value as string)}
                 />
 
                 <CustomInput
@@ -262,7 +262,7 @@ const AddNewVehicle = () => {
                   type="date"
                   className="custom-input w-full"
                   value={formatDate(vehicle.registrationDate)}
-                  onChange={(value) => handleChange("registrationDate", value)}
+                  onChange={(value) => handleChange("registrationDate", value as Date)}
                 />
 
                 <CustomInput
@@ -272,7 +272,7 @@ const AddNewVehicle = () => {
                   className="custom-input w-full"
                   value={formatDate(vehicle.registrationExpiry)}
                   onChange={(value) =>
-                    handleChange("registrationExpiry", value)
+                    handleChange("registrationExpiry", value as Date)
                   }
                 />
 
@@ -282,7 +282,7 @@ const AddNewVehicle = () => {
                   type="date"
                   className="custom-input w-full"
                   value={formatDate(vehicle.fitnessExpiry)}
-                  onChange={(value) => handleChange("fitnessExpiry", value)}
+                  onChange={(value) => handleChange("fitnessExpiry", value as Date)}
                 />
 
                 <CustomInput
@@ -292,7 +292,7 @@ const AddNewVehicle = () => {
                   placeholder="e.g Jublee IJI etc"
                   className="custom-input w-full"
                   value={vehicle.insuredBy}
-                  onChange={(value) => handleChange("insuredBy", value)}
+                  onChange={(value) => handleChange("insuredBy", value as string)}
                 />
                 <CustomInput
                   label="Insurance Type"
@@ -301,7 +301,7 @@ const AddNewVehicle = () => {
                   placeholder="e.g Full, Third Party etc"
                   className="custom-input w-full"
                   value={vehicle.typeOfInsurance}
-                  onChange={(value) => handleChange("typeOfInsurance", value)}
+                  onChange={(value) => handleChange("typeOfInsurance", value as string)}
                 />
                 <CustomInput
                   label="Insurance From"
@@ -309,7 +309,7 @@ const AddNewVehicle = () => {
                   type="date"
                   className="custom-input w-full"
                   value={formatDate(vehicle.insuranceFrom)}
-                  onChange={(value) => handleChange("insuranceFrom", value)}
+                  onChange={(value) => handleChange("insuranceFrom", value as Date)}
                 />
                 <CustomInput
                   label="Insurance To"
@@ -317,7 +317,7 @@ const AddNewVehicle = () => {
                   type="date"
                   className="custom-input w-full"
                   value={formatDate(vehicle.insuranceTo)}
-                  onChange={(value) => handleChange("insuranceTo", value)}
+                  onChange={(value) => handleChange("insuranceTo", value as Date)}
                 />
 
                 <CustomInput
@@ -326,7 +326,7 @@ const AddNewVehicle = () => {
                   type="date"
                   className="custom-input w-full"
                   value={formatDate(vehicle.insuranceExpiry)}
-                  onChange={(value) => handleChange("insuranceExpiry", value)}
+                  onChange={(value) => handleChange("insuranceExpiry", value as Date)}
                 />
               </div>
 

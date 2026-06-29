@@ -102,7 +102,7 @@ export const getDriversByStatusAsync = async (
   status: DriverStatus,
 ): Promise<ApiResponse<IDriverResponseDto>> => {
   const response = await api.get(`${DRIVER_ENDPOINTS.GetDriversByStatus}`, {
-    params: status,
+    params: { status },
   });
   return response.data;
 };
@@ -122,8 +122,9 @@ export const changeStatusAsync = async (
 ): Promise<ApiResponse<IDriverResponseDto>> => {
   const response = await api.put(
     `${DRIVER_ENDPOINTS.ChangeStatus}/${driverId}`,
+    null,
     {
-      params: status,
+      params: { status },
     },
   );
   return response.data;
@@ -142,7 +143,7 @@ export const getExpiringLicensesAsync = async (
   days: number,
 ): Promise<ApiResponse<IDriverResponseDto>> => {
   const response = await api.put(`${DRIVER_ENDPOINTS.GetExpiringLicenses}/`, {
-    params: days,
+    params: { days },
   });
   return response.data;
 };

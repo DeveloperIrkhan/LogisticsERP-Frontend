@@ -58,3 +58,16 @@ export const MenuItems = [
     href: "/dashboard",
   },
 ];
+
+export interface SocialLink {
+  label: string;
+  href: string;
+  icon: "facebook" | "twitter" | "linkedin" | "youtube";
+}
+
+export const SOCIAL_LINKS: SocialLink[] = [
+  { label: "Facebook", href: "#", icon: "facebook" },
+  { label: "Twitter", href: "#", icon: "twitter" },
+  { label: "LinkedIn", href: "#", icon: "linkedin" },
+  { label: "YouTube", href: "#", icon: "youtube" },
+];

@@ -149,7 +149,7 @@ const AssignDriver = () => {
             </div>
           </div>
 
-          <div className="p-6 md:p-10 space-y-8">
+          <div className="p-6 md:p-10 h-125">
             {/* Vehicle Summary Card */}
             <div className="rounded-2xl border border-slate-200 bg-slate-50 p-5 flex items-center gap-4">
               <div className="bg-red-100 text-red-600 p-4 rounded-2xl">

@@ -1,6 +1,6 @@
 interface InputProps {
-  value: string | number | Date;
-  onChange: (value: string | number | Date) => void;
+  value: string | number | Date | undefined;
+  onChange: (value: string | number | Date | undefined) => void;
   placeholder?: string;
   type?: string;
   className?: string;
@@ -20,6 +20,7 @@ const CustomInput = ({
   Icon,
   ...props
 }: InputProps) => {
+  const inputvalue = value instanceof Date ? value.toISOString().split("T")[0] : value ?? ""
   return (
     <div className="flex items-center gap-6 px-4 py-4 bg-gray-color hover:bg-gray-300 rounded-2xl group transition-all duration-300">
       <div className="bg-red-100 text-red-600 p-4 rounded-full group-hover:bg-red-600 group-hover:text-white transition-all duration-300">
@@ -33,7 +34,7 @@ const CustomInput = ({
           {...props}
           id={id}
           type={type}
-          value={value}
+          value={inputvalue}
           className={`${className}`}
           placeholder={placeholder}
           onChange={(e) => onChange(e.target.value)}

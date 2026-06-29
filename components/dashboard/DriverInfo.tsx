@@ -3,10 +3,11 @@ import PortionDesign from "../PortionDesign";
 import { IDashboardSummary } from "@/modules/dashboards/types";
 interface IDriverInfo {
   getSummary: IDashboardSummary;
+  className?: string;
 }
-const DriverInfo = ({ getSummary }: IDriverInfo) => {
+const DriverInfo = ({ getSummary, className }: IDriverInfo) => {
   return (
-    <PortionDesign className="bg-white">
+    <PortionDesign className={`bg-white ${className}`}>
       <h2 className="p-3 font-bold text-gray-900">Driver Info</h2>
       <div className="grid md:grid-cols-4 grid-cols-2 gap-3">
         <PieChart

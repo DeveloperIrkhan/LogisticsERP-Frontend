@@ -12,7 +12,6 @@ export interface IDriverCreateDto {
   licenseExpiry: Date;
   typeOfLicence: string;
   dateOfJoining: Date;
-  salary: string;
   status: DriverStatus;
   description: string;
   vehicleId?: string;
@@ -29,7 +28,6 @@ export interface IDriverResponseDto {
   licenseExpiry: string;
   typeOfLicence: string;
   dateOfJoining: string;
-  salary: string;
   status: DriverStatus;
   description: string;
   photoUrl?: string;
@@ -48,7 +46,6 @@ export interface IDriverUpdateDto {
   licenseExpiry?: Date;
   typeOfLicence?: string;
   dateOfJoining?: Date;
-  salary?: string;
   status?: DriverStatus;
   description?: string;
   Photo?: File;
@@ -71,8 +68,8 @@ export interface IDriverDutyStatsDto {
 }
 
 export enum DriverStatus {
-  Active,
-  Inactive,
+  Active="Active",
+  Inactive="Inactive",
 }
 
 export interface ApiResponse<T> {

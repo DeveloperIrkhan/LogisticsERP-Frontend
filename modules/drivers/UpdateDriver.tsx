@@ -23,7 +23,6 @@ interface params {
 
 // Maps backend status (string like "ACTIVE", or number) -> numeric DriverStatus enum
 const mapStatusFromApi = (status: string | number | undefined | null): DriverStatus => {
-    if (typeof status === "number") return status;
     if (typeof status === "string") {
         const matchedKey = Object.keys(DriverStatus).find(
             (key) => isNaN(Number(key)) && key.toUpperCase() === status.toUpperCase()
@@ -51,7 +50,6 @@ const UpdateDriver = ({ driverId }: params) => {
         licenseExpiry: new Date(),
         typeOfLicence: "",
         dateOfJoining: new Date(),
-        salary: "",
         status: DriverStatus.Inactive,
         description: "",
         Photo: undefined,
@@ -83,7 +81,6 @@ const UpdateDriver = ({ driverId }: params) => {
                         licenseExpiry: new Date(d.licenseExpiry),
                         typeOfLicence: d.typeOfLicence,
                         dateOfJoining: new Date(d.dateOfJoining),
-                        salary: d.salary,
                         status: mapStatusFromApi(d.status),
                         description: d.description,
                         Photo: undefined,
@@ -116,7 +113,6 @@ const UpdateDriver = ({ driverId }: params) => {
             driver.address === "" ||
             driver.licenseNumber === "" ||
             driver.typeOfLicence === "" ||
-            driver.salary === "" ||
             driver.description === "" ||
             driver.status === undefined ||
             driver.status === null
@@ -157,7 +153,6 @@ const UpdateDriver = ({ driverId }: params) => {
             formData.append("address", driver.address ?? "");
             formData.append("licenseNumber", driver.licenseNumber ?? "");
             formData.append("typeOfLicence", driver.typeOfLicence ?? "");
-            formData.append("salary", driver.salary ?? "");
             formData.append("description", driver.description ?? "");
             formData.append("status", String(driver.status));
 
@@ -310,14 +305,7 @@ const UpdateDriver = ({ driverId }: params) => {
                             value={formatDate(driver.licenseExpiry)}
                             onChange={(value) => handleChange("licenseExpiry", value)}
                         />
-                        <CustomInput
-                            label="Enter Driver Salary"
-                            Icon={GoNumber}
-                            type="text"
-                            className="custom-input w-full"
-                            value={driver.salary ?? ""}
-                            onChange={(value) => handleChange("salary", value)}
-                        />
+                       
                         <CustomInput
                             label="Enter Licence Type"
                             Icon={GoNumber}
@@ -349,7 +337,7 @@ const UpdateDriver = ({ driverId }: params) => {
                                             ? String(driver.status)
                                             : undefined
                                     }
-                                    onValueChange={(value) => handleChange("status", Number(value))}
+                                    onValueChange={(value) => handleChange("status", value as DriverStatus)}
                                 >
                                     <SelectTrigger className="w-full bg-white mt-1">
                                         <SelectValue placeholder="Select status" />

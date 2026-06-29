@@ -8,6 +8,8 @@ import { BsGraphUpArrow } from "react-icons/bs";
 import { Bell, CarFront, Home, Search, User } from "lucide-react";
 import { ImStatsDots } from "react-icons/im";
 import GreetingContainer from "@/components/dashboard/GreetingContainer";
+import { GrUser, GrUserManager } from "react-icons/gr";
+import Alerts from "@/components/dashboard/Alerts";
 
 export const metadata: Metadata = {
   title: "Admin Panel | Fleet Management System",
@@ -33,58 +35,63 @@ export default function AdminLayout({
     <div className="flex h-screen font-raleway">
       <ToastContainer position="top-right" autoClose={3000} />
       <SlideMenu>
-        <MenuItems icon={<Home />} text="Home" alert="Home" href="/dashboard" />
         <MenuItems
+          key={1}
+          icon={<Home />}
+          text="Home"
+          alert="Home"
+          href="/dashboard" />
+        <MenuItems
+          key={2}
           icon={<BsGraphUpArrow />}
           text="Reports"
           alert="Reports"
           href="/dashboard/reports"
         />
         <MenuItems
-          icon={<User />}
-          text="Users"
-          alert="Users"
-          href="/dashboard/users"
-        />
-        <MenuItems
+          key={3}
           icon={<ImStatsDots />}
           text="Statistics"
           alert="Manage Drivers"
-          href="/dashboard/stats"
+          href="/dashboard/"
         />
         <MenuItems
-          icon={<FaUserTie />}
-          text="Drivers"
-          alert="Manage Drivers"
+          key={4}
+          icon={<GrUser />}
+          text="Users"
+          alert="Manage Users"
+          href=""
+          subItems={[
+            { text: "Active Vehicles", href: "" },
+            { text: "Inactive Vehicles", href: "" },
+          ]}
+        />
+        <MenuItems
+          key={5}
+          icon={<GrUserManager />}
+          text="Driver"
+          alert="Manage Driver"
           href="/dashboard/drivers"
+          subItems={[
+            { text: "Activate", href: "/dashboard/drivers/activate" },
+          ]}
         />
         <MenuItems
+          key={6}
           icon={<CarFront />}
           text="Vehicles"
           alert="Manage Vehicles"
           href="/dashboard/vehicles"
+          subItems={[
+            { text: "Active Vehicles", href: "/dashboard/vehicles/activate" },
+          ]}
         />
       </SlideMenu>
 
       <div className="flex-1 flex flex-col bg-gray-200 overflow-hidden">
         <div className="flex md:flex-row flex-col items-center p-3 shrink-0">
           <GreetingContainer text={getGreeting()} user="irfan" />
-          <div className="relative flex flex-row items-center">
-            <input
-              type="text"
-              placeholder="Search..."
-              className="px-4 py-1 bg-white rounded-full border border-gray-600
-               text-gray-900 focus:outline-none focus:ring-1 focus:ring-default-color 
-               transition-all duration-300"
-            />
-            <Search
-              className="absolute top-2 right-14 text-gray-700"
-              size={15}
-            />
-            <div className="px-3">
-              <Bell className="text-gray-700" size={23} />
-            </div>
-          </div>
+          <Alerts/>
         </div>
 
         <section className="flex-1 overflow-y-auto flex p-2 font-raleway">

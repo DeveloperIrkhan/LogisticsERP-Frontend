@@ -1,10 +1,10 @@
 import axios from "axios";
 
 const api = axios.create({
-  baseURL: "https://localhost:7104/api",
-  headers:{
-    "Content-Type":"application/json"
-  }
+  baseURL: process.env.NEXT_PUBLIC_API_URL ?? "https://localhost:7104/api",
+  headers: {
+    "Content-Type": "application/json",
+  },
 });
 
 export default api;

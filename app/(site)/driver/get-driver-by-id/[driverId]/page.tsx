@@ -145,11 +145,6 @@ const page = () => {
       icon: Calendar,
     },
     {
-      label: "Salary",
-      value: driver.salary,
-      icon: Currency,
-    },
-    {
       label: "Driver Remarks",
       value: driver.description,
       icon: SiRemark,

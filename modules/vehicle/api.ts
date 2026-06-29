@@ -1,9 +1,11 @@
+import { IDriverUpdateDto } from "../drivers/types";
 import {
   ApiResponse,
   IVehicleCreateRequest,
   IVehicleResponse,
   VehicleFilterDto,
   VehicleStatus,
+  VehicleUpdateDto,
 } from "./types";
 import api from "@/lib/axios";
 
@@ -22,7 +24,7 @@ const VEHICLE_ENDPOINTS = {
   getRegistrationExpiry: "/Vehicle/get-registeration-expiry",
   getFitnessExpiry: "/Vehicle/get-fitness-expiry",
   getInsuranceExpiry: "/Vehicle/get-Insurance-expiry",
-  changeState: "/Vehicle/change-vehicle-state",
+  changeStaus: "/Vehicle/change-vehicle-status",
   getByStatus: "/Vehicle/get-by-status",
 } as const;
 
@@ -60,8 +62,8 @@ export const getVehiclesAsync = async (): Promise<
 };
 
 export const updateVehicleAsync = async (
-  data: Promise<ApiResponse<IVehicleCreateRequest>>,
-) => {
+  data: VehicleUpdateDto,
+): Promise<ApiResponse<IVehicleResponse>> => {
   const response = await api.put(`${VEHICLE_ENDPOINTS.update}`, data);
   return response.data;
 };
@@ -114,7 +116,7 @@ export const getFilteredVehicleListAsync = async (
   filters: VehicleFilterDto,
 ): Promise<ApiResponse<IVehicleResponse[]>> => {
   const response = await api.get(`${VEHICLE_ENDPOINTS.filter}`, {
-    params: filters,
+    params: { filters },
   });
   return response.data;
 };
@@ -123,7 +125,7 @@ export const getRegisterationExpiryVehiclesAsync = async (
   days: number,
 ): Promise<ApiResponse<IVehicleResponse[]>> => {
   const response = await api.get(`${VEHICLE_ENDPOINTS.getRegistrationExpiry}`, {
-    params: days,
+    params: { days },
   });
   return response.data;
 };
@@ -132,7 +134,7 @@ export const getFittnessExpiryVehiclesAsync = async (
   days: number,
 ): Promise<ApiResponse<IVehicleResponse[]>> => {
   const response = await api.get(`${VEHICLE_ENDPOINTS.getFitnessExpiry}`, {
-    params: days,
+    params: { days },
   });
   return response.data;
 };
@@ -141,19 +143,20 @@ export const getInsuranceExpiryVehiclesAsync = async (
   days: number,
 ): Promise<ApiResponse<IVehicleResponse[]>> => {
   const response = await api.get(`${VEHICLE_ENDPOINTS.getInsuranceExpiry}`, {
-    params: days,
+    params: { days },
   });
   return response.data;
 };
 
 export const changeVehicleStatusAsync = async (
-  status: VehicleStatus,
   vehicleId: string,
+  status: VehicleStatus,
 ): Promise<ApiResponse<IVehicleResponse>> => {
   const response = await api.put(
-    `${VEHICLE_ENDPOINTS.changeState}/${vehicleId}`,
+    `${VEHICLE_ENDPOINTS.changeStaus}/${vehicleId}`,
+    null, // because body is empty that's why null is passing.
     {
-      params: status,
+      params: { status },
     },
   );
   return response.data;
@@ -163,7 +166,7 @@ export const getVehicleByStatusAsync = async (
   status: VehicleStatus,
 ): Promise<ApiResponse<IVehicleResponse>> => {
   const response = await api.get(`${VEHICLE_ENDPOINTS.getByStatus}`, {
-    params: status,
+    params: { status },
   });
   return response.data;
 };

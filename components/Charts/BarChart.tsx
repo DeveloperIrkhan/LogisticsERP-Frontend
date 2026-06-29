@@ -1,6 +1,3 @@
-import { progress } from "framer-motion";
-import React from "react";
-
 interface IBarChartProps {
   chartTitle: string;
   value: number; // percentage from 0 to 100
@@ -18,22 +15,13 @@ const BarChart = ({ value, chartTitle, totalCount }: IBarChartProps) => {
 
   const progressColor = getColor(persentage);
 
-  const getProgress = (persentage: number) => {
-    if (persentage <= 25) return "Normal";
-    if (persentage <= 50) return "Good"; // Yellow
-    if (persentage <= 75) return "Best"; // Orange
-    return "Outstanding";
-  };
-  const Progress = getProgress(persentage);
-
   return (
-    <div className="bg-gray-50 flex items-center justify-center flex-col rounded-xl shadow-md p-4 w-full max-w-md">
-      <h2 className="text-sm font-bold text-gray-700 mb-4 text-center">
+    <div className="flex flex-col p-2 w-full">
+      <h2 className="text-sm font-bold text-gray-700 mb-4">
         {chartTitle}
       </h2>
 
-      {/* Progress Bar */}
-      <div className="w-full h-4  bg-[#e0e0e0] rounded-2xl relative overflow-hidden">
+      <div className="w-full h-4  bg-gray-300 rounded-2xl relative overflow-hidden">
         <div
           className="h-full rounded-2xl flex items-center justify-center"
           style={{
@@ -48,11 +36,7 @@ const BarChart = ({ value, chartTitle, totalCount }: IBarChartProps) => {
         </div>
       </div>
 
-      {/* Label */}
-      <div className="mt-4 flex items-center justify-between w-full text-sm text-gray-600">
-        <span>Progress</span>
-        <span className="font-semibold text-black">{Progress}</span>
-      </div>
+     
     </div>
   );
 };

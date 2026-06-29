@@ -24,6 +24,7 @@ import {
   IVehicleResponse,
   VehicleStatus,
   vehicleTypes,
+  VehicleUpdateDto,
 } from "./types";
 import CustomInput from "@/components/CustomInput";
 import {
@@ -45,7 +46,7 @@ const UpdateVehicle = ({ vehicleId }: params) => {
   const router = useRouter();
 
 
-  const [updatedVehicle, setUpdatedVehicle] = useState<any>({
+  const [updatedVehicle, setUpdatedVehicle] = useState<VehicleUpdateDto>({
     vehicleId: "",
     number: "",
     modelName: "",
@@ -64,7 +65,7 @@ const UpdateVehicle = ({ vehicleId }: params) => {
     insuranceExpiry: new Date(),
     insuranceTo: new Date(),
     typeOfInsurance: "",
-    status: VehicleStatus.Decommissioned,
+    status: undefined,
   });
 
   useEffect(() => {
@@ -124,7 +125,7 @@ const UpdateVehicle = ({ vehicleId }: params) => {
         ? new Date(vehicle.insuranceTo)
         : new Date(),
       typeOfInsurance: vehicle.typeOfInsurance ?? "",
-      status: Number(vehicle.status),
+      status: vehicle.status,
     };
 
     setUpdatedVehicle(mapped);
@@ -143,8 +144,8 @@ const UpdateVehicle = ({ vehicleId }: params) => {
       updatedVehicle.chassisNumber === "" ||
       updatedVehicle.vehicleType === "" ||
       updatedVehicle.doner === "" ||
-      updatedVehicle.purchsedCast <= 0 ||
-      updatedVehicle.depreciation < 0 ||
+      (updatedVehicle.purchsedCast ?? 0) <= 0 ||
+      (updatedVehicle.depreciation ?? 0) <= 0 ||
       updatedVehicle.insuredBy === "" ||
       updatedVehicle.typeOfInsurance === ""
     );
@@ -160,7 +161,7 @@ const UpdateVehicle = ({ vehicleId }: params) => {
   ];
   const handleChange = (
     name: keyof IVehicleCreateRequest,
-    value: string | number | Date,
+    value: string | number | Date | undefined,
   ) => {
     setUpdatedVehicle((prev: any) => {
       if (name === "purchsedCast" || name === "depreciation") {
@@ -249,7 +250,7 @@ const UpdateVehicle = ({ vehicleId }: params) => {
                 <div className="bg-white/20 backdrop-blur-lg px-8 py-5 rounded-2xl border border-white/20">
                   <p className="text-red-100 text-sm">Vehicle Status</p>
                   <h3 className="text-2xl font-bold text-white">
-                    {VehicleStatus[updatedVehicle.status]}
+                    {updatedVehicle.status}
                   </h3>
                 </div>
               </div>
@@ -356,10 +357,8 @@ const UpdateVehicle = ({ vehicleId }: params) => {
                     Icon={Calendar}
                     type="date"
                     className="custom-input w-full"
-                    value={formatDate(updatedVehicle.registrationDate)}
-                    onChange={(value) =>
-                      handleChange("registrationDate", value)
-                    }
+                    value={formatDate(updatedVehicle.registrationDate ?? new Date())}
+                    onChange={(value) => handleChange("registrationDate", value)}
                   />
 
                   <CustomInput
@@ -367,7 +366,7 @@ const UpdateVehicle = ({ vehicleId }: params) => {
                     Icon={Calendar}
                     type="date"
                     className="custom-input w-full"
-                    value={formatDate(updatedVehicle.registrationExpiry)}
+                    value={formatDate(updatedVehicle.registrationExpiry ?? new Date())}
                     onChange={(value) =>
                       handleChange("registrationExpiry", value)
                     }
@@ -378,7 +377,7 @@ const UpdateVehicle = ({ vehicleId }: params) => {
                     Icon={Calendar}
                     type="date"
                     className="custom-input w-full"
-                    value={formatDate(updatedVehicle.fitnessExpiry)}
+                    value={formatDate(updatedVehicle.fitnessExpiry ?? new Date())}
                     onChange={(value) => handleChange("fitnessExpiry", value)}
                   />
 
@@ -405,7 +404,7 @@ const UpdateVehicle = ({ vehicleId }: params) => {
                     Icon={Calendar}
                     type="date"
                     className="custom-input w-full"
-                    value={formatDate(updatedVehicle.insuranceFrom)}
+                    value={formatDate(updatedVehicle.insuranceFrom ?? new Date())}
                     onChange={(value) => handleChange("insuranceFrom", value)}
                   />
                   <CustomInput
@@ -413,7 +412,7 @@ const UpdateVehicle = ({ vehicleId }: params) => {
                     Icon={Calendar}
                     type="date"
                     className="custom-input w-full"
-                    value={formatDate(updatedVehicle.insuranceTo)}
+                    value={formatDate(updatedVehicle.insuranceTo ?? new Date())}
                     onChange={(value) => handleChange("insuranceTo", value)}
                   />
                 </div>
@@ -424,9 +423,9 @@ const UpdateVehicle = ({ vehicleId }: params) => {
                   </div>
                   <div className="flex gap-3">
                     <Select
-                      value={updatedVehicle.status.toString()}
+                      value={vehicle.status}
                       onValueChange={(value) =>
-                        handleChange("status", Number(value))
+                        handleChange("status", value as VehicleStatus)
                       }
                     >
                       <SelectTrigger className="w-full bg-white mt-1">
