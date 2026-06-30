@@ -57,7 +57,7 @@ const AlertRow = ({ alert, tone }: { alert: AlertItem; tone: Tone }) => {
             <div className="flex min-w-0 items-center gap-3">
                 <div className="flex flex-col">
                     <span className="text-[15px] font-semibold text-gray-900">
-                        {alert.vehicleNumber}
+                      {alert.vehicleNumber}
                     </span>
                     <span className="text-xs text-gray-500">
                         {alert.expiryType} · {date}
@@ -66,8 +66,8 @@ const AlertRow = ({ alert, tone }: { alert: AlertItem; tone: Tone }) => {
             </div>
             <span className={`shrink-0 rounded-full px-2.5 py-1 text-xs font-semibold ${styles.badge}`}>
                 {alert.daysRemaining < 0
-                    ? `${Math.abs(alert.daysRemaining)}d overdue`
-                    : `${alert.daysRemaining}d left`}
+                    ? `${Math.abs(alert.daysRemaining)} days overdue`
+                    : `${alert.daysRemaining} days left`}
             </span>
         </div>
     );

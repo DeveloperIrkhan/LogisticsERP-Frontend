@@ -12,7 +12,7 @@ const Alerts = () => {
 
     const [summary, setSummary] = useState<IDashboardSummary | null>(null);
     const [isLoading, setIsLoading] = useState<boolean>(true);
-    const [alerts, setAlerts] = useState<Number>()
+    const [alerts, setAlerts] = useState<number | null>()
 
     useEffect(() => {
         const fetchData = async () => {
@@ -53,20 +53,23 @@ const Alerts = () => {
     }
     return (
         <div className="relative flex flex-row items-center">
-            <input
+            {/* <input
                 type="text"
                 placeholder="Search..."
                 className="px-4 py-1 bg-white rounded-full border border-gray-600
                text-gray-900 focus:outline-none focus:ring-1 focus:ring-default-color 
                transition-all duration-300"
-            />
-            <Search
+            /> */}
+            {/* <Search
                 className="absolute top-2 right-14 text-gray-700"
                 size={15}
-            />
-            <div className="px-3 relative">
-                <Bell className="text-gray-700" size={23} />
-                <span className="absolute -top-5 right-1 bg-red-600 w-6 h-6 rounded-full text-white
+            /> */}
+            {/* <div className="px-3 relative border"> */}
+            <div className="px-3 py-1.5 rounded-xl relative border 
+            border-red-300 bg-red-200 flex items-center justify-center gap-2 w-42">
+                <p className='text-md text-red-600'>Expriy Alerts</p>
+                <Bell className="text-red-400" size={23} />
+                <span className="absolute -top-4 -right-3 bg-red-600 w-6 h-6 rounded-full text-white
               text-sm flex justify-center items-center">{alerts}</span>
             </div>
         </div>

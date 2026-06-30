@@ -24,6 +24,13 @@ export const MenuItems = [
     ],
   },
   {
+    label: "Fuel",
+    dropdown: [
+      { label: "Add Fuel Entry", href: "/fuel/add-fuel" },
+      { label: "Fuel History", href: "/fuel/full-record" },
+    ],
+  },
+  {
     label: "Maintenance",
     dropdown: [
       { label: "Add Record", href: "/maintenance/add" },
@@ -31,13 +38,7 @@ export const MenuItems = [
       { label: "Upcoming", href: "/maintenance/upcoming" },
     ],
   },
-  {
-    label: "Fuel",
-    dropdown: [
-      { label: "Add Fuel Entry", href: "/fuel/add" },
-      { label: "Fuel History", href: "/fuel/list" },
-    ],
-  },
+
   {
     label: "Duty",
     dropdown: [

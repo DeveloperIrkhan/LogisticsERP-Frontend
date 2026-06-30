@@ -133,7 +133,7 @@ const MonthlyTrendBar = ({
                             title={`PKR ${item.amount.toLocaleString()}`}
                         />
                         <p className="text-xs text-gray-400 rotate-0">
-                            {item.monthName?.slice(0, 3)}
+                            {item.monthName?.slice(0, 5)}
                         </p>
                     </div>
                 ))}

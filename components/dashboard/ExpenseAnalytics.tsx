@@ -111,22 +111,16 @@ const ExpenseAnalytics = ({ getSummary, className }: IProps) => {
                 <div className="">
                     <BarChart
                         chartTitle='Fuel'
-                        totalCount={5000}
-                        value={2000}
+                        value={getSummary.fuelAnalytics.totalCostThisMonth}
+                        totalCount={getSummary.fuelAnalytics.totalCostThisYear}
                         key={1}
                     />
 
                     <BarChart
                         chartTitle='Mentinance'
-                        totalCount={5000}
-                        value={3000}
+                        value={getSummary.maintenanceAnalytics.totalCostThisMonth}
+                        totalCount={getSummary.maintenanceAnalytics.totalCostThisYear}
                         key={2}
-                    />
-                    <BarChart
-                        chartTitle='Insurance'
-                        totalCount={5000}
-                        value={1000}
-                        key={3}
                     />
                 </div>
                 {/* Category breakdown */}
