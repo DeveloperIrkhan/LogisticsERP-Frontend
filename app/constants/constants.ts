@@ -33,8 +33,8 @@ export const MenuItems = [
   {
     label: "Maintenance",
     dropdown: [
-      { label: "Add Record", href: "/maintenance/add" },
-      { label: "All Records", href: "/maintenance/list" },
+      { label: "Add Record", href: "/maintenance/add-maintenance" },
+      { label: "All Records", href: "/maintenance/get-maintenances" },
       { label: "Upcoming", href: "/maintenance/upcoming" },
     ],
   },
@@ -42,16 +42,16 @@ export const MenuItems = [
   {
     label: "Duty",
     dropdown: [
-      { label: "Add Duty", href: "/duty/add" },
-      { label: "All Duties", href: "/duty/list" },
+      { label: "Add Duty", href: "/duty/create-duty" },
+      { label: "All Duties", href: "/duty/get-duties" },
       { label: "Duty Roster", href: "/roster/monthly" },
     ],
   },
   {
     label: "Expense",
     dropdown: [
-      { label: "Add Expense", href: "/expense/add" },
-      { label: "All Expenses", href: "/expense/list" },
+      { label: "Add Expense", href: "/expense/create-expense" },
+      { label: "All Expenses", href: "/expense/view-all" },
     ],
   },
   {

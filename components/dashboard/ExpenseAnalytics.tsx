@@ -1,5 +1,5 @@
 import { IDashboardSummary, IExpenseAnalytics } from '@/modules/dashboards/types';
-import React from 'react'
+import React, { useEffect } from 'react'
 import PortionDesign from '../PortionDesign';
 import { Clock, CheckCircle2, XCircle } from 'lucide-react';
 import BarChart from '../Charts/BarChart';
@@ -56,6 +56,14 @@ const ExpenseAnalytics = ({ getSummary, className }: IProps) => {
     } = getSummary.expenseAnalytics;
 
     const totalAmount = byCategory.reduce((sum, cat) => sum + cat.amount, 0);
+
+
+    useEffect(() => {
+        console.log('getSummary', getSummary)
+        console.log('totalCostThisMonth', getSummary.maintenanceAnalytics.totalCostThisMonth)
+        console.log('totalCostThisYear', getSummary.maintenanceAnalytics.totalCostThisYear)
+    }, [getSummary])
+
 
     const sortedCategories = [...byCategory]
         .sort((a, b) => b.amount - a.amount)
