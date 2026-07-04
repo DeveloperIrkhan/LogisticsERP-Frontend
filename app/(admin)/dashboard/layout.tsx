@@ -55,43 +55,38 @@ export default function AdminLayout({
           alert="Manage Drivers"
           href="/dashboard/"
         />
-        <MenuItems
-          key={4}
-          icon={<GrUser />}
-          text="Users"
-          alert="Manage Users"
-          href=""
-          subItems={[
-            { text: "Active Vehicles", href: "" },
-            { text: "Inactive Vehicles", href: "" },
-          ]}
-        />
-        <MenuItems
-          key={5}
-          icon={<GrUserManager />}
-          text="Driver"
-          alert="Manage Driver"
-          href="/dashboard/drivers"
-          subItems={[
-            { text: "Activate", href: "/dashboard/drivers/activate" },
-          ]}
-        />
+
+        <div className="h-1 flex w-full bg-white/20" />
+
         <MenuItems
           key={6}
           icon={<CarFront />}
           text="Vehicles"
           alert="Manage Vehicles"
-          href="/dashboard/vehicles"
-          subItems={[
-            { text: "Active Vehicles", href: "/dashboard/vehicles/activate" },
-          ]}
+          href="/dashboard/vehicles/activate"
+        />
+        <MenuItems
+          key={5}
+          icon={<GrUserManager />}
+          text="Drivers"
+          alert="Manage Driver"
+          href="/dashboard/drivers/activate"
+        />
+
+        <div className="h-1 flex w-full bg-white/20" />
+        <MenuItems
+          key={4}
+          icon={<GrUser />}
+          text="Team"
+          alert="Manage Users"
+          href=""
         />
       </SlideMenu>
 
       <div className="flex-1 flex flex-col bg-gray-200 overflow-hidden">
         <div className="flex md:flex-row flex-col items-center p-3 shrink-0">
           <GreetingContainer text={getGreeting()} user="irfan" />
-          <Alerts/>
+          <Alerts />
         </div>
 
         <section className="flex-1 overflow-y-auto flex p-2 font-raleway">

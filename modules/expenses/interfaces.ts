@@ -5,11 +5,14 @@ export enum ExpenseCategory {
   Insurance = "Insurance",
   Registration = "Registration",
   Repair = "Repair",
+  Lubricants = "Lubricants",
   Other = "Other",
 }
 
 export enum PaymentMode {
   Cash = "Cash",
+  EasyPassa = "EasyPassa",
+  JazzCash = "JazzCash",
   BankTransfer = "BankTransfer",
   CreditCard = "CreditCard",
   MobilePayment = "MobilePayment",
@@ -31,8 +34,8 @@ export interface IExpenseCreateDto {
   expenseDate: Date;
   expenseCategory: ExpenseCategory;
   paymentMode: PaymentMode;
-  userId: string;
-  vehicleId?: string;
+  userId: string | null;
+  vehicleId?: string | null;
   receiptNumber?: string;
   notes?: string;
 }

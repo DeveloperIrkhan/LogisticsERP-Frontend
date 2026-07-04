@@ -3,6 +3,7 @@ import PortionDesign from '../PortionDesign'
 import SectionHeader from '../SectionHeader'
 import { Fuel, Wrench } from 'lucide-react'
 import { IDashboardSummary, IMonthlyTrend } from '@/modules/dashboards/types';
+import BarChart from '../Charts/BarChart';
 
 interface IFuelAnalytics {
     getSummary: IDashboardSummary;
@@ -63,6 +64,7 @@ const FuelAnalytics = ({ getSummary, className }: IFuelAnalytics) => {
                     )}
                 </div>
 
+
                 {/* Maintenance Analytics */}
                 <div className="bg-white rounded-xl p-5">
                     <SectionHeader
@@ -103,6 +105,22 @@ const FuelAnalytics = ({ getSummary, className }: IFuelAnalytics) => {
                         />
                     )}
                 </div>
+
+            </div>
+            <div className="w-full">
+                <BarChart
+                    chartTitle='Fueling Of this Month'
+                    value={getSummary.fuelAnalytics.totalCostThisMonth}
+                    totalCount={getSummary.fuelAnalytics.totalCostThisYear}
+                    key={1}
+                />
+
+                <BarChart
+                    chartTitle='Mentinance Of this Month'
+                    value={getSummary.maintenanceAnalytics.totalCostThisMonth}
+                    totalCount={getSummary.maintenanceAnalytics.totalCostThisYear}
+                    key={2}
+                />
             </div>
         </PortionDesign>
     )

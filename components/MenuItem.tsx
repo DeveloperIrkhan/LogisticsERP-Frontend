@@ -24,7 +24,7 @@ export const MenuItems = ({ icon, text, href, alert, subItems }: MenuItemProps) 
 
   const hasChildren = !!subItems?.length;
 
-  const rowClasses = `relative flex items-center py-3 px-3 my-2 rounded-l-md cursor-pointer transition-all duration-300
+  const rowClasses = `relative group flex items-center py-3 px-3 my-2 rounded-l-md cursor-pointer transition-all duration-300
     text-gray-300 hover:bg-white hover:text-black hover:shadow-md`;
 
   const row = (
@@ -42,47 +42,48 @@ export const MenuItems = ({ icon, text, href, alert, subItems }: MenuItemProps) 
       </span>
 
       {/* CHEVRON for items with children */}
-      {hasChildren && expanded && (
+      {/* {hasChildren && expanded && (
         <ChevronDown
           size={16}
           className={`ml-auto transition-transform duration-300 ${open ? "rotate-180" : "rotate-0"
             }`}
         />
-      )}
+      )} */}
 
       {/* ALERT */}
       {/* {alert && (
-        <span className="absolute right-2 text-xs bg-red-500 text-white px-2 py-0.5 rounded">
+        <span className={`absolute -right-16 text-xs bg-red-500 text-white px-2 py-0.5 rounded 
+        ${!expanded && `group-hover` ? "opacity-100" : "opacity-0"} transition-opacity duration-300`}>
           {alert}
         </span>
       )} */}
     </li>
   );
 
-  if (hasChildren) {
-    return (
-      <div className="group">
-        {row}
+  // if (hasChildren) {
+  //   return (
+  //     <div className="group">
+  //       {row}
 
-        {/* SUBMENU */}
-        <ul
-          className={`overflow-hidden transition-all duration-300 ease-in-out ${open && expanded ? "max-h-96 opacity-100" : "max-h-0 opacity-0"
-            }`}
-        >
-          {subItems!.map((sub, index) => (
-            <Link key={index} href={sub.href} className="group">
-              <li
-                className="flex items-center py-2 pl-12 pr-3 my-1 rounded-l-md cursor-pointer text-sm
-                  text-gray-400 hover:bg-white hover:text-black transition-all duration-300"
-              >
-                {sub.text}
-              </li>
-            </Link>
-          ))}
-        </ul>
-      </div>
-    );
-  }
+  //       {/* SUBMENU */}
+  //       <ul
+  //         className={`overflow-hidden transition-all duration-300 ease-in-out ${open && expanded ? "max-h-96 opacity-100" : "max-h-0 opacity-0"
+  //           }`}
+  //       >
+  //         {subItems!.map((sub, index) => (
+  //           <Link key={index} href={sub.href} className="group">
+  //             <li
+  //               className="flex items-center py-2 pl-12 pr-3 my-1 rounded-l-md cursor-pointer text-sm
+  //                 text-gray-400 hover:bg-white hover:text-black transition-all duration-300"
+  //             >
+  //               {sub.text}
+  //             </li>
+  //           </Link>
+  //         ))}
+  //       </ul>
+  //     </div>
+  //   );
+  // }
 
   return (
     <Link href={href} className="group">

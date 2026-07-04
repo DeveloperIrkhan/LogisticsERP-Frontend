@@ -10,7 +10,7 @@ const Fleet = ({ getSummary, className }: IFleet) => {
   return (
     <PortionDesign className={`bg-white ${className}`}>
       <h2 className="p-3 font-bold text-gray-900">Vehicles Info</h2>
-      <div className="grid md:grid-cols-4 grid-cols-2 sm:grid-cols-1 gap-3">
+      <div className="grid md:grid-cols-4 grid-cols-2 items-center grid-cols-1 gap-3 w-full">
         <PieChart
           chartTitle="Total Vehicles"
           totalValue={100}

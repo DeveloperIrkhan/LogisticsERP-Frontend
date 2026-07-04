@@ -116,21 +116,7 @@ const ExpenseAnalytics = ({ getSummary, className }: IProps) => {
                         className="bg-red-50 text-red-700"
                     />
                 </div>
-                <div className="">
-                    <BarChart
-                        chartTitle='Fuel'
-                        value={getSummary.fuelAnalytics.totalCostThisMonth}
-                        totalCount={getSummary.fuelAnalytics.totalCostThisYear}
-                        key={1}
-                    />
-
-                    <BarChart
-                        chartTitle='Mentinance'
-                        value={getSummary.maintenanceAnalytics.totalCostThisMonth}
-                        totalCount={getSummary.maintenanceAnalytics.totalCostThisYear}
-                        key={2}
-                    />
-                </div>
+               
                 {/* Category breakdown */}
                 <div className="flex flex-col gap-3">
                     <h3 className="text-sm font-semibold text-gray-800">By Category</h3>

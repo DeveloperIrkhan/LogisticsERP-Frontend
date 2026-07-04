@@ -125,7 +125,7 @@ const ViewAllExpense = () => {
                     </div>
 
                     <Link
-                        href="/dashboard/expense/create-expense"
+                        href="/expense/create-expense"
                         className="flex items-center gap-2 bg-linear-to-r from-red-500 to-red-800 hover:from-red-600 hover:to-red-900 text-white px-5 py-3 rounded-xl font-semibold shadow-lg transition-all"
                     >
                         <Plus className="w-5 h-5" />
@@ -161,7 +161,6 @@ const ViewAllExpense = () => {
                                     key={expense.expenseId}
                                     className="group relative overflow-hidden rounded-xl bg-white border border-slate-200 shadow-lg hover:shadow-2xl hover:-translate-y-2 transition-all duration-500"
                                 >
-                                    {/* Top Gradient */}
                                     <div className="bg-linear-to-r p-2 from-red-400 to-red-900 group-hover:from-red-900 group-hover:to-red-400 transition-colors duration-400">
                                         <div className="flex w-full items-center justify-between px-4">
                                             <span
@@ -186,11 +185,16 @@ const ViewAllExpense = () => {
                                                     {expense.expenseName}
                                                 </h2>
                                                 <p className="text-sm text-slate-500 mt-1">
-                                                    {expense.paymentMode}
+                                                    Payment Mode: {expense.paymentMode}
                                                 </p>
                                             </div>
                                             <div className="bg-red-100 text-red-600 p-4 rounded-2xl">
-                                                <DollarSign className="w-7 h-7" />
+                                                <div>
+                                                    <p className="text-xs text-slate-500">Amount</p>
+                                                    <p className="text-lg font-bold text-red-600">
+                                                        PKR {expense.amount.toLocaleString()}
+                                                    </p>
+                                                </div>
                                             </div>
                                         </div>
 
@@ -229,14 +233,8 @@ const ViewAllExpense = () => {
                                         </div>
 
                                         <div className="mt-6 flex justify-between items-center">
-                                            <div>
-                                                <p className="text-xs text-slate-500">Amount</p>
-                                                <p className="text-lg font-bold text-red-600">
-                                                    PKR {expense.amount.toLocaleString()}
-                                                </p>
-                                            </div>
                                             <Link
-                                                href={`/dashboard/expense/get-expense-by-id/${expense.expenseId}`}
+                                                href={`/expense/get-expense-by-id/${expense.expenseId}`}
                                                 className="group/button flex items-center gap-2 bg-linear-to-r from-red-400 to-red-900 hover:from-red-600 hover:to-red-900 text-white px-4 py-2 font-medium rounded-md shadow-lg transition-all duration-600"
                                             >
                                                 View Details
