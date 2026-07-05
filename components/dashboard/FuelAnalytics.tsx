@@ -13,11 +13,6 @@ interface IFuelAnalytics {
 
 const FuelAnalytics = ({ getSummary, className }: IFuelAnalytics) => {
 
-    const totalAlerts = getSummary?.expiryAlerts.expiredVehicles.length +
-        getSummary?.expiryAlerts.expiringIn30Days.length +
-        getSummary?.expiryAlerts.expiringIn60Days.length
-
-
     return (
         <PortionDesign className={`bg-white ${className}`}>
             <h2 className="p-3 font-bold text-gray-900">Anaylytics</h2>

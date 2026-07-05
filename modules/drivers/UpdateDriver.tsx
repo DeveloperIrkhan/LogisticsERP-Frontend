@@ -43,6 +43,7 @@ const UpdateDriver = ({ driverId }: params) => {
         driverId: "",
         fullName: "",
         cnic: "",
+        cnicExpiry: new Date(),
         mobileNumber: "",
         email: "",
         address: "",
@@ -74,6 +75,7 @@ const UpdateDriver = ({ driverId }: params) => {
                         driverId: d.driverId,
                         fullName: d.fullName,
                         cnic: d.cnic,
+                        cnicExpiry: new Date(d.cnicExpiry),
                         mobileNumber: d.mobileNumber,
                         email: d.email,
                         address: d.address,
@@ -148,6 +150,7 @@ const UpdateDriver = ({ driverId }: params) => {
             formData.append("driverId", driver.driverId ?? driverId);
             formData.append("fullName", driver.fullName ?? "");
             formData.append("cnic", driver.cnic ?? "");
+
             formData.append("mobileNumber", driver.mobileNumber ?? "");
             formData.append("email", driver.email ?? "");
             formData.append("address", driver.address ?? "");
@@ -161,6 +164,9 @@ const UpdateDriver = ({ driverId }: params) => {
             }
             if (driver.licenseExpiry) {
                 formData.append("licenseExpiry", new Date(driver.licenseExpiry).toISOString());
+            }
+            if (driver.cnicExpiry) {
+                formData.append("cnicExpiry", new Date(driver.cnicExpiry).toISOString());
             }
             if (driver.Photo) {
                 formData.append("Photo", driver.Photo);
@@ -257,6 +263,17 @@ const UpdateDriver = ({ driverId }: params) => {
                             value={driver.cnic ?? ""}
                             onChange={(value) => handleChange("cnic", value)}
                         />
+
+                        <CustomInput
+                            label="CNIC Expiry"
+                            Icon={Calendar}
+                            type="date"
+                            className="custom-input w-full"
+                            value={formatDate(driver.cnicExpiry)}
+                            onChange={(value) => handleChange("cnicExpiry", value)}
+                        />
+
+
                         <CustomInput
                             label="Enter Mobile Number"
                             Icon={Calendar}
@@ -305,7 +322,7 @@ const UpdateDriver = ({ driverId }: params) => {
                             value={formatDate(driver.licenseExpiry)}
                             onChange={(value) => handleChange("licenseExpiry", value)}
                         />
-                       
+
                         <CustomInput
                             label="Enter Licence Type"
                             Icon={GoNumber}

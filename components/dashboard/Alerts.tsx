@@ -23,11 +23,20 @@ const Alerts = () => {
                     setSummary(data);
                     toast.success(response.message);
 
-                    const expired = data?.expiryAlerts?.expiredVehicles?.length ?? 0;
-                    const in30 = data?.expiryAlerts?.expiringIn30Days?.length ?? 0;
-                    const in60 = data?.expiryAlerts?.expiringIn60Days?.length ?? 0;
+                    const expiredDriver = data?.expiryAlerts?.driverExpiryAlerts?.expiredDrivers.length ?? 0;
+                    const expiredDriverIn30Days = data?.expiryAlerts?.driverExpiryAlerts?.expiringDriverIn30Days.length ?? 0;
+                    const expiredDriverIn60Days = data?.expiryAlerts?.driverExpiryAlerts?.expiringDriverIn60Days.length ?? 0;
 
-                    setAlerts(expired + in30 + in60);
+
+                    const expiredVehicles = data?.expiryAlerts?.vehicleExpiryAlerts?.expiredVehicles.length ?? 0;
+                    const expiredVehiclesIn30Days = data?.expiryAlerts?.vehicleExpiryAlerts?.vehicleExpiringIn30Days.length ?? 0;
+                    const expiredVehiclesIn60Days = data?.expiryAlerts?.vehicleExpiryAlerts?.vehicleExpiringIn60Days.length ?? 0;
+
+
+
+                    setAlerts(expiredDriver + expiredDriverIn30Days + expiredDriverIn60Days
+                        + expiredVehicles + expiredVehiclesIn30Days + expiredVehiclesIn60Days
+                    );
                 } else {
                     toast.error(response.message);
                 }

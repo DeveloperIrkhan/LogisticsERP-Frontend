@@ -4,9 +4,10 @@ export interface IDashboardSummary {
   fuelAnalytics: IFuelAnalytics;
   maintenanceAnalytics: IMaintenanceAnalytics;
   expenseAnalytics: IExpenseAnalytics;
-  expiryAlerts: IExpiryAlerts;
+  expiryAlerts: IExpiryAlertsResponseDto;
   driverStatsDto: driverStatsDto;
 }
+
 
 // ─── VEHICLE STATS ────────────────────────────────────────
 export interface IVehicleStats {
@@ -28,13 +29,31 @@ export interface driverStatsDto {
 }
 
 // ─── EXPIRY ALERTS ────────────────────────────────────────
-export interface IExpiryAlerts {
-  expiredVehicles: IExpiryItem[];
-  expiringIn30Days: IExpiryItem[];
-  expiringIn60Days: IExpiryItem[];
+
+export interface IExpiryAlertsResponseDto {
+  vehicleExpiryAlerts: IVehicleExpiryAlertDto;
+  driverExpiryAlerts: IDriverExpiryAlertsDto;
+}
+export interface IDriverExpiryAlertsDto {
+  expiredDrivers: DriverExpiryItemDto[];
+  expiringDriverIn30Days: DriverExpiryItemDto[];
+  expiringDriverIn60Days: DriverExpiryItemDto[];
+}
+export interface DriverExpiryItemDto {
+  driverId: string;
+  fullName: string;
+  mobileNumber: string;
+  expiryType: string; // License, cnic
+  expiryDate: string;
+  daysRemaining: number;
 }
 
-export interface IExpiryItem {
+export interface IVehicleExpiryAlertDto {
+  expiredVehicles: VehicleExpiryItemDto[];
+  vehicleExpiringIn30Days: VehicleExpiryItemDto[];
+  vehicleExpiringIn60Days: VehicleExpiryItemDto[];
+}
+export interface VehicleExpiryItemDto {
   vehicleId: string;
   vehicleNumber: string;
   expiryType: string; // Registration, Insurance, Fitness

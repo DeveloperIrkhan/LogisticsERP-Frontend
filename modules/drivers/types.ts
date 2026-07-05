@@ -3,6 +3,7 @@ import { IVehicleResponse } from "../vehicle/types";
 export interface IDriverCreateDto {
   fullName: string;
   cnic: string;
+  cnicExpiry:Date;
   mobileNumber: string;
   email: string;
   address: string;
@@ -21,6 +22,7 @@ export interface IDriverResponseDto {
   driverId: string;
   fullName: string;
   cnic: string;
+  cnicExpiry:Date;
   mobileNumber: string;
   email: string;
   address: string;
@@ -39,6 +41,7 @@ export interface IDriverUpdateDto {
   driverId: string;
   fullName?: string;
   cnic?: string;
+  cnicExpiry:Date;
   mobileNumber?: string;
   email?: string;
   address?: string;

@@ -16,6 +16,7 @@ const DRIVER_ENDPOINTS = {
   ChangeStatus: "/Driver/change-status",
   GetDutyStats: "/Driver/duty-stats",
   GetExpiringLicenses: "/Driver/expiring-licenses",
+  GetExpiringCnic: "/Driver/expiring-cnic",
 } as const;
 
 export const getDriversAsync = async (): Promise<
@@ -133,7 +134,7 @@ export const changeStatusAsync = async (
 export const getDutyStatsAsync = async (
   driverId: string,
 ): Promise<ApiResponse<IDriverResponseDto>> => {
-  const response = await api.put(
+  const response = await api.get(
     `${DRIVER_ENDPOINTS.GetDutyStats}/${driverId}`,
   );
   return response.data;
@@ -142,7 +143,16 @@ export const getDutyStatsAsync = async (
 export const getExpiringLicensesAsync = async (
   days: number,
 ): Promise<ApiResponse<IDriverResponseDto>> => {
-  const response = await api.put(`${DRIVER_ENDPOINTS.GetExpiringLicenses}/`, {
+  const response = await api.get(`${DRIVER_ENDPOINTS.GetExpiringLicenses}/`, {
+    params: { days },
+  });
+  return response.data;
+};
+
+export const getExpiringCnicAsync = async (
+  days: number,
+): Promise<ApiResponse<IDriverResponseDto>> => {
+  const response = await api.get(`${DRIVER_ENDPOINTS.GetExpiringCnic}/`, {
     params: { days },
   });
   return response.data;

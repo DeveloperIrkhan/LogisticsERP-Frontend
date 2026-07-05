@@ -17,6 +17,7 @@ const CreateDriver = () => {
   const [driver, setDriver] = useState<IDriverCreateDto>({
     fullName: "",
     cnic: "",
+    cnicExpiry: new Date(),
     mobileNumber: "",
     email: "",
     address: "",
@@ -108,6 +109,7 @@ const CreateDriver = () => {
       setDriver({
         fullName: "",
         cnic: "",
+        cnicExpiry: new Date(),
         mobileNumber: "",
         email: "",
         address: "",
@@ -190,7 +192,14 @@ const CreateDriver = () => {
                   value={driver.cnic}
                   onChange={(value) => handleChange("cnic", value)}
                 />
-
+                <CustomInput
+                  label="CNIC Expiry"
+                  Icon={Calendar}
+                  type="date"
+                  className="custom-input w-full"
+                  value={formatDate(driver.cnicExpiry)}
+                  onChange={(value) => handleChange("cnicExpiry", value)}
+                />
                 <CustomInput
                   label="Enter Mobile Number"
                   Icon={Calendar}

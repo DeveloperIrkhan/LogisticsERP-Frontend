@@ -110,6 +110,11 @@ const page = () => {
       icon: BiCard,
     },
     {
+      label: "CNIC Expiry",
+      value: driver.cnicExpiry ? new Date(driver.cnicExpiry).toLocaleDateString("en-US") : "-",
+      icon: Calendar,
+    },
+    {
       label: "Mobile Number",
       value: driver.mobileNumber,
       icon: PhoneIcon,
@@ -131,7 +136,7 @@ const page = () => {
     },
     {
       label: "license Expiry",
-      value: driver.licenseExpiry,
+      value: driver.licenseExpiry ? new Date(driver.licenseExpiry).toLocaleDateString("en-US") : "-",
       icon: Timeline,
     },
     {
@@ -141,7 +146,7 @@ const page = () => {
     },
     {
       label: "Date of Joining",
-      value: driver.dateOfJoining,
+      value: driver.dateOfJoining ? new Date(driver.dateOfJoining).toLocaleDateString("en-US") : "-",
       icon: Calendar,
     },
     {
