@@ -94,7 +94,7 @@ export interface IFuelConsumptionReportDto {
 }
 
 // ── Common dropdown options ─────────────────────────────────
-export const FUEL_TYPES = ["Petrol", "Diesel", "CNG"] as const;
+export const FUEL_TYPES = ["Petrol", "Diesel", "CNG","Hi-Octane"] as const;
 export const PAYMENT_METHODS = [
   "Cash",
   "Card",

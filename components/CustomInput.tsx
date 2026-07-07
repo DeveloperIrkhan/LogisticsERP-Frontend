@@ -7,6 +7,7 @@ interface InputProps {
   label?: string;
   id?: string;
   Icon?: React.ElementType;
+  disabled?: boolean;
 }
 
 const CustomInput = ({
@@ -15,8 +16,10 @@ const CustomInput = ({
   value,
   onChange,
   placeholder,
+  disabled,
   type,
   className,
+
   Icon,
   ...props
 }: InputProps) => {
@@ -32,6 +35,7 @@ const CustomInput = ({
         </label>
         <input
           {...props}
+          disabled={disabled}
           id={id}
           type={type}
           value={inputvalue}
