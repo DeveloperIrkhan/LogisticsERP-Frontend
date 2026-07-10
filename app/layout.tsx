@@ -14,7 +14,7 @@ export default function RootLayout({
   return (
     <html lang="en" className="h-full font-raleway">
       
-      <body className="h-full">
+      <body className="h-full" suppressHydrationWarning>
         <div>{children}</div>
       </body>
     </html>

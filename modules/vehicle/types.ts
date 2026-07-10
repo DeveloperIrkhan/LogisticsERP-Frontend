@@ -101,3 +101,7 @@ export const vehicleTypes = [
   "Bus",
   "Motorcycle",
 ];
+export const licenseType = [
+  "HTV",
+  "LTV",
+];

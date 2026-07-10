@@ -3,11 +3,15 @@ import { useState } from "react";
 import { IVehicleCreateRequest, VehicleStatus, vehicleTypes } from "./types";
 import Spinner from "@/components/Spinner";
 import { createVehicleAsync } from "./api";
+import { TfiInfoAlt } from "react-icons/tfi";
+import { AiFillInsurance } from "react-icons/ai";
+
 import {
   BadgeInfo,
   Building,
   Building2Icon,
   Calendar,
+  Calendar1,
   Car,
   DollarSign,
   Hash,
@@ -25,6 +29,8 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import SectionHeading from "@/components/SectionHeading";
+import { FaHandHoldingUsd } from "react-icons/fa";
 const AddNewVehicle = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [vehicle, setVehicle] = useState<IVehicleCreateRequest>({
@@ -164,171 +170,201 @@ const AddNewVehicle = () => {
           </div>{" "}
           {isLoading && <Spinner />}
           <div className="p-6 md:p-10">
-            <form onSubmit={handleSubmit} className="flex flex-col gap-4">
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <CustomInput
-                  label="Enter Vehicle Number"
-                  Icon={Car}
-                  className="custom-input w-full"
-                  placeholder="e.g ABC-1234"
-                  value={vehicle.number}
-                  onChange={(value) => handleChange("number", value as string)}
-                />
-                <CustomInput
-                  label="Enter Model Name"
-                  Icon={Hash}
-                  className="custom-input w-full"
-                  value={vehicle.modelName}
-                  placeholder="e.g GLI, Revo, Prado"
-                  onChange={(value) => handleChange("modelName", value as string)}
-                />
-                <CustomInput
-                  label="Enter Company Name"
-                  Icon={Building2Icon}
-                  placeholder="e.g Toyota, Honda"
-                  className="custom-input w-full"
-                  value={vehicle.company}
-                  onChange={(value) => handleChange("company", value as string)}
-                />
-                <CustomInput
-                  label="Enter Engine Number"
-                  Icon={HashIcon}
-                  placeholder="e.g 12312323213"
-                  className="custom-input w-full"
-                  value={vehicle.engineNumber}
-                  onChange={(value) => handleChange("engineNumber", value as string)}
-                />
+            <form onSubmit={handleSubmit} className="flex flex-col">
+              <div className="mt-3 md:mt-6">
+                <SectionHeading title="Vehicle Information"
+                  icon={<TfiInfoAlt className="w-5 h-5" />} />
+                <section className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <CustomInput
+                    label="Enter Vehicle Number"
+                    Icon={Car}
+                    className="custom-input w-full"
+                    placeholder="e.g ABC-1234"
+                    value={vehicle.number}
+                    onChange={(value) => handleChange("number", value as string)}
+                  />
+                  <CustomInput
+                    label="Enter Model Name"
+                    Icon={Hash}
+                    className="custom-input w-full"
+                    value={vehicle.modelName}
+                    placeholder="e.g GLI, Revo, Prado"
+                    onChange={(value) => handleChange("modelName", value as string)}
+                  />
+                  <CustomInput
+                    label="Enter Company Name"
+                    Icon={Building2Icon}
+                    placeholder="e.g Toyota, Honda"
+                    className="custom-input w-full"
+                    value={vehicle.company}
+                    onChange={(value) => handleChange("company", value as string)}
+                  />
+                  <CustomInput
+                    label="Enter Engine Number"
+                    Icon={HashIcon}
+                    placeholder="e.g 12312323213"
+                    className="custom-input w-full"
+                    value={vehicle.engineNumber}
+                    onChange={(value) => handleChange("engineNumber", value as string)}
+                  />
 
-                <CustomInput
-                  label="Enter Chassis Number"
-                  Icon={ShieldCheck}
-                  className="custom-input w-full"
-                  placeholder="e.g 12312323213"
-                  value={vehicle.chassisNumber}
-                  onChange={(value) => handleChange("chassisNumber", value as string)}
-                />
-                <div className="flex group items-center  justify-between px-4 bg-gray-200 gap-3 custom-input w-full hover:bg-gray-300">
-                  <div className="bg-red-100 text-red-600 p-4 rounded-full group-hover:bg-red-600 group-hover:text-white transition-all duration-300">
-                    <Car className="h-5 w-5 group" />
+                  <CustomInput
+                    label="Enter Chassis Number"
+                    Icon={ShieldCheck}
+                    className="custom-input w-full"
+                    placeholder="e.g 12312323213"
+                    value={vehicle.chassisNumber}
+                    onChange={(value) => handleChange("chassisNumber", value as string)}
+                  />
+                  <div className="flex group items-center  justify-between px-4 bg-gray-200 gap-3 custom-input w-full hover:bg-gray-300">
+                    <div className="bg-red-100 text-red-600 p-4 rounded-full group-hover:bg-red-600 group-hover:text-white transition-all duration-300">
+                      <Car className="h-5 w-5 group" />
+                    </div>
+                    <Select
+                      value={vehicle.vehicleType}
+                      onValueChange={(value: string) =>
+                        handleChange("vehicleType", value)
+                      }
+                    >
+                      <SelectTrigger className="w-full bg-white mt-1">
+                        <SelectValue placeholder="Select Vehicle Type" />
+                      </SelectTrigger>
+
+                      <SelectContent>
+                        {vehicleTypes.map((type) => (
+                          <SelectItem key={type} value={type}>
+                            {type}
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
                   </div>
-                  <Select
-                    value={vehicle.vehicleType}
-                    onValueChange={(value: string) =>
-                      handleChange("vehicleType", value)
-                    }
-                  >
-                    <SelectTrigger className="w-full bg-white mt-1">
-                      <SelectValue placeholder="Select Vehicle Type" />
-                    </SelectTrigger>
-
-                    <SelectContent>
-                      {vehicleTypes.map((type) => (
-                        <SelectItem key={type} value={type}>
-                          {type}
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
-                </div>
-                <CustomInput
-                  label="Enter Donner Name"
-                  Icon={BadgeInfo}
-                  placeholder="e.g Turk Kizilay, GRC, Red Cross"
-                  className="custom-input w-full"
-                  value={vehicle.doner}
-                  onChange={(value) => handleChange("doner", value as string)}
-                />
-
-                <CustomInput
-                  label="Enter Purchase Cost"
-                  Icon={DollarSign}
-                  placeholder="e.g 7000000"
-                  className="custom-input w-full"
-                  value={vehicle.purchsedCast}
-                  onChange={(value) => handleChange("purchsedCast", value as string)}
-                />
-                <CustomInput
-                  label="Enter Depreciation Cost"
-                  placeholder="e.g 40000"
-                  Icon={DollarSign}
-                  className="custom-input w-full"
-                  value={vehicle.depreciation}
-                  onChange={(value) => handleChange("depreciation", value as string)}
-                />
-
-                <CustomInput
-                  label="Enter Registration Date"
-                  Icon={Calendar}
-                  type="date"
-                  className="custom-input w-full"
-                  value={formatDate(vehicle.registrationDate)}
-                  onChange={(value) => handleChange("registrationDate", value as Date)}
-                />
-
-                <CustomInput
-                  label="Enter Registration Expiry Date"
-                  Icon={Calendar}
-                  type="date"
-                  className="custom-input w-full"
-                  value={formatDate(vehicle.registrationExpiry)}
-                  onChange={(value) =>
-                    handleChange("registrationExpiry", value as Date)
-                  }
-                />
-
-                <CustomInput
-                  label="Fitness Expiry Date"
-                  Icon={Calendar}
-                  type="date"
-                  className="custom-input w-full"
-                  value={formatDate(vehicle.fitnessExpiry)}
-                  onChange={(value) => handleChange("fitnessExpiry", value as Date)}
-                />
-
-                <CustomInput
-                  label="Insurance Company"
-                  Icon={Building}
-                  type="text"
-                  placeholder="e.g Jublee IJI etc"
-                  className="custom-input w-full"
-                  value={vehicle.insuredBy}
-                  onChange={(value) => handleChange("insuredBy", value as string)}
-                />
-                <CustomInput
-                  label="Insurance Type"
-                  Icon={Building}
-                  type="text"
-                  placeholder="e.g Full, Third Party etc"
-                  className="custom-input w-full"
-                  value={vehicle.typeOfInsurance}
-                  onChange={(value) => handleChange("typeOfInsurance", value as string)}
-                />
-                <CustomInput
-                  label="Insurance From"
-                  Icon={Calendar}
-                  type="date"
-                  className="custom-input w-full"
-                  value={formatDate(vehicle.insuranceFrom)}
-                  onChange={(value) => handleChange("insuranceFrom", value as Date)}
-                />
-                <CustomInput
-                  label="Insurance To"
-                  Icon={Calendar}
-                  type="date"
-                  className="custom-input w-full"
-                  value={formatDate(vehicle.insuranceTo)}
-                  onChange={(value) => handleChange("insuranceTo", value as Date)}
-                />
-
-                <CustomInput
-                  label="Insurance expiry"
-                  Icon={Calendar}
-                  type="date"
-                  className="custom-input w-full"
-                  value={formatDate(vehicle.insuranceExpiry)}
-                  onChange={(value) => handleChange("insuranceExpiry", value as Date)}
-                />
+                </section>
               </div>
+
+              <div className="mt-3 md:mt-6">
+                <SectionHeading title="Vehicle Purchase Cost"
+                  icon={<DollarSign className="w-5 h-5" />} />
+                <section className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <CustomInput
+                    label="Enter Donner Name"
+                    Icon={BadgeInfo}
+                    placeholder="e.g Turk Kizilay, GRC, Red Cross"
+                    className="custom-input w-full"
+                    value={vehicle.doner}
+                    onChange={(value) => handleChange("doner", value as string)}
+                  />
+                  <CustomInput
+                    label="Enter Purchase Cost"
+                    Icon={DollarSign}
+                    placeholder="e.g 7000000"
+                    className="custom-input w-full"
+                    value={vehicle.purchsedCast}
+                    onChange={(value) => handleChange("purchsedCast", value as string)}
+                  />
+                  <CustomInput
+                    label="Enter Depreciation Cost"
+                    placeholder="e.g 40000"
+                    Icon={DollarSign}
+                    className="custom-input w-full"
+                    value={vehicle.depreciation}
+                    onChange={(value) => handleChange("depreciation", value as string)}
+                  />
+                </section>
+              </div>
+
+              <div className="mt-3 md:mt-6">
+                <SectionHeading title="Related Dates"
+                  icon={<Calendar1 className="w-5 h-5" />} />
+                <section className="grid grid-cols-1 md:grid-cols-2 gap-4">
+
+                  <CustomInput
+                    label="Enter Registration Date"
+                    Icon={Calendar}
+                    type="date"
+                    className="custom-input w-full"
+                    value={formatDate(vehicle.registrationDate)}
+                    onChange={(value) => handleChange("registrationDate", value as Date)}
+                  />
+
+                  <CustomInput
+                    label="Enter Registration Expiry Date"
+                    Icon={Calendar}
+                    type="date"
+                    className="custom-input w-full"
+                    value={formatDate(vehicle.registrationExpiry)}
+                    onChange={(value) =>
+                      handleChange("registrationExpiry", value as Date)
+                    }
+                  />
+
+                  <CustomInput
+                    label="Fitness Expiry Date"
+                    Icon={Calendar}
+                    type="date"
+                    className="custom-input w-full"
+                    value={formatDate(vehicle.fitnessExpiry)}
+                    onChange={(value) => handleChange("fitnessExpiry", value as Date)}
+                  />
+                </section>
+              </div>
+
+              <div className="mt-3 md:mt-6">
+                <SectionHeading title="Insurance Section"
+                  icon={<FaHandHoldingUsd className="w-5 h-5" />} />
+                <section className="grid grid-cols-1 md:grid-cols-2 gap-4">
+
+                  <CustomInput
+                    label="Insurance Company"
+                    Icon={Building}
+                    type="text"
+                    placeholder="e.g Jublee IJI etc"
+                    className="custom-input w-full"
+                    value={vehicle.insuredBy}
+                    onChange={(value) => handleChange("insuredBy", value as string)}
+                  />
+                  <CustomInput
+                    label="Insurance Type"
+                    Icon={Building}
+                    type="text"
+                    placeholder="e.g Full, Third Party etc"
+                    className="custom-input w-full"
+                    value={vehicle.typeOfInsurance}
+                    onChange={(value) => handleChange("typeOfInsurance", value as string)}
+                  />
+                  <CustomInput
+                    label="Insurance From"
+                    Icon={Calendar}
+                    type="date"
+                    className="custom-input w-full"
+                    value={formatDate(vehicle.insuranceFrom)}
+                    onChange={(value) => handleChange("insuranceFrom", value as Date)}
+                  />
+                  <CustomInput
+                    label="Insurance To"
+                    Icon={Calendar}
+                    type="date"
+                    className="custom-input w-full"
+                    value={formatDate(vehicle.insuranceTo)}
+                    onChange={(value) => handleChange("insuranceTo", value as Date)}
+                  />
+
+                  <CustomInput
+                    label="Insurance expiry"
+                    Icon={Calendar}
+                    type="date"
+                    className="custom-input w-full"
+                    value={formatDate(vehicle.insuranceExpiry)}
+                    onChange={(value) => handleChange("insuranceExpiry", value as Date)}
+                  />
+
+                </section>
+              </div>
+
+
+
+
+
 
               {/* Submit */}
               <div className="flex border justify-end">

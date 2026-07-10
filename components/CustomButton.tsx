@@ -29,8 +29,8 @@ const CustomButton = ({
         `group relative overflow-hidden h-10 px-4 py-1 
         rounded-md text-white text-sm font-medium 
         flex items-center justify-center gap-2 
-        ${buttonColor || "bg-default-color"} 
-        ${disabled && "bg-light-color cursor-not-allowed"}`,
+        ${buttonColor || "bg-red-600"} 
+        ${disabled && "bg-red-200 cursor-not-allowed"}`,
         className,
       )}
     >
