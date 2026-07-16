@@ -86,7 +86,7 @@ export const MenuItems = ({ icon, text, href, alert, subItems }: MenuItemProps) 
   // }
 
   return (
-    <Link href={href} className="group">
+    <Link key={text} href={href} className="group">
       {row}
     </Link>
   );

@@ -1,3 +1,4 @@
+import Link from "next/link";
 import PieChart from "../Charts/PieChart";
 import PortionDesign from "../PortionDesign";
 import { IDashboardSummary } from "@/modules/dashboards/types";
@@ -8,7 +9,11 @@ interface IDriverInfo {
 const DriverInfo = ({ getSummary, className }: IDriverInfo) => {
   return (
     <PortionDesign className={`bg-white ${className}`}>
-      <h2 className="p-3 font-bold text-gray-900">Driver Info</h2>
+      <div className="flex items-center justify-between p-4 pb-2">
+        <h2 className="font-bold text-gray-900 w-full">Driver Info</h2>
+        <Link className='text-sm flex w-full text-blue-500 justify-end
+             hover:text-red-600 hoverEffect' href={"/dashboard/drivers/get-all-drivers"}>view all</Link>
+      </div>
       <div className="grid md:grid-cols-4 grid-cols-2 gap-3">
         <PieChart
           chartTitle="Total Drivers"

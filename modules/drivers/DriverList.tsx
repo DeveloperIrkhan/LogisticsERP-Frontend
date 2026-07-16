@@ -21,7 +21,7 @@ import Image from "next/image";
 import { images } from "@/public/images";
 import PageTitlelCard from "@/components/Badge/PageTitlelCard";
 import DriverCard from "./DriverCard";
-const GetAllDrivers = () => {
+const DriverList = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [drivers, setDrivers] = useState<IDriverResponseDto[]>([]);
   useEffect(() => {
@@ -94,4 +94,4 @@ const GetAllDrivers = () => {
   );
 };
 
-export default GetAllDrivers;
+export default DriverList;

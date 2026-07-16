@@ -1,4 +1,4 @@
-import { ApiResponse, DriverStatus, IDriverResponseDto } from "./types";
+import { ApiResponse, DriverStatus, IDriverDutyStatsDto, IDriverResponseDto } from "./types";
 import api from "@/lib/axios";
 
 const DRIVER_ENDPOINTS = {
@@ -110,7 +110,7 @@ export const getDriversByStatusAsync = async (
 
 export const isDriverAvailableAsync = async (
   driverId: string,
-): Promise<ApiResponse<IDriverResponseDto>> => {
+): Promise<ApiResponse<boolean>> => {
   const response = await api.get(
     `${DRIVER_ENDPOINTS.IsDriverAvailable}/${driverId}`,
   );
@@ -133,7 +133,7 @@ export const changeStatusAsync = async (
 
 export const getDutyStatsAsync = async (
   driverId: string,
-): Promise<ApiResponse<IDriverResponseDto>> => {
+): Promise<ApiResponse<IDriverDutyStatsDto>> => {
   const response = await api.get(
     `${DRIVER_ENDPOINTS.GetDutyStats}/${driverId}`,
   );

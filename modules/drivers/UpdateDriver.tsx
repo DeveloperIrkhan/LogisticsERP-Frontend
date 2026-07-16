@@ -9,13 +9,15 @@ import { RxDividerVertical } from 'react-icons/rx';
 import CustomButton from '@/components/CustomButton';
 import ImageUpload from '@/components/ImageUpload';
 import CustomInput from '@/components/CustomInput';
-import { Calendar, CardSim, Save, User } from 'lucide-react';
-import { MdEmail } from 'react-icons/md';
-import { FaAddressBook } from 'react-icons/fa';
+import { Calendar, Car, CardSim, Phone, Save, User } from 'lucide-react';
+import { MdInsertPhoto, MdOutlineEmail } from 'react-icons/md';
+import { FaLocationDot } from "react-icons/fa6";
 import { GoNumber } from 'react-icons/go';
 import { useRouter } from 'next/navigation';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { GrStatusCritical } from 'react-icons/gr';
+import SectionHeading from '@/components/SectionHeading';
+import { licenseType } from '../vehicle/types';
 
 interface params {
     driverId: string;
@@ -209,6 +211,7 @@ const UpdateDriver = ({ driverId }: params) => {
         <Container className="py-8">
             <div className="max-w-7xl mx-auto">
                 <div className="bg-white rounded-3xl overflow-hidden shadow-2xl border border-slate-200">
+
                     <div className="bg-linear-to-r from-red-600 via-red-700 to-red-900 p-8 md:p-10">
                         <div className="flex flex-col md:flex-row md:items-center gap-5">
                             <div className="bg-white/20 backdrop-blur-md p-5 rounded-3xl w-fit">
@@ -227,176 +230,216 @@ const UpdateDriver = ({ driverId }: params) => {
                             </div>
                         </div>
                     </div>
+
+                    <div className="p-6 md:p-10">
+                        <form onSubmit={handleSubmit} className="flex flex-col gap-4">
+                            <div className="mt-3 md:mt-6">
+                                <SectionHeading title="Driver's Avator & Licence"
+                                    icon={<MdInsertPhoto className="w-5 h-5" />} />
+                                <section className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                    <ImageUpload
+                                        label="Upload Driver Avatar"
+                                        value={driver.Photo}
+                                        existingUrl={existingPhotoUrl}
+                                        onChange={(file) => handleChange("Photo", file)}
+                                    />
+                                    <ImageUpload
+                                        label="Upload Driver Licence"
+                                        value={driver.License}
+                                        existingUrl={existingLicenseUrl}
+                                        onChange={(file) => handleChange("License", file)}
+                                    />
+                                </section>
+                            </div>
+
+                            <div className="mt-3 md:mt-6">
+                                <SectionHeading title="Driver's Info"
+                                    icon={<User className="w-5 h-5" />} />
+                                <section className="grid grid-cols-1 md:grid-cols-2 gap-4">
+
+                                    <CustomInput
+                                        label="Enter Driver Full Name"
+                                        Icon={User}
+                                        type="text"
+                                        className="custom-input w-full"
+                                        placeholder="e.g Irfan Shah"
+                                        value={driver.fullName ?? ""}
+                                        onChange={(value) => handleChange("fullName", value)}
+                                    />
+
+                                    <CustomInput
+                                        label="Enter Driver cnic"
+                                        Icon={CardSim}
+                                        type="text"
+                                        className="custom-input w-full"
+                                        placeholder="e.g 12345-6789012-3"
+                                        value={driver.cnic ?? ""}
+                                        onChange={(value) => handleChange("cnic", value)}
+                                    />
+
+
+                                    <CustomInput
+                                        label="CNIC Expiry"
+                                        Icon={Calendar}
+                                        type="date"
+                                        className="custom-input w-full"
+                                        value={formatDate(driver.cnicExpiry)}
+                                        onChange={(value) => handleChange("cnicExpiry", value)}
+                                    />
+                                    <CustomInput
+                                        label="Enter Mobile Number"
+                                        Icon={Phone}
+                                        type="text"
+                                        className="custom-input w-full"
+                                        value={driver.mobileNumber ?? ""}
+                                        onChange={(value) => handleChange("mobileNumber", value)}
+                                    />
+                                    <CustomInput
+                                        label="Enter email"
+                                        Icon={MdOutlineEmail}
+                                        type="text"
+                                        className="custom-input w-full"
+                                        value={driver.email ?? ""}
+                                        onChange={(value) => handleChange("email", value)}
+                                    />
+                                    <CustomInput
+                                        label="Enter address"
+                                        Icon={FaLocationDot}
+                                        type="text"
+                                        className="custom-input w-full"
+                                        value={driver.address ?? ""}
+                                        onChange={(value) => handleChange("address", value)}
+                                    />
+                                </section>
+                            </div>
+
+
+                            <div className="mt-3 md:mt-6">
+                                <SectionHeading title="Driver Releated Info"
+                                    icon={<User className="w-5 h-5" />} />
+                                <section className="grid grid-cols-1 md:grid-cols-2 gap-4">
+
+
+
+
+                                    <CustomInput
+                                        label="Enter license Number"
+                                        Icon={GoNumber}
+                                        type="text"
+                                        className="custom-input w-full"
+                                        value={driver.licenseNumber ?? ""}
+                                        onChange={(value) => handleChange("licenseNumber", value)}
+                                    />
+                                    <CustomInput
+                                        label="Select Date Of Joining"
+                                        Icon={Calendar}
+                                        type="date"
+                                        className="custom-input w-full"
+                                        value={formatDate(driver.dateOfJoining)}
+                                        onChange={(value) => handleChange("dateOfJoining", value)}
+                                    />
+                                    <CustomInput
+                                        label="License Expiry"
+                                        Icon={Calendar}
+                                        type="date"
+                                        className="custom-input w-full"
+                                        value={formatDate(driver.licenseExpiry)}
+                                        onChange={(value) => handleChange("licenseExpiry", value)}
+                                    />
+
+                                    <div className="flex group items-center  justify-between px-4 bg-gray-200 gap-3 custom-input w-full hover:bg-gray-300">
+                                        <div className="bg-red-100 text-red-600 p-4 rounded-full group-hover:bg-red-600 group-hover:text-white transition-all duration-300">
+                                            <Car className="h-5 w-5 group" />
+                                        </div>
+                                        <Select
+                                            value={driver.typeOfLicence}
+                                            onValueChange={(value: string) =>
+                                                handleChange("typeOfLicence", value)
+                                            }
+                                        >
+                                            <SelectTrigger className="w-full bg-white mt-1">
+                                                <SelectValue placeholder="Select select license type" />
+                                            </SelectTrigger>
+
+                                            <SelectContent>
+                                                {licenseType.map((type) => (
+                                                    <SelectItem key={type} value={type}>
+                                                        {type}
+                                                    </SelectItem>
+                                                ))}
+                                            </SelectContent>
+                                        </Select>
+                                    </div>
+                                    <CustomInput
+                                        label="Good Words for Driver Remarks"
+                                        Icon={GoNumber}
+                                        type="text"
+                                        className="custom-input w-full"
+                                        value={driver.description ?? ""}
+                                        onChange={(value) => handleChange("description", value)}
+                                    />
+                                    <div className="flex items-center gap-6 px-4 py-4 bg-gray-200 hover:bg-gray-300 rounded-2xl group transition-all duration-300">
+                                        <div className="bg-red-100 text-red-600 p-4 rounded-full group-hover:bg-red-600 group-hover:text-white transition-all duration-300">
+                                            <GrStatusCritical className="w-5 h-5" />
+                                        </div>
+                                        <div className="flex w-full flex-col gap-1">
+                                            <label className="text-sm font-medium text-slate-700">
+                                                Driver Status
+                                            </label>
+                                            <Select
+                                                value={
+                                                    driver.status !== undefined && driver.status !== null
+                                                        ? String(driver.status)
+                                                        : undefined
+                                                }
+                                                onValueChange={(value) => handleChange("status", value as DriverStatus)}
+                                            >
+                                                <SelectTrigger className="w-full bg-white mt-1">
+                                                    <SelectValue placeholder="Select status" />
+                                                </SelectTrigger>
+                                                <SelectContent>
+                                                    {Object.keys(DriverStatus)
+                                                        .filter((key) => isNaN(Number(key)))
+                                                        .map((key) => {
+                                                            const enumValue = DriverStatus[key as keyof typeof DriverStatus];
+                                                            return (
+                                                                <SelectItem key={key} value={String(enumValue)}>
+                                                                    {key}
+                                                                </SelectItem>
+                                                            );
+                                                        })}
+                                                </SelectContent>
+                                            </Select>
+                                        </div>
+                                    </div>
+                                </section>
+
+                            </div>
+
+                            <div className="flex border justify-end gap-3">
+                                <CustomButton
+                                    buttonColor="bg-slate-400"
+                                    buttonHoverColor="bg-slate-600"
+                                    type="button"
+                                    onClickFunction={() => router.back()}
+                                    className="w-1/2 md:w-1/6 text-white py-2 rounded-full transition"
+                                    buttonText="Cancel"
+                                />
+                                <CustomButton
+                                    buttonColor="bg-red-500"
+                                    buttonHoverColor="bg-red-900"
+                                    type="submit"
+                                    disabled={isFormInvalid() || isLoading}
+                                    icon={<Save />}
+                                    className="w-1/2 md:w-1/6 text-white py-2 rounded-full transition"
+                                    buttonText={isLoading ? "Updating..." : "Update Driver"}
+                                />
+                            </div>
+                        </form>
+                    </div>
                 </div>
             </div>
 
-            <div className="p-6 md:p-10">
-                <form onSubmit={handleSubmit} className="flex flex-col gap-4">
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                        <ImageUpload
-                            label="Upload Driver Avatar"
-                            value={driver.Photo}
-                            existingUrl={existingPhotoUrl}
-                            onChange={(file) => handleChange("Photo", file)}
-                        />
-                        <ImageUpload
-                            label="Upload Driver Licence"
-                            value={driver.License}
-                            existingUrl={existingLicenseUrl}
-                            onChange={(file) => handleChange("License", file)}
-                        />
-                        <CustomInput
-                            label="Enter Driver Full Name"
-                            Icon={User}
-                            type="text"
-                            className="custom-input w-full"
-                            placeholder="e.g Irfan Shah"
-                            value={driver.fullName ?? ""}
-                            onChange={(value) => handleChange("fullName", value)}
-                        />
-                        <CustomInput
-                            label="Enter Driver cnic"
-                            Icon={CardSim}
-                            type="text"
-                            className="custom-input w-full"
-                            placeholder="e.g 12345-6789012-3"
-                            value={driver.cnic ?? ""}
-                            onChange={(value) => handleChange("cnic", value)}
-                        />
-
-                        <CustomInput
-                            label="CNIC Expiry"
-                            Icon={Calendar}
-                            type="date"
-                            className="custom-input w-full"
-                            value={formatDate(driver.cnicExpiry)}
-                            onChange={(value) => handleChange("cnicExpiry", value)}
-                        />
-
-
-                        <CustomInput
-                            label="Enter Mobile Number"
-                            Icon={Calendar}
-                            type="text"
-                            className="custom-input w-full"
-                            value={driver.mobileNumber ?? ""}
-                            onChange={(value) => handleChange("mobileNumber", value)}
-                        />
-                        <CustomInput
-                            label="Enter email"
-                            Icon={MdEmail}
-                            type="text"
-                            className="custom-input w-full"
-                            value={driver.email ?? ""}
-                            onChange={(value) => handleChange("email", value)}
-                        />
-                        <CustomInput
-                            label="Enter address"
-                            Icon={FaAddressBook}
-                            type="text"
-                            className="custom-input w-full"
-                            value={driver.address ?? ""}
-                            onChange={(value) => handleChange("address", value)}
-                        />
-                        <CustomInput
-                            label="Enter license Number"
-                            Icon={GoNumber}
-                            type="text"
-                            className="custom-input w-full"
-                            value={driver.licenseNumber ?? ""}
-                            onChange={(value) => handleChange("licenseNumber", value)}
-                        />
-                        <CustomInput
-                            label="Select Date Of Joining"
-                            Icon={Calendar}
-                            type="date"
-                            className="custom-input w-full"
-                            value={formatDate(driver.dateOfJoining)}
-                            onChange={(value) => handleChange("dateOfJoining", value)}
-                        />
-                        <CustomInput
-                            label="License Expiry"
-                            Icon={Calendar}
-                            type="date"
-                            className="custom-input w-full"
-                            value={formatDate(driver.licenseExpiry)}
-                            onChange={(value) => handleChange("licenseExpiry", value)}
-                        />
-
-                        <CustomInput
-                            label="Enter Licence Type"
-                            Icon={GoNumber}
-                            type="text"
-                            className="custom-input w-full"
-                            value={driver.typeOfLicence ?? ""}
-                            onChange={(value) => handleChange("typeOfLicence", value)}
-                        />
-                        <CustomInput
-                            label="Good Words for Driver Remarks"
-                            Icon={GoNumber}
-                            type="text"
-                            className="custom-input w-full"
-                            value={driver.description ?? ""}
-                            onChange={(value) => handleChange("description", value)}
-                        />
-
-                        <div className="flex items-center gap-6 px-4 py-4 bg-gray-200 hover:bg-gray-300 rounded-2xl group transition-all duration-300">
-                            <div className="bg-red-100 text-red-600 p-4 rounded-full group-hover:bg-red-600 group-hover:text-white transition-all duration-300">
-                                <GrStatusCritical className="w-5 h-5" />
-                            </div>
-                            <div className="flex w-full flex-col gap-1">
-                                <label className="text-sm font-medium text-slate-700">
-                                    Driver Status
-                                </label>
-                                <Select
-                                    value={
-                                        driver.status !== undefined && driver.status !== null
-                                            ? String(driver.status)
-                                            : undefined
-                                    }
-                                    onValueChange={(value) => handleChange("status", value as DriverStatus)}
-                                >
-                                    <SelectTrigger className="w-full bg-white mt-1">
-                                        <SelectValue placeholder="Select status" />
-                                    </SelectTrigger>
-                                    <SelectContent>
-                                        {Object.keys(DriverStatus)
-                                            .filter((key) => isNaN(Number(key)))
-                                            .map((key) => {
-                                                const enumValue = DriverStatus[key as keyof typeof DriverStatus];
-                                                return (
-                                                    <SelectItem key={key} value={String(enumValue)}>
-                                                        {key}
-                                                    </SelectItem>
-                                                );
-                                            })}
-                                    </SelectContent>
-                                </Select>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div className="flex border justify-end gap-3">
-                        <CustomButton
-                            buttonColor="bg-slate-400"
-                            buttonHoverColor="bg-slate-600"
-                            type="button"
-                            onClickFunction={() => router.back()}
-                            className="w-1/2 md:w-1/6 text-white py-2 rounded-full transition"
-                            buttonText="Cancel"
-                        />
-                        <CustomButton
-                            buttonColor="bg-red-500"
-                            buttonHoverColor="bg-red-900"
-                            type="submit"
-                            disabled={isFormInvalid() || isLoading}
-                            icon={<Save />}
-                            className="w-1/2 md:w-1/6 text-white py-2 rounded-full transition"
-                            buttonText={isLoading ? "Updating..." : "Update Driver"}
-                        />
-                    </div>
-                </form>
-            </div>
         </Container>
     );
 };

@@ -6,6 +6,7 @@ import { IDashboardSummary } from '@/modules/dashboards/types';
 import { getDashBoardSummeryAsync } from '@/modules/dashboards/api';
 import { toast } from 'react-toastify';
 import Spinner from '../Spinner';
+import Link from 'next/link';
 
 const Alerts = () => {
 
@@ -61,7 +62,8 @@ const Alerts = () => {
         return <Spinner />;
     }
     return (
-        <div className="relative flex flex-row items-center">
+        <Link href={"/dashboard/alerts"} className="relative group flex 
+        flex-row items-center cursor-pointer">
             {/* <input
                 type="text"
                 placeholder="Search..."
@@ -74,14 +76,16 @@ const Alerts = () => {
                 size={15}
             /> */}
             {/* <div className="px-3 relative border"> */}
-            <div className="px-3 py-1.5 rounded-xl relative border 
-            border-red-300 bg-red-200 flex items-center justify-center gap-2 w-42">
-                <p className='text-md text-red-600'>Expriy Alerts</p>
-                <Bell className="text-red-400" size={23} />
-                <span className="absolute -top-4 -right-3 bg-red-600 w-6 h-6 rounded-full text-white
+            <div className="p-1 rounded-xl text-sm relative border 
+            border-red-300 bg-red-200 group-hover:bg-red-700 hoverEffect
+             group-hover:text-white flex w-32 items-center justify-center gap-2">
+                <p className='text-md text-red-600 hoverEffect group-hover:text-white'>Expriy Alerts</p>
+                <Bell className="text-red-400 hoverEffect group-hover:text-white" size={23} />
+                <span className="absolute -top-4 -right-3
+                 bg-red-600 group-hover:bg-red-700 hoverEffect w-6 h-6 rounded-full text-white
               text-sm flex justify-center items-center">{alerts}</span>
             </div>
-        </div>
+        </Link>
     )
 }
 

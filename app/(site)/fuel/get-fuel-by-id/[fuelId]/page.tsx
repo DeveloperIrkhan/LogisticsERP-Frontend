@@ -27,6 +27,7 @@ import { toast } from "react-toastify";
 import MidModal from "@/components/Modals/MidModal";
 import { deleteFuelAsync, getFuelByIdAsync } from "@/modules/Fuel/api";
 import { IFuelResponseDto } from "@/modules/Fuel/types";
+import HeaderBand from "@/components/HeaderBand";
 
 const GetFuelById = () => {
   const params = useParams();
@@ -185,23 +186,12 @@ const GetFuelById = () => {
     <Container className="py-8">
       <div className="max-w-7xl mx-auto">
         <div className="bg-white rounded-3xl overflow-hidden shadow-2xl border border-slate-200">
-          <div className="bg-linear-to-r from-red-600 via-red-700 to-red-900 p-8 md:p-10">
-            <div className="flex flex-col md:flex-row md:items-center gap-5">
-              <div className="bg-white/20 backdrop-blur-md p-5 rounded-3xl w-fit">
-                <FuelIcon className="w-12 h-12 text-white" />
-              </div>
+          <HeaderBand
+            subtitle={fuel.fuelId}
+            title="Fuel Entry Details"
+            icon={<FuelIcon className="w-10 h-10 text-white" />}
+          />
 
-              <div>
-                <h1 className="text-4xl font-extrabold text-white tracking-wide">
-                  Fuel Entry Details
-                </h1>
-
-                <p className="text-red-100 mt-2 text-sm break-all">
-                  {fuel.fuelId}
-                </p>
-              </div>
-            </div>
-          </div>
 
           <div className="p-6 md:p-10">
             <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
@@ -211,9 +201,8 @@ const GetFuelById = () => {
                 return (
                   <div
                     key={index}
-                    className="group uppercase relative overflow-hidden rounded-2xl border border-slate-200 bg-linear-to-br from-gray-color to-slate-100 p-6 shadow-md hover:shadow-2xl hover:-translate-y-1 transition-all duration-300"
+                    className="group uppercase relative overflow-hidden rounded-2xl border border-slate-200 bg-linear-to-br from-gray-color to-slate-100 p-3 shadow-md hover:shadow-2xl hover:-translate-y-1 transition-all duration-300"
                   >
-                    <div className="absolute top-0 right-0 w-24 h-24 bg-gray-color rounded-full blur-3xl opacity-40"></div>
 
                     <div className="relative flex gap-4">
                       <div className="bg-red-100 text-red-600 p-4 rounded-2xl group-hover:bg-red-600 group-hover:text-white transition-all duration-300">
@@ -224,8 +213,7 @@ const GetFuelById = () => {
                         <p className="text-sm text-slate-500 font-medium">
                           {item.label}
                         </p>
-
-                        <h3 className="text-lg font-bold text-slate-800 mt-1 wrap-break-word">
+                        <h3 className="text-sm font-semibold text-slate-800 mt-1 wrap-break-word">
                           {item.value || "-"}
                         </h3>
                       </div>

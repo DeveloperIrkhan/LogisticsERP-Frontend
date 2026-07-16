@@ -2,6 +2,7 @@ import { DriverExpiryItemDto, IDashboardSummary, IDriverExpiryAlertsDto, IVehicl
 import React from 'react'
 import PortionDesign from '../PortionDesign';
 import { AlertTriangle, Clock, CalendarClock, CheckCircle2 } from 'lucide-react';
+import Link from 'next/link';
 
 interface IFuelAnalytics {
     getSummary: IDashboardSummary;
@@ -107,6 +108,8 @@ const EmptySection = ({ message }: { message: string }) => (
     </div>
 );
 
+
+
 const AlertSection = ({
     title,
     icon,
@@ -132,14 +135,14 @@ const AlertSection = ({
                     <h3 className="text-sm font-semibold text-gray-800">{title}</h3>
                 </div>
                 <span className={`rounded-full px-2 py-0.5 text-xs font-bold ${styles.badge}`}>
-                    {vehicleItems ? vehicleItems.length : driverItems?.length} 
+                    {vehicleItems ? vehicleItems.length : driverItems?.length}
                 </span>
             </div>
             <div className="flex flex-col gap-2">
-                {vehicleItems && vehicleItems.length > 0 && vehicleItems.map((alert, index) => (
+                {vehicleItems && vehicleItems.length > 0 && vehicleItems.slice(0, 2).map((alert, index) => (
                     <VehicleAlertRow key={`${alert}-${alert.expiryType}-${index}`} alert={alert} tone={tone} />
                 ))}
-                {driverItems && driverItems.length > 0 && driverItems.map((alert, index) => (
+                {driverItems && driverItems.length > 0 && driverItems.slice(0, 2).map((alert, index) => (
                     <DriverAlertRow key={`${alert.driverId}-${alert.expiryType}-${index}`} alert={alert} tone={tone} />
                 ))}
                 {(!vehicleItems || vehicleItems.length === 0) && (!driverItems || driverItems.length === 0) && <EmptySection message={emptyMessage} />}
@@ -165,10 +168,9 @@ const ExpiringAlerts = ({ getSummary, className }: IFuelAnalytics) => {
     return (
         <PortionDesign className={`bg-white ${className}`}>
             <div className="flex items-center justify-between p-4 pb-2">
-                <h2 className="font-bold text-gray-900">Upcoming Alerts</h2>
-                <span className="text-xs text-gray-400">
-                    {totalAlerts} total
-                </span>
+                <h2 className="font-bold text-gray-900 w-full">Upcoming Alerts</h2>
+                <Link className='text-sm flex w-full text-blue-500 justify-end
+             hover:text-red-600 hoverEffect' href={"/dashboard/alerts"}>view all</Link>
             </div>
 
             <div className="flex flex-col gap-5 p-4 pt-2">

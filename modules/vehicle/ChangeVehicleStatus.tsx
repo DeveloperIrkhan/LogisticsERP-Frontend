@@ -99,6 +99,12 @@ const ChangeVehicleStatus = () => {
             </div>
 
             <div className="flex flex-col min-w-30">
+              <span className="text-xs text-gray-500">Number</span>
+              <span className="font-medium text-gray-900 truncate text-sm uppercase">
+                {vehicle.number}
+              </span>
+            </div>
+            <div className="flex flex-col min-w-30">
               <span className="text-xs text-gray-500">Company</span>
               <span className="font-medium text-gray-900 truncate text-sm uppercase">
                 {vehicle.company}

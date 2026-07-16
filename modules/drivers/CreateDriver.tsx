@@ -91,6 +91,7 @@ const CreateDriver = () => {
 
       formData.append("fullName", driver.fullName);
       formData.append("cnic", driver.cnic);
+      formData.append("cnicExpiry", driver.cnicExpiry.toISOString());
       formData.append("mobileNumber", driver.mobileNumber);
       formData.append("email", driver.email);
       formData.append("address", driver.address);
@@ -150,7 +151,7 @@ const CreateDriver = () => {
               </div>
 
               <div>
-                <h1 className="text-lg md:text-3xl font-extrabold text-white tracking-wide">
+                <h1 className="text-lg md:text-xl font-extrabold text-white tracking-wide">
                   Enter New Driver Information
                 </h1>
 
@@ -159,7 +160,7 @@ const CreateDriver = () => {
                 </p>
               </div>
             </div>
-          </div>{" "}
+          </div>
           <div className="p-6 md:p-10">
             <form onSubmit={handleSubmit} className="flex flex-col gap-4">
               <div className="mt-3 md:mt-6">
