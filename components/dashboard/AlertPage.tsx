@@ -134,7 +134,7 @@ const AlertPage = ({ alertsResp, className }: IFuelAnalytics) => {
                         icon={<AlertTriangle size={16} />}
                         tone="expired"
                         vehicleItems={expiredVehicles}
-                        emptyMessage="No expired documents"
+                        emptyMessage="No expired item"
                     />
                     <AlertSection
                         title="Expiring in 30 days"

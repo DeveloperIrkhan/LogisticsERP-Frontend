@@ -22,72 +22,41 @@ export const MenuItems = ({ icon, text, href, alert, subItems }: MenuItemProps) 
   const { expanded } = useContext(SidebarContext);
   const [open, setOpen] = useState(false);
 
-  const hasChildren = !!subItems?.length;
 
-  const rowClasses = `relative group flex items-center py-3 px-3 my-2 rounded-l-md cursor-pointer transition-all duration-300
-    text-gray-300 hover:bg-white hover:text-black hover:shadow-md`;
-
-  const row = (
+  const menuItems = (
     <li
-      className={rowClasses}
-      onClick={hasChildren ? () => setOpen((prev) => !prev) : undefined}
+      className={`relative group flex items-center p-2 m-0 cursor-pointer 
+      transition-all duration-300 font-medium text-gray-300 hover:bg-white 
+      hover:text-black hover:shadow-md ${!expanded && "flex justify-center items-center p-4"}`}
+      onClick={() => setOpen((prev) => !prev)}
     >
-      <span className="text-2xl">{icon}</span>
+      {icon}
 
-      <span
-        className={`overflow-hidden transition-all duration-300 ${expanded ? "w-40 ml-3" : "w-0"
+      <p
+        className={`overflow-hidden transition-all duration-300 ${expanded ? "w-40 flex ml-3" : "hidden"
           }`}
       >
         {text}
-      </span>
-
-      {/* CHEVRON for items with children */}
-      {/* {hasChildren && expanded && (
-        <ChevronDown
-          size={16}
-          className={`ml-auto transition-transform duration-300 ${open ? "rotate-180" : "rotate-0"
-            }`}
-        />
-      )} */}
+      </p>
 
       {/* ALERT */}
-      {/* {alert && (
-        <span className={`absolute -right-16 text-xs bg-red-500 text-white px-2 py-0.5 rounded 
-        ${!expanded && `group-hover` ? "opacity-100" : "opacity-0"} transition-opacity duration-300`}>
-          {alert}
-        </span>
-      )} */}
+      {alert && (
+        <div className={`absolute right-2 w-2 h-2 rounded-full bg-red-500
+          ${expanded ? "" : "top-2"}`}>
+        </div>
+      )}
+
+      {!expanded && (
+        <div className="absolute left-full rounded-md px-1 py-0.5 ml-5
+        bg-red-200 text-red-600 text-sm invisible opacity-20 -translate-x-3 transition-all duration-300
+        group-hover:visible group-hover:opacity-100 group-hover:translate-x-0">{text}</div>
+      )}
     </li>
   );
 
-  // if (hasChildren) {
-  //   return (
-  //     <div className="group">
-  //       {row}
-
-  //       {/* SUBMENU */}
-  //       <ul
-  //         className={`overflow-hidden transition-all duration-300 ease-in-out ${open && expanded ? "max-h-96 opacity-100" : "max-h-0 opacity-0"
-  //           }`}
-  //       >
-  //         {subItems!.map((sub, index) => (
-  //           <Link key={index} href={sub.href} className="group">
-  //             <li
-  //               className="flex items-center py-2 pl-12 pr-3 my-1 rounded-l-md cursor-pointer text-sm
-  //                 text-gray-400 hover:bg-white hover:text-black transition-all duration-300"
-  //             >
-  //               {sub.text}
-  //             </li>
-  //           </Link>
-  //         ))}
-  //       </ul>
-  //     </div>
-  //   );
-  // }
-
   return (
     <Link key={text} href={href} className="group">
-      {row}
+      {menuItems}
     </Link>
   );
 };

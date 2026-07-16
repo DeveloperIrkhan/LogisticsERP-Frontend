@@ -6,10 +6,11 @@ import SlideMenu from "@/components/SlideMenu";
 import { MenuItems } from "@/components/MenuItem";
 import { BsGraphUpArrow } from "react-icons/bs";
 import { Bell, CarFront, Home, Search, User } from "lucide-react";
-import { ImStatsDots } from "react-icons/im";
+import { ImStatsDots, ImUser } from "react-icons/im";
 import GreetingContainer from "@/components/dashboard/GreetingContainer";
 import { GrUser, GrUserManager } from "react-icons/gr";
 import Alerts from "@/components/dashboard/Alerts";
+import { PiUserListLight } from "react-icons/pi";
 
 export const metadata: Metadata = {
   title: "Admin Panel | Fleet Management System",
@@ -36,49 +37,41 @@ export default function AdminLayout({
       <ToastContainer position="top-right" autoClose={3000} />
       <SlideMenu>
         <MenuItems
-          icon={<Home />}
+          icon={<Home size={20} />}
           text="Home"
           alert="Home"
           href="/dashboard" />
         <MenuItems
-          icon={<BsGraphUpArrow />}
+          icon={<BsGraphUpArrow size={20} />}
           text="Reports"
-          alert="Reports"
           href="/dashboard/reports"
         />
         <MenuItems
-          icon={<ImStatsDots />}
+          icon={<ImStatsDots size={20} />}
           text="Statistics"
-          alert="Manage Drivers"
-          href="/dashboard/"
+          href="/dashboard"
         />
-
-        <div className="h-1 flex w-full bg-white/20" />
-
+        <div className="border-t flex w-full border-gray-600" />
         <MenuItems
-          icon={<CarFront />}
+          icon={<CarFront size={20} />}
           text="Activate Vehicle"
-          alert="Manage Vehicles"
           href="/dashboard/vehicles/activate"
         />
+        <div className="border-t flex w-full border-gray-600" />
         <MenuItems
-          icon={<GrUserManager />}
+          icon={<PiUserListLight  size={20} />}
           text="Driver List"
-          alert="Driver"
           href="/dashboard/drivers/get-all-drivers"
         />
         <MenuItems
-          icon={<GrUserManager />}
+          icon={<ImUser size={20} />}
           text="Activate Drivers"
-          alert="Manage Driver"
           href="/dashboard/drivers/activate"
         />
-
-        <div className="h-1 flex w-full bg-white/20" />
+        <div className="border-t flex w-full border-gray-600" />
         <MenuItems
-          icon={<GrUser />}
+          icon={<GrUser size={20} />}
           text="Team"
-          alert="Manage Users"
           href=""
         />
       </SlideMenu>
