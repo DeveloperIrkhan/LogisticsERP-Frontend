@@ -49,7 +49,7 @@ export default function AdminLayout({
         <MenuItems
           icon={<ImStatsDots size={20} />}
           text="Statistics"
-          href="/dashboard"
+          href="/dashboard/statistics"
         />
         <div className="border-t flex w-full border-gray-600" />
         <MenuItems

@@ -2,8 +2,8 @@
 
 import Link from "next/link";
 import { useContext, useState } from "react";
-import { SidebarContext } from "./SlideMenu";
 import { usePathname } from "next/navigation";
+import { InventorySidebarContext } from "./InventoryMenu";
 
 
 
@@ -14,22 +14,22 @@ interface MenuItemProps {
   alert?: string;
 }
 
-export const MenuItems = ({ icon, text, href, alert }: MenuItemProps) => {
-  const { expanded } = useContext(SidebarContext);
+export const InventoryMenuItems = ({ icon, text, href, alert }: MenuItemProps) => {
+  const { expanded } = useContext(InventorySidebarContext);
   const [open, setOpen] = useState(false);
   const pathname = usePathname();
 
   const menuItems = (
     <li
       className={`relative group flex items-center p-2 m-0 cursor-pointer 
-      transition-all duration-300 font-medium  hover:bg-gray-200 
-      hover:text-black hover:shadow-md ${!expanded && "flex justify-center items-center p-4"}
-      ${pathname === href ? "bg-gray-200 text-black" : "text-gray-400"}`}
+      transition-all duration-300 font-medium  hover:bg-red-700 
+      hover:text-white hover:shadow-md ${!expanded && "flex justify-center items-center p-4"}
+      ${pathname === href ? "bg-red-700 text-white" : "text-white"}`}
       onClick={() => setOpen((prev) => !prev)}>
       {icon}
 
       <p
-        className={`overflow-hidden transition-all duration-300 ${expanded ? "w-40 flex ml-3" : "hidden"
+        className={`overflow-hidden tracking-widest transition-all duration-300 ${expanded ? "w-40 flex ml-3" : "hidden"
           }`}
       >
         {text}
