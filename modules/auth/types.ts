@@ -53,7 +53,7 @@ export interface IChangePasswordDto {
 export enum RoleName {
   Admin = "Admin",
   FleetManager = "FleetManager",
-  Accountant = "Accountant",
+  DataEntryOperator = "DataEntryOperator",
   Driver = "Driver",
   Viewer = "Viewer",
 }

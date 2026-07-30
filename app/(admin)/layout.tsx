@@ -5,6 +5,7 @@ import React from "react";
 import Image from "next/image";
 import { images } from "@/public/images";
 import ProtectedRoute from "@/components/ProtectedRoute";
+import { RoleName } from "@/modules/auth/types";
 
 export const metadata: Metadata = {
   title: "Pakistan Red Crecent Socity | Logestics ERP",
@@ -19,7 +20,7 @@ export default function RootLayout({
 }) {
   return (
     <div className="w-full">
-      <ProtectedRoute>
+      <ProtectedRoute allowedRoles={[RoleName.Admin]}>
       <ToastContainer position="top-right" autoClose={3000} />
       <section className="w-full h-full font-raleway bg-black"></section>
       {children}
