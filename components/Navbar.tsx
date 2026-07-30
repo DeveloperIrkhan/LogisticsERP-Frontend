@@ -9,6 +9,7 @@ import { MenuItems } from "@/app/constants/constants";
 import { images } from "@/public/images";
 import Link from "next/link";
 import TopBar from "./ToolTip";
+import UserMenu from "./UserMenu";
 
 export default function Navbar() {
   const [open, setOpen] = useState(false);
@@ -60,13 +61,7 @@ export default function Navbar() {
 
           {/* Desktop Button */}
           <div className="hidden md:flex">
-            <CustomButton
-              icon={<Phone className="w-5 h-5" />}
-              buttonText="Get in touch"
-              buttonColor="bg-hover-color"
-              buttonHoverColor="bg-red-900"
-              className="px-6 py-3 rounded-full font-bold hover:shadow-lg transition-shadow duration-300"
-            />
+            <UserMenu />
           </div>
 
           {/* Mobile Button */}
@@ -77,9 +72,8 @@ export default function Navbar() {
 
         {/* MOBILE MENU (SLIDE DOWN ANIMATION) */}
         <div
-          className={`md:hidden bg-black/90 backdrop-blur text-white mx-3 rounded-2xl shadow-lg origin-top transform transition-transform duration-300 ease-in-out overflow-hidden ${
-            open ? "scale-y-100 py-4" : "scale-y-0 py-0"
-          }`}
+          className={`md:hidden bg-black/90 backdrop-blur text-white mx-3 rounded-2xl shadow-lg origin-top transform transition-transform duration-300 ease-in-out overflow-hidden ${open ? "scale-y-100 py-4" : "scale-y-0 py-0"
+            }`}
         >
           <div className="flex flex-col space-y-3 px-6">
             {MenuItems.map((item, index) => (
@@ -119,15 +113,8 @@ export default function Navbar() {
             ))}
 
             {/* Mobile CTA */}
-            <div className="pt-3">
-              <CustomButton
-                icon={<Phone className="w-5 h-5" />}
-                buttonText="Get in touch"
-                buttonColor="bg-red-600"
-                buttonHoverColor="bg-red-900"
-                className="w-full px-6 py-3 rounded-full font-bold"
-              />
-            </div>
+            <UserMenu />
+
           </div>
         </div>
       </header>

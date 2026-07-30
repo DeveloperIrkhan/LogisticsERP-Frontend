@@ -36,7 +36,6 @@ export interface IDriverResponseDto {
   licenseUrl?: string;
   vehicleId?: string;
 }
-
 export interface IDriverUpdateDto {
   driverId: string;
   fullName?: string;

@@ -36,16 +36,17 @@ export type ItemCreateDto = {
   itemName: string;
   itemCategory: ItemCategory;
   itemUnit: ItemUnit;
-  reorderLevel?: Number | null;
+  reorderLevel?: number | null;
   description: string;
-  openingStock: Number;
+  openingStock: number;
 };
 export type ItemUpdateDto = {
   itemName: string;
-  itemCategory: ItemCategory;
-  itemUnit: ItemUnit;
-  reorderLevel: Number;
-  Description: string;
+  itemCategory: ItemCategory | undefined;
+  itemUnit: ItemUnit | undefined;
+  currentStock: number | undefined;
+  reorderLevel: number | undefined;
+  description: string;
   isActive?: boolean | null;
 };
 
@@ -54,8 +55,8 @@ export type ItemResponseDto = {
   itemName: string;
   itemCategory: ItemCategory;
   itemUnit: ItemUnit;
-  currentStock: Number;
-  reorderLevel?: Number | null;
+  currentStock: number;
+  reorderLevel?: number | null;
   description: string;
   isActive: boolean;
   createdAt: Date;
@@ -65,31 +66,31 @@ export type ItemStockReportDto = {
   itemName: string;
   itemCategory: ItemCategory;
   itemUnit: ItemUnit;
-  currentStock: Number;
-  reorderLevel?: Number | null;
+  currentStock: number;
+  reorderLevel?: number | null;
   isLowStock: boolean;
-  totalPurchasedQty: Number;
-  totalSoldQty: Number;
+  totalPurchasedQty: number;
+  totalSoldQty: number;
 };
 
 export type ItemPurchaseMonthlyReportDto = {
-  year: Number;
-  month: Number;
-  totalAmount: Number;
-  totalRecords: Number;
+  year: number;
+  month: number;
+  totalAmount: number;
+  totalRecords: number;
 };
 
 export type ItemSaleMonthlyReportDto = {
-  year: Number;
-  month: Number;
-  totalAmount: Number;
-  totalRecords: Number;
+  year: number;
+  month: number;
+  totalAmount: number;
+  totalRecords: number;
 };
 
 export type ItemSaleCreateDto = {
   itemId: string;
-  quantity: Number;
-  unitPrice: Number;
+  quantity: number;
+  unitPrice: number;
   saleDate: Date;
   buyerName: string;
   invoiceNumber: string;

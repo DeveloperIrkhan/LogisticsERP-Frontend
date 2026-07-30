@@ -59,19 +59,18 @@ const ViewAllItems = () => {
     ];
 
     return (
-        <div className="min-h-screen bg-linear-to-br from-gray-color via-red-200 to-gray-color p-6">
+        <div className="min-h-screen bg-linear-to-br from-gray-color via-red-200 to-gray-color p-3">
             <div className="max-w-7xl mx-auto">
-
-                {/* Header Banner */}
-                <div className="mb-10 px-4 py-7 rounded-t-2xl bg-linear-to-r from-red-400 to-red-900">
-                    <div className="flex flex-col lg:flex-row justify-between items-start lg:items-center gap-5">
+                <div className="bg-linear-to-r mb-4 from-red-500 via-dark-color rounded-t-xl to-red-900 p-3 md:p-5">
+                    <div className="flex  md:flex-row md:items-center justify-between gap-5">
                         <div>
                             <h1 className="text-xl text-white font-extrabold">Item Catalog</h1>
                             <p className="mt-2 text-white text-lg">
                                 Spare parts, lubricants, and other stocked items
                             </p>
                         </div>
-                        <div className="flex items-center gap-4">
+
+                         <div className="flex items-center gap-4">
                             <div className="bg-white/20 shadow-lg border border-white/20 rounded-2xl px-6 py-4">
                                 <p className="text-white text-sm">Total Items</p>
                                 <h2 className="text-3xl font-bold text-white">
@@ -87,8 +86,8 @@ const ViewAllItems = () => {
                         </div>
                     </div>
                 </div>
+                
 
-                {/* Filter Tabs + Add Button */}
                 <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-6">
                     <div className="flex flex-wrap gap-2">
                         {filterButtons.map((btn) => (
@@ -122,7 +121,6 @@ const ViewAllItems = () => {
                     </Link>
                 </div>
 
-                {/* Empty State */}
                 {filtered.length === 0 && (
                     <div className="bg-white rounded-3xl shadow-lg p-16 text-center border border-slate-200">
                         <div className="bg-red-100 text-red-600 w-24 h-24 rounded-full flex items-center justify-center mx-auto">
@@ -139,7 +137,6 @@ const ViewAllItems = () => {
                     </div>
                 )}
 
-                {/* Item Grid */}
                 {filtered.length > 0 && (
                     <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-8">
                         {filtered.map((item) => {

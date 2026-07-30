@@ -1,14 +1,13 @@
 import type { Metadata } from "next";
 import "@/app/globals.css";
 import { ToastContainer } from "react-toastify";
-import { FaUserTie } from "react-icons/fa";
 import SlideMenu from "@/components/SlideMenu";
 import { MenuItems } from "@/components/MenuItem";
 import { BsGraphUpArrow } from "react-icons/bs";
-import { Bell, CarFront, Home, Search, User } from "lucide-react";
+import { CarFront, Home } from "lucide-react";
 import { ImStatsDots, ImUser } from "react-icons/im";
 import GreetingContainer from "@/components/dashboard/GreetingContainer";
-import { GrUser, GrUserManager } from "react-icons/gr";
+import { GrUser } from "react-icons/gr";
 import Alerts from "@/components/dashboard/Alerts";
 import { PiUserListLight } from "react-icons/pi";
 
@@ -59,7 +58,7 @@ export default function AdminLayout({
         />
         <div className="border-t flex w-full border-gray-600" />
         <MenuItems
-          icon={<PiUserListLight  size={20} />}
+          icon={<PiUserListLight size={20} />}
           text="Driver List"
           href="/dashboard/drivers/get-all-drivers"
         />
@@ -72,7 +71,7 @@ export default function AdminLayout({
         <MenuItems
           icon={<GrUser size={20} />}
           text="Team"
-          href=""
+          href="/dashboard/users/get-all-users"
         />
       </SlideMenu>
 
@@ -85,7 +84,7 @@ export default function AdminLayout({
           </div>
         </div>
 
-        <section className="flex-1 overflow-y-auto flex p-2 font-raleway">
+        <section className="flex-1 w-full overflow-y-auto flex p-2 font-raleway">
           {children}
         </section>
       </div>

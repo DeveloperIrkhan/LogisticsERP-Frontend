@@ -19,7 +19,7 @@ const HeaderBand = ({ title, icon, subtitle }: IHeaderBand) => {
                         {title}
                     </h1>
 
-                    <p className="text-red-100 mt-2 text-xs md:text-sm break-all">
+                    <p className="text-red-100 mt-2 overflow-hidden text-xs md:text-sm break-all">
                         {subtitle}
                     </p>
                 </div>

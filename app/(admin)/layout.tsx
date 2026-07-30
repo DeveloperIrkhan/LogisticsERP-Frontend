@@ -4,6 +4,7 @@ import { ToastContainer } from "react-toastify";
 import React from "react";
 import Image from "next/image";
 import { images } from "@/public/images";
+import ProtectedRoute from "@/components/ProtectedRoute";
 
 export const metadata: Metadata = {
   title: "Pakistan Red Crecent Socity | Logestics ERP",
@@ -18,9 +19,11 @@ export default function RootLayout({
 }) {
   return (
     <div className="w-full">
+      <ProtectedRoute>
       <ToastContainer position="top-right" autoClose={3000} />
       <section className="w-full h-full font-raleway bg-black"></section>
       {children}
+      </ProtectedRoute>
     </div>
   );
 }

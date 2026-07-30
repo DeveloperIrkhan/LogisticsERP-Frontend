@@ -1,11 +1,7 @@
-import React from 'react'
+import ViewAllItems from '@/modules/inventory/items/ViewAllItems'
 
 const page = () => {
-    return (
-        <div>
-
-        </div>
-    )
+    return <ViewAllItems />
 }
 
 export default page

@@ -124,7 +124,7 @@ const ItemCard = ({ Item }: IItem) => {
             {/* Footer */}
             <div className="mt-4 pt-4 border-t border-stone-200 flex justify-end items-center">
                 <Link
-                    href={`/vehicle/get-vehicle-by-id/${Item.itemId}`}
+                    href={`/inventory/item/get-item-by-id/${Item.itemId}`}
                     className="group/button flex items-center gap-1.5 text-xs font-bold text-red-700 hover:text-red-800"
                 >
                     view details

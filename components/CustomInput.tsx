@@ -1,6 +1,6 @@
 interface InputProps {
-  value: string | number | Date | undefined;
-  onChange: (value: string | number | Date | undefined) => void;
+  value: string | Number | Date | undefined;
+  onChange: (value: string | Number | Date | undefined) => void;
   placeholder?: string;
   type?: string;
   className?: string;

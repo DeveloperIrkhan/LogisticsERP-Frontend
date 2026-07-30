@@ -26,7 +26,7 @@ export default function RootLayout({
                 <div className="border-t flex w-full border-gray-600" />
                 <InventoryMenuItems
                     icon={<Home size={20} />}
-                    text="Home"
+                    text="Homes"
                     alert="Home"
                     href="/inventory" />
                 <div className="border-t flex w-full border-gray-600" />
@@ -39,13 +39,13 @@ export default function RootLayout({
                 <InventoryMenuItems
                     icon={<FaCoins size={20} />}
                     text="Sale"
-                    href="/inventory/sale"
+                    href="/inventory/item-sale"
                 />
                 <div className="border-t flex w-full border-gray-600" />
                 <InventoryMenuItems
                     icon={<BsGearWideConnected size={20} />}
                     text="Purchase"
-                    href="/dashboard/purchase"
+                    href="/inventory/item-purchase"
                 />
                 <div className="border-t flex w-full border-gray-600" />
                 <InventoryMenuItems
