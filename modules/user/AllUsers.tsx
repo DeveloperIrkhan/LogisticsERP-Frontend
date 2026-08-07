@@ -41,8 +41,8 @@ const AllUsers = () => {
         try {
             setIsLoading(true);
             const [usersRes, rolesRes] = await Promise.all([getAllUsersAsync(), getAllRolesAsync()]);
-           console.log("users", usersRes)
-           console.log("rolesRes", rolesRes)
+            console.log("users", usersRes)
+            console.log("rolesRes", rolesRes)
             if (usersRes.success) setUsers(usersRes.data);
             if (rolesRes.success) setRoles(rolesRes.data);
         } catch {
@@ -58,6 +58,7 @@ const AllUsers = () => {
 
     const handleRoleChange = async (userId: string, roleId: string) => {
         try {
+            setIsLoading(true)
             const res = await updateUserRoleAsync(userId, { roleId });
             if (res.success) {
                 toast.success("Role updated successfully!");
@@ -67,6 +68,9 @@ const AllUsers = () => {
             }
         } catch {
             toast.error("Something went wrong.");
+        }
+        finally{
+            setIsLoading(false)
         }
     };
 
