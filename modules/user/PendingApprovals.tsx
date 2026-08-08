@@ -193,7 +193,7 @@ const PendingApprovals = () => {
                                         icon={<XCircle className="w-4 h-4 text-red-600 group-hover:text-white" />}
                                         onClickFunction={() => handleReject(u.userId)}
                                         disabled={actioningId === u.userId}
-                                        className="flex-1 py-2.5 rounded-xl !text-red-600 hover:!text-white"
+                                        className="flex-1 py-2.5 rounded-xl text-red-600! hover:text-white!"
                                     />
                                 </div>
                             </div>

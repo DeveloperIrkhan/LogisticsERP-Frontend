@@ -24,19 +24,25 @@ import {
     deactivateUserAsync,
     reactivateUserAsync,
     deleteUserAsync,
+    approveUserAsync,
+    rejectUserAsync,
 } from "./api";
+import { FcApproval, FcCancel } from "react-icons/fc";
+
 import { IRoleResponseDto, IUserResponseDto, UserStatus, getStatusStyle } from "./interfaces";
 import MidModal from "@/components/Modals/MidModal";
 import Link from "next/link";
+import { useAuth } from "@/context/AuthContext";
 
 const AllUsers = () => {
     const [isLoading, setIsLoading] = useState(false);
     const [users, setUsers] = useState<IUserResponseDto[]>([]);
+    const { user: currentUser } = useAuth();
     const [roles, setRoles] = useState<IRoleResponseDto[]>([]);
     const [filter, setFilter] = useState<UserStatus | "All">("All");
     const [deleteTarget, setDeleteTarget] = useState<IUserResponseDto | null>(null);
     const [isDeleting, setIsDeleting] = useState(false);
-
+    const [selectedRole, setSelectedRole] = useState<Record<string, string>>({});
     const fetchData = async () => {
         try {
             setIsLoading(true);
@@ -69,7 +75,7 @@ const AllUsers = () => {
         } catch {
             toast.error("Something went wrong.");
         }
-        finally{
+        finally {
             setIsLoading(false)
         }
     };
@@ -80,6 +86,28 @@ const AllUsers = () => {
                 u.status === UserStatus.Active
                     ? await deactivateUserAsync(u.userId)
                     : await reactivateUserAsync(u.userId);
+            if (res.success) {
+                toast.success(res.message);
+                setUsers((prev) => prev.map((x) => (x.userId === u.userId ? res.data : x)));
+            } else {
+                toast.error(res.message);
+            }
+        } catch {
+            toast.error("Something went wrong.");
+        }
+    };
+    const handleToggleRejected = async (u: IUserResponseDto) => {
+        try {
+            const roleId = selectedRole[u.userId];
+            const res =
+                u.status === UserStatus.Rejected
+                    ? await approveUserAsync(u.userId, {
+                        roleId,
+                        approvedBy: currentUser?.fullName ?? currentUser?.userName ?? "Admin",
+                    })
+                    : await rejectUserAsync(u.userId, {
+                        approvedBy: currentUser?.fullName ?? currentUser?.userName ?? "Admin"
+                    });
             if (res.success) {
                 toast.success(res.message);
                 setUsers((prev) => prev.map((x) => (x.userId === u.userId ? res.data : x)));
@@ -112,7 +140,8 @@ const AllUsers = () => {
 
     if (isLoading) return <Spinner />;
 
-    const filtered = filter === "All" ? users : users.filter((u) => u.status === filter);
+    const filtered = (filter === "All" ? users : users.filter((u) => u.status === filter))
+        .filter((u) => u.userId !== currentUser?.userId);
     const statusTabs: (UserStatus | "All")[] = ["All", UserStatus.Active, UserStatus.Pending, UserStatus.Inactive, UserStatus.Rejected];
 
     return (
@@ -125,7 +154,7 @@ const AllUsers = () => {
                         </div>
                         <div>
                             <h1 className="text-3xl text-white font-extrabold">All Users</h1>
-                            <p className="mt-1 text-white/90">{users.length} account(s) total</p>
+                            <p className="mt-1 text-white/90">{users.length - 1} account(s) total (excluding you)</p>
                         </div>
                     </div>
                 </div>
@@ -205,6 +234,19 @@ const AllUsers = () => {
                                                         <PowerOff className="w-4 h-4" />
                                                     ) : (
                                                         <Power className="w-4 h-4" />
+                                                    )}
+                                                </button>
+                                            ) : null}
+                                            {u.status === UserStatus.Rejected || u.status === UserStatus.Active ? (
+                                                <button
+                                                    onClick={() => handleToggleRejected(u)}
+                                                    title={u.status === UserStatus.Rejected ? "approve" : "reject"}
+                                                    className="p-2 rounded-lg bg-slate-100 hover:bg-slate-200 text-slate-600"
+                                                >
+                                                    {u.status === UserStatus.Rejected ? (
+                                                        <FcCancel className="w-4 h-4" />
+                                                    ) : (
+                                                        <FcApproval className="w-4 h-4" />
                                                     )}
                                                 </button>
                                             ) : null}

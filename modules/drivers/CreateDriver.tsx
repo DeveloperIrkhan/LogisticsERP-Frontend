@@ -15,6 +15,7 @@ import { GoNumber } from "react-icons/go";
 import SectionHeading from "@/components/SectionHeading";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { licenseType } from "../vehicle/types";
+import ProtectedRoute from "@/components/ProtectedRoute";
 const CreateDriver = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [driver, setDriver] = useState<IDriverCreateDto>({
@@ -340,4 +341,14 @@ const CreateDriver = () => {
   );
 };
 
-export default CreateDriver;
+
+
+
+const CreateDriverPage = () => {
+  return (
+     <ProtectedRoute allowedRoles={["Admin", "FleetManager", "DataEntryOperator"]}>
+      <CreateDriver />
+     </ProtectedRoute>
+  );
+}
+export default CreateDriverPage;

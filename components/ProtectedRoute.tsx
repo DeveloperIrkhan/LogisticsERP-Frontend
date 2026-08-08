@@ -18,8 +18,12 @@ const ProtectedRoute = ({ children, allowedRoles }: ProtectedRouteProps) => {
         if (isLoading) return;
         if (!isAuthenticated) {
             router.replace(`/auth/login?next=${encodeURIComponent(pathname)}`);
+            return;
         }
-    }, [isLoading, isAuthenticated, router, pathname]);
+        if (user?.mustChangePassword && pathname !== "/auth/change-password") {
+            router.replace("/force-change-password");
+        }
+    }, [isLoading, isAuthenticated, user, router, pathname]);
 
     if (isLoading || !isAuthenticated) {
         return (

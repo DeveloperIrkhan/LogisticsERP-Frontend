@@ -26,6 +26,7 @@ export interface IUserAuthDto {
   roleId: string;
   roleName: string;
   profilePictureUrl?: string | null;
+  mustChangePassword: boolean;
 }
 
 export interface IAuthResponseDto {

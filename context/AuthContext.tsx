@@ -26,6 +26,7 @@ interface AuthContextValue {
     register: (dto: FormData) => Promise<ApiResponse<unknown>>;
     logout: () => Promise<void>;
     hasRole: (...roles: string[]) => boolean;
+    markPasswordChanged: () => void;
 }
 
 const AuthContext = createContext<AuthContextValue | undefined>(undefined);
@@ -111,10 +112,18 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
         if (!user) return false;
         return roles.includes(user.roleName);
     };
+const markPasswordChanged = () => {
+    setUser((prev) => {
+        if (!prev) return prev;
+        const updated = { ...prev, mustChangePassword: false };
+        tokenStore.setCachedUser(updated);
+        return updated;
+    });
+};
 
     return (
         <AuthContext.Provider
-            value={{ user, isLoading, isAuthenticated: !!user, login, register, logout, hasRole }}
+            value={{ user, isLoading, isAuthenticated: !!user, login, register, logout, hasRole, markPasswordChanged }}
         >
             {children}
         </AuthContext.Provider>
