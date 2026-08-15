@@ -55,8 +55,11 @@ export const MenuItems = [
     ],
   },
   {
-    label: "Dashboard",
-    href: "/dashboard",
+    label: "Operations",
+    dropdown:[
+      { label: "Dashboard", href: "/dashboard" },
+      { label: "Inventory", href: "/inventory/item" },
+    ]
   },
 ];
 

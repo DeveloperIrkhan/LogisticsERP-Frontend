@@ -202,8 +202,8 @@ const GetDutyById = () => {
     }
 
     const details = [
-        { label: "Vehicle ID", value: duty.vehicleId, icon: Truck },
-        { label: "Driver ID", value: duty.driverId, icon: User },
+        { label: "Vehicle ID", value: duty.vehicle.modelName, icon: Truck },
+        { label: "Driver ID", value: duty.driver.fullName, icon: User },
         { label: "From Location", value: duty.fromLocation, icon: MapPin },
         { label: "To Location", value: duty.toLocation, icon: MapPin },
         { label: "Purpose", value: duty.purpose, icon: FileText },

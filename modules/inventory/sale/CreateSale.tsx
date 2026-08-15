@@ -29,6 +29,7 @@ import { ItemResponseDto } from "@/modules/inventory/items/types";
 import { IVehicleResponse } from "@/modules/vehicle/types";
 import { getVehiclesAsync } from "@/modules/vehicle/api";
 import { getActiveItemsAsync } from "../items/api";
+import { useAuth } from "@/context/AuthContext";
 
 const emptySale = (): IItemSaleCreateDto => ({
     itemId: "",
@@ -44,6 +45,7 @@ const emptySale = (): IItemSaleCreateDto => ({
 });
 
 const CreateSale = () => {
+    const { user } = useAuth();
     const [isLoading, setIsLoading] = useState(false);
     const [sale, setSale] = useState<IItemSaleCreateDto>(emptySale());
     const [items, setItems] = useState<ItemResponseDto[]>([]);
@@ -58,6 +60,11 @@ const CreateSale = () => {
                 ]);
                 if (itemsRes.success) setItems(itemsRes.data);
                 if (vehiclesRes.success) setVehicles(vehiclesRes.data);
+
+
+                if (user?.userId) {
+                    setSale((prev) => ({ ...prev, addedBy: user.fullName }));
+                }
             } catch {
                 console.error("Error fetching items/vehicles");
             }
@@ -84,6 +91,7 @@ const CreateSale = () => {
             if (name === "saleDate") {
                 return { ...prev, [name]: new Date(value) };
             }
+
             return { ...prev, [name]: value };
         });
     };
@@ -95,7 +103,7 @@ const CreateSale = () => {
             const payload = {
                 ...sale,
                 vehicleId: sale.vehicleId || null,
-                addedBy: sale.addedBy?.trim() ? sale.addedBy.trim() : null,
+                addedBy: user?.userId ? user?.userId : null,
             };
             console.log("payload", payload);
 
@@ -288,6 +296,7 @@ const CreateSale = () => {
                                     placeholder="Your name / user id"
                                     value={sale.addedBy ?? ""}
                                     onChange={(v) => handleChange("addedBy", v)}
+                                    disabled
                                 />
 
                                 <CustomInput

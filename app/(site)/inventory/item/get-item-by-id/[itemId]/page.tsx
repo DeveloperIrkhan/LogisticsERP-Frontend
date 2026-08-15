@@ -62,16 +62,15 @@ const Page = () => {
         try {
             setIsDeleting(true);
             const response = await deleteItemAsync(itemId);
-
             if (response.success) {
-                toast.success(response.message || "Fuel record deleted successfully!");
+                toast.success(response.message || "Item record deleted successfully!");
                 router.push("/inventory/item/view-items");
             } else {
-                toast.error(response.message || "Failed to delete fuel record.");
+                toast.error(response.message || "Failed to delete item record.");
             }
         } catch (error) {
-            console.error("Error deleting fuel record:", error);
-            toast.error("Something went wrong while deleting the fuel record.");
+            console.error("Error deleting item record:", error);
+            toast.error("Something went wrong while deleting the item record.");
         } finally {
             setIsDeleting(false);
             setIsModalOpen(false);

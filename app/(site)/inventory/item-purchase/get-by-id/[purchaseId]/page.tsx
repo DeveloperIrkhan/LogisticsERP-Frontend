@@ -58,6 +58,7 @@ const GetPurchaseById = () => {
             const response = await getPurchaseByIdAsync(purchaseId);
             if (response.success) {
                 setPurchase(response.data);
+                console.log("Fetched purchase:", response.data);
             } else {
                 toast.error(response.message);
             }
@@ -79,7 +80,7 @@ const GetPurchaseById = () => {
             const res = await deletePurchaseAsync(purchaseId);
             if (res.success) {
                 toast.success("Purchase deleted successfully!");
-                router.push("/item-purchase/view-all");
+                router.push("/inventory/item-purchase/view-all");
             } else {
                 toast.error(res.message);
             }
@@ -120,6 +121,7 @@ const GetPurchaseById = () => {
                 toast.success(res.message || "Purchase rejected!");
                 setPurchase(res.data);
                 setRejectModal(false);
+                console.log("Updated purchase after rejection:", res.data);
                 setActionBy("");
             } else {
                 toast.error(res.message);
@@ -176,10 +178,10 @@ const GetPurchaseById = () => {
         { label: "Supplier Name", value: purchase.supplierName, icon: Truck },
         { label: "Invoice Number", value: purchase.invoiceNumber, icon: FileText },
         { label: "Vehicle ID", value: purchase.vehicleId, icon: Truck },
-        { label: "Added By", value: purchase.addedBy, icon: User },
-        { label: "Approved By", value: purchase.approvedBy, icon: User },
         { label: "Notes", value: purchase.notes, icon: FileText },
         { label: "Created At", value: new Date(purchase.createdAt).toDateString(), icon: Calendar },
+        { label: "Added By", value: purchase.addedBy, icon: User },
+        { label: "Approved By", value: purchase.approvedBy, icon: User },
     ];
 
     return (
@@ -187,22 +189,32 @@ const GetPurchaseById = () => {
             <div className="max-w-7xl mx-auto">
                 <div className="bg-white rounded-3xl overflow-hidden shadow-2xl border border-slate-200">
 
-                    <div className="bg-linear-to-r from-red-600 via-red-700 to-red-900 p-8 md:p-10">
-                        <div className="flex flex-col md:flex-row md:items-center gap-5">
-                            <div className="bg-white/20 backdrop-blur-md p-5 rounded-3xl w-fit">
-                                <ShoppingCart className="w-12 h-12 text-white" />
+                    <div className="bg-linear-to-r mb-4 from-red-500 via-dark-color rounded-t-xl to-red-900 p-3 md:p-5">
+                        <div className="flex  md:flex-row md:items-center justify-between gap-5">
+                            <div className="flex items-center gap-4">
+
+                                <div className="bg-white/20 backdrop-blur-md p-5 rounded-3xl w-fit">
+                                    <ShoppingCart className="w-7 h-7 text-white" />
+                                </div>
+                                <div className="">
+                                    <p className="text-white text-2xl font-bold">
+                                        Purchase Details
+                                    </p>
+                                    <p className="text-white text-sm">
+                                        {purchase.itemPurchaseId}
+                                    </p>
+                                </div>
+
                             </div>
-                            <div className="flex-1">
-                                <h1 className="text-4xl font-extrabold text-white tracking-wide">
-                                    Purchase Details
-                                </h1>
-                                <p className="text-red-100 mt-2 text-sm break-all">{purchase.itemPurchaseId}</p>
+                            <div className="flex items-center gap-4">
+                                <div className="bg-white/20 text-white shadow-lg border border-white/20 rounded-2xl px-6 py-4">
+
+                                    {purchase.status}
+                                </div>
                             </div>
-                            <span className={`text-sm font-bold px-4 py-2 rounded-xl border ${getPurchaseStatusStyle(purchase.status)}`}>
-                                {purchase.status}
-                            </span>
                         </div>
                     </div>
+
 
                     <div className="p-6 bg-gray-100 md:p-10">
 
@@ -240,7 +252,7 @@ const GetPurchaseById = () => {
                             )}
 
                             <Link
-                                href={`/item-purchase/update/${purchase.itemPurchaseId}`}
+                                href={`/inventory/item-purchase/update-item/${purchase.itemPurchaseId}`}
                                 className="flex items-center gap-2 bg-red-100 hover:bg-red-700 text-red-600 hover:text-white px-5 py-2.5 rounded-xl font-semibold text-sm shadow-md transition-all"
                             >
                                 <Edit className="w-5 h-5" />
@@ -272,7 +284,7 @@ const GetPurchaseById = () => {
                                             </div>
                                             <div className="flex-1">
                                                 <p className="text-sm text-slate-500 font-medium">{d.label}</p>
-                                                <h3 className="text-lg font-bold text-slate-800 mt-1 wrap-break-word">
+                                                <h3 className="text-md font-semibold text-slate-800 mt-1 wrap-break-word">
                                                     {d.value || "-"}
                                                 </h3>
                                             </div>

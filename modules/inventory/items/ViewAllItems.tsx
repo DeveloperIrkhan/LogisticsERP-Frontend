@@ -14,7 +14,7 @@ import ItemCard from "./ItemCard";
 const ViewAllItems = () => {
     const [isLoading, setIsLoading] = useState(false);
     const [items, setItems] = useState<ItemResponseDto[]>([]);
-    const [filter, setFilter] = useState<"All" | "Active" | "LowStock">("All");
+    const [filter, setFilter] = useState<"All" | "Active" | "Inactive" | "LowStock">("All");
 
     useEffect(() => {
         const fetchItems = async () => {
@@ -42,6 +42,7 @@ const ViewAllItems = () => {
 
     const filtered = items.filter((i) => {
         if (filter === "Active") return i.isActive;
+        if (filter === "Inactive") return !i.isActive;
         if (filter === "LowStock") return isLowStock(i);
         return true;
     });
@@ -49,12 +50,14 @@ const ViewAllItems = () => {
     const counts = {
         all: items.length,
         active: items.filter((i) => i.isActive).length,
+        inactive:items.filter((i) => !i.isActive).length,
         lowStock: items.filter((i) => isLowStock(i)).length,
     };
 
     const filterButtons = [
         { label: "All", value: "All", count: counts.all, color: "bg-slate-600" },
         { label: "Active", value: "Active", count: counts.active, color: "bg-green-500" },
+        { label: "Inactive", value: "Inactive", count: counts.inactive, color: "bg-slate-500" },
         { label: "Low Stock", value: "LowStock", count: counts.lowStock, color: "bg-red-500" },
     ];
 
@@ -93,7 +96,8 @@ const ViewAllItems = () => {
                         {filterButtons.map((btn) => (
                             <button
                                 key={btn.value}
-                                onClick={() => setFilter(btn.value as "All" | "Active" | "LowStock")}
+                                onClick={() => 
+                                    setFilter(btn.value as "All" | "Active" | "Inactive" | "LowStock")}
                                 className={`flex items-center gap-1.5 px-4 py-2 rounded-xl text-sm font-semibold transition-all ${filter === btn.value
                                     ? `${btn.color} text-white shadow-md`
                                     : "bg-white text-slate-600 border border-slate-200 hover:border-red-300"

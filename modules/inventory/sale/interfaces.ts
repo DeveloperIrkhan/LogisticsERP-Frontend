@@ -38,7 +38,7 @@ export interface IItemSaleResponseDto {
   quantity: number;
   unitPrice: number;
   totalAmount: number;
-  saleDate: string;
+  saleDate: Date;
   buyerName?: string;
   invoiceNumber?: string;
   paymentMode: PaymentMode;
@@ -47,7 +47,7 @@ export interface IItemSaleResponseDto {
   addedBy?: string;
   approvedBy?: string;
   notes?: string;
-  createdAt: string;
+  createdAt: Date;
 }
 
 export interface IItemSaleMonthlyReportDto {

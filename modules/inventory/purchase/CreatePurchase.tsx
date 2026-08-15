@@ -30,6 +30,8 @@ import { getVehiclesAsync } from "@/modules/vehicle/api";
 import { IItemSaleResponseDto } from "../sale/interfaces";
 import { getActiveItemsAsync } from "../items/api";
 import { ItemResponseDto } from "../items/types";
+import Spinner from "@/components/Spinner";
+import { useAuth } from "@/context/AuthContext";
 
 const emptyPurchase = (): IItemPurchaseCreateDto => ({
     itemId: "",
@@ -45,13 +47,13 @@ const emptyPurchase = (): IItemPurchaseCreateDto => ({
 });
 
 const CreatePurchase = () => {
+    const { user } = useAuth();
     const [isLoading, setIsLoading] = useState(false);
     const [purchase, setPurchase] = useState<IItemPurchaseCreateDto>(
         emptyPurchase(),
     );
     const [items, setItems] = useState<ItemResponseDto[]>([]);
     const [vehicles, setVehicles] = useState<IVehicleResponse[]>([]);
-
     useEffect(() => {
         const fetchData = async () => {
             try {
@@ -61,12 +63,18 @@ const CreatePurchase = () => {
                 ]);
                 if (itemsRes.success) setItems(itemsRes.data);
                 if (vehiclesRes.success) setVehicles(vehiclesRes.data);
+                console.log("Items:", itemsRes);
+
+                if (user?.userId) {
+                    setPurchase((prev) => ({ ...prev, addedBy: user.fullName }));
+                    console.log("User ID set in purchase:", user.userId);
+                }
             } catch {
                 console.error("Error fetching items/vehicles");
             }
         };
         fetchData();
-    }, []);
+    }, [user]);
 
     const isFormInvalid = () =>
         purchase.itemId === "" || purchase.quantity <= 0 || purchase.unitPrice < 0;
@@ -93,7 +101,7 @@ const CreatePurchase = () => {
             const payload = {
                 ...purchase,
                 vehicleId: purchase.vehicleId || null,
-                addedBy: purchase.addedBy?.trim() ? purchase.addedBy.trim() : null,
+                addedBy: user?.userId ?? null,
             };
             const response = await createPurchaseAsync(payload);
             if (response.success) {
@@ -111,23 +119,29 @@ const CreatePurchase = () => {
 
     const total = (purchase.quantity || 0) * (purchase.unitPrice || 0);
 
+    { isLoading && (<Spinner />) }
     return (
         <Container className="py-8">
             <div className="max-w-7xl mx-auto">
                 <div className="bg-white rounded-3xl overflow-hidden shadow-2xl border border-slate-200">
-                    <div className="bg-linear-to-r from-red-500 via-dark-color to-red-900 p-8 md:p-10">
-                        <div className="flex flex-col md:flex-row md:items-center gap-5">
-                            <div className="bg-white/20 backdrop-blur-md p-5 rounded-3xl w-fit">
-                                <ShoppingCart className="w-12 h-12 text-white" />
+
+
+                    <div className="mb-10 p-5 rounded-t-2xl bg-linear-to-r from-red-500 via-dark-color to-red-900">
+                        <div className="flex flex-col lg:flex-row justify-start items-start lg:items-center gap-5">
+                            <div className="flex items-center gap-4">
+                                <div className="bg-white/20 shadow-lg border border-white/20 rounded-2xl px-6 py-4">
+                                    <ShoppingCart className="w-7 h-7 text-white" />
+                                </div>
                             </div>
                             <div>
-                                <h1 className="text-lg md:text-3xl font-extrabold text-white tracking-wide">
+                                <h1 className="text-2xl text-white font-extrabold">
                                     Record a Purchase
                                 </h1>
-                                <p className="text-red-100 mt-2 text-sm">
+                                <p className="mt-2 text-white text-lg">
                                     Buying spare parts, lubricants, or other supplies for a vehicle or the warehouse.
                                 </p>
                             </div>
+
                         </div>
                     </div>
 
@@ -275,6 +289,7 @@ const CreatePurchase = () => {
                                     placeholder="Your name / user id"
                                     value={purchase.addedBy ?? ""}
                                     onChange={(v) => handleChange("addedBy", v)}
+                                    disabled
                                 />
 
                                 <CustomInput

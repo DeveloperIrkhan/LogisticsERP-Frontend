@@ -8,17 +8,26 @@ import {
     ArrowRight,
     Truck,
     Phone,
+    Trash,
 } from "lucide-react";
 
 import { toast } from "react-toastify";
 import Link from "next/link";
 import { IDriverResponseDto } from "@/modules/drivers/types";
-import { getDriversAsync } from "@/modules/drivers/api";
+import { deleteDriverAsync, getDriversAsync } from "@/modules/drivers/api";
 import Image from "next/image";
 import { images } from "@/public/images";
+import { useRouter } from "next/navigation";
+import MidModalWithId from "../Modals/MidModalWithId";
 const GetDriverList = () => {
     const [isLoading, setIsLoading] = useState(false);
     const [drivers, setDrivers] = useState<IDriverResponseDto[]>([]);
+    const [isDeleteOpen, setIsDeleteOpen] = useState(false);
+    const [isDeleting, setIsDeleting] = useState(false);
+    const [selectedDriverId, setSelectedDriverId] = useState<string | null>(null);
+    const [selectedDriverName, setSelectedDriverName] = useState<string | null>(null);
+    const router = useRouter();
+
     useEffect(() => {
         const fetchDrivers = async () => {
             try {
@@ -38,6 +47,31 @@ const GetDriverList = () => {
 
         fetchDrivers();
     }, []);
+
+
+    const handleDelete = async (Id: string) => {
+        try {
+            setIsLoading(true);
+            setIsDeleting(true);
+            const response = await deleteDriverAsync(Id);
+            if (response.success) {
+                toast.success(response.message)
+            }
+            else { toast.error(response.message) }
+            router.push("/dashboard/drivers/get-all-drivers");
+
+        } catch (error) {
+            toast.error("Failed to delete driver");
+        } finally {
+            setIsDeleting(false);
+            setIsLoading(false);
+        }
+    };
+
+
+
+
+
     if (isLoading) {
         return <Spinner />;
     }
@@ -56,7 +90,7 @@ const GetDriverList = () => {
     return (
         <div className="min-h-screen bg-linear-to-br bg-white w-full p-6">
             <div className="max-w-7xl mx-auto">
-                <div className="grid grid-cols-1 md:grid-cols-3 xl:grid-cols-4 gap-8">
+                <div className="grid grid-cols-1 md:grid-cols-3 xl:grid-cols-4 gap-8 items-stretch">
                     {drivers.map((driver: IDriverResponseDto) => {
                         const dateOfJoining = new Date(driver.dateOfJoining).toDateString();
                         const licenseExpiry = new Date(driver.licenseExpiry).toDateString();
@@ -65,8 +99,7 @@ const GetDriverList = () => {
                         return (
                             <div
                                 key={driver.driverId}
-                                className="shadow-xl rounded-2xl bg-gray-100 border-stone-200 border p-5 transition-shadow hover:shadow-md"
-                            >
+                                className="h-full flex flex-col shadow-xl rounded-2xl bg-gray-100 border-stone-200 border p-5 transition-shadow hover:shadow-md">
                                 <div className="flex items-start gap-4">
                                     <Image
                                         src={driver.photoUrl?.trim() ? driver.photoUrl
@@ -76,26 +109,26 @@ const GetDriverList = () => {
                                         width={64}
                                         alt=""
                                     />
-                                    <div className="flex-1 flex items-start justify-between">
-                                        <div>
-                                            <h2 className="text-lg font-semibold text-slate-800">
-                                                {driver.fullName}
-                                            </h2>
-                                            <p className="font-mono text-xs text-slate-500 mt-0.5">
-                                                {driver.cnic}
-                                            </p>
-                                        </div>
-                                        <span
-                                            className={`text-xs font-semibold px-2.5 py-1 rounded-md whitespace-nowrap ${licenseExpired
-                                                ? "bg-red-50 text-red-700"
-                                                : driver.status === "Active"
-                                                    ? "bg-emerald-50 text-emerald-700"
-                                                    : "bg-slate-100 text-slate-500"
-                                                }`}
-                                        >
-                                            {licenseExpired ? "License expired" : driver.status}
-                                        </span>
+                                </div>
+                                <div className="flex-1 flex items-start justify-between">
+                                    <div>
+                                        <h2 className="text-lg font-semibold text-slate-800">
+                                            {driver.fullName}
+                                        </h2>
+                                        <p className="font-mono text-xs text-slate-500 mt-0.5">
+                                            {driver.cnic}
+                                        </p>
                                     </div>
+                                    <span
+                                        className={`text-xs font-semibold px-2.5 py-1 rounded-md whitespace-nowrap ${licenseExpired
+                                            ? "bg-red-50 text-red-700"
+                                            : driver.status === "Active"
+                                                ? "bg-emerald-50 text-emerald-700"
+                                                : "bg-slate-100 text-slate-500"
+                                            }`}
+                                    >
+                                        {licenseExpired ? "License expired" : driver.status}
+                                    </span>
                                 </div>
 
                                 {/* Meta row: license type + number, plain text, no pills */}
@@ -151,12 +184,22 @@ const GetDriverList = () => {
                                 </div>
 
                                 {/* Footer */}
-                                <div className="mt-3 pt-3 border-t border-stone-200 flex justify-end">
+                                {/* Footer */}
+                                <div className="mt-auto pt-3 border-t flex justify-between items-center border-stone-200">
+                                    <Trash
+                                        onClick={() => {
+                                            setSelectedDriverId(driver.driverId);
+                                            setIsDeleteOpen(true);
+                                            setSelectedDriverName(driver.fullName);
+                                        }}
+                                        className="w-4 h-4 hover:text-red-500 text-gray-600 hoverEffect"
+                                    />
+
                                     <Link
                                         href={`/dashboard/drivers/get-driver-info/${driver.driverId}`}
                                         className="group/button flex items-center gap-1.5 text-sm font-semibold text-red-700 hover:text-red-800"
                                     >
-                                        get full deails
+                                        get full details
                                         <ArrowRight className="w-3.5 h-3.5 group-hover/button:translate-x-0.5 transition-transform" />
                                     </Link>
                                 </div>
@@ -181,6 +224,24 @@ const GetDriverList = () => {
                     </div>
                 )}
             </div>
+            <MidModalWithId
+                isOpen={isDeleteOpen}
+                title="Delete Driver"
+                description="Are you sure you want to delete this driver? 
+        This action cannot be undone."
+                itemName={selectedDriverName ?? ""}
+                isDeleting={isDeleting}
+                onConfirm={() => {
+                    if (selectedDriverId) {
+                        handleDelete(selectedDriverId);
+                    }
+                }}
+                onClose={() => {
+                    setIsDeleteOpen(false);
+                    setSelectedDriverId(null);
+                    setSelectedDriverName(null);
+                }}
+            />
         </div>
     );
 };

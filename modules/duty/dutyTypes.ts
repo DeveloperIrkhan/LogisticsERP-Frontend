@@ -1,3 +1,6 @@
+import { IDriverResponseDto } from "../drivers/types";
+import { IVehicleResponse } from "../vehicle/types";
+
 export enum DutyStatus {
   Pending = "Pending",
   InProgress = "InProgress",
@@ -51,7 +54,9 @@ export interface IEndDutyDto {
 export interface IDutyResponseDto {
   dutyId: string;
   vehicleId: string;
+  vehicle:IVehicleResponse;
   driverId: string;
+  driver:IDriverResponseDto;
   fromLocation: string;
   toLocation: string;
   purpose: string;
@@ -90,7 +95,7 @@ export const getDutyStatusStyle = (status: DutyStatus) => {
     case DutyStatus.Cancelled:
       return "bg-red-100 text-red-700 border-red-200";
     case DutyStatus.Approved:
-      return "bg-purple-100 text-purple-700 border-purple-200";
+      return "bg-lime-100 text-lime-700 border-lime-200";
     default:
       return "bg-gray-100 text-gray-700 border-gray-200";
   }

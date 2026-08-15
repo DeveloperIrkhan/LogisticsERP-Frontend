@@ -1,13 +1,10 @@
 import type { Metadata } from "next";
 import "@/app/globals.css";
 import React from "react";
-import { FaRegBell } from "react-icons/fa";
 import Container from "@/components/Container";
 import QuickLinks from "@/components/dashboard/QuickLinks";
 import { IoMdAdd } from "react-icons/io";
 import { MdOutlineGridView } from "react-icons/md";
-import { PiStackOverflowLogoLight } from "react-icons/pi";
-import { SiLanggraph } from "react-icons/si";
 
 export const metadata: Metadata = {
     title: "Pakistan Red Crecent Socity | Inventory Management system",

@@ -23,6 +23,7 @@ const DUTY_ENDPOINTS = {
   EndDuty: "/Duty/end-duty",
   ApproveDuty: "/Duty/approve-duty",
   CancelDuty: "/Duty/cancel-duty",
+  ExportDutyPdf: "/Duty/generate-duty-pdf",
 } as const;
 
 // ── CRUD ─────────────────────────────────────────────────────
@@ -125,6 +126,13 @@ export const approveDutyAsync = async (
 ): Promise<ApiResponse<IDutyResponseDto>> => {
   const response = await api.put(`${DUTY_ENDPOINTS.ApproveDuty}/${id}`, null, {
     params: { approvedBy },
+  });
+  return response.data;
+};
+
+export const ExportDutyPdfAsync = async (id: string): Promise<Blob> => {
+  const response = await api.get(`${DUTY_ENDPOINTS.ExportDutyPdf}/${id}`, {
+    responseType: "blob",
   });
   return response.data;
 };

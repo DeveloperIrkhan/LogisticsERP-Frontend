@@ -30,18 +30,18 @@ import { getVehiclesAsync } from "@/modules/vehicle/api";
 import { getDriversAsync } from "@/modules/drivers/api";
 import { IVehicleResponse } from "@/modules/vehicle/types";
 import { IDriverResponseDto } from "@/modules/drivers/types";
-
+import { useRouter } from "next/navigation";
 const emptyDuty = (): IDutyCreateDto => ({
   vehicleId: "",
   driverId: "",
-  fromLocation: "",
+  fromLocation: "NHQ",
   toLocation: "",
   purpose: "",
   officerName: "",
   dateOut: new Date(),
   dutyType: DutyType.Routine,
   killometerOut: undefined,
-  donor: "",
+  donor: "PRCS",
   remarks: "",
 });
 
@@ -51,6 +51,7 @@ const CreateDuty = () => {
   const [vehicles, setVehicles] = useState<IVehicleResponse[]>([]);
   const [drivers, setDrivers] = useState<IDriverResponseDto[]>([]);
   const [duty, setDuty] = useState<IDutyCreateDto>(emptyDuty());
+  const router = useRouter()
 
   useEffect(() => {
     const fetchDropdownData = async () => {
@@ -105,6 +106,7 @@ const CreateDuty = () => {
       if (response.success) {
         toast.success(response.message || "Duty created successfully!");
         setDuty(emptyDuty());
+        router.push("/duty/get-duties");
       } else {
         toast.error(response.message || "Failed to create duty.");
       }

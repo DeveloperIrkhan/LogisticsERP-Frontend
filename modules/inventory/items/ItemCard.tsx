@@ -43,13 +43,9 @@ const ItemCard = ({ Item }: IItem) => {
     return (
         <div
             key={Item.itemId}
-            className={`shadow-xl rounded-2xl  border border-stone-200 p-5 transition-shadow hover:shadow-md
-                ${getStockStyle(lowStock)
-
-                }`}
-        >
+            className={`shadow-xl rounded-2xl border border-stone-200 p-5 transition-shadow hover:shadow-md
+                ${getStockStyle(lowStock)}`}>
             <div className="flex items-start justify-between">
-
                 <h2 className="font-mono text-lg font-semibold text-slate-800">
                     {Item.itemName}
                 </h2>

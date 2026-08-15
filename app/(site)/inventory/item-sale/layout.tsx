@@ -23,22 +23,22 @@ const SaleLinks = [
     },
     {
         label: "View Sales Items",
-        href: "/inventory/item-sale/view-items",
+        href: "/inventory/item-sale/view-all",
         icon: MdOutlineGridView,
         color: "bg-pink-50 text-pink-600 hover:bg-pink-600",
     },
-    {
-        label: "Active Sales Items",
-        href: "/inventory/item-sale/active-items",
-        icon: FaRegBell,
-        color: "bg-orange-50 text-orange-600 hover:bg-orange-600",
-    },
-    {
-        label: "Sales Reports",
-        href: "/inventory/item-sale/stock-reports",
-        icon: SiLanggraph,
-        color: "bg-yellow-50 text-yellow-600 hover:bg-yellow-600",
-    },
+    // {
+    //     label: "Active Sales Items",
+    //     href: "/inventory/item-sale/active-items",
+    //     icon: FaRegBell,
+    //     color: "bg-orange-50 text-orange-600 hover:bg-orange-600",
+    // },
+    // {
+    //     label: "Sales Reports",
+    //     href: "/inventory/item-sale/stock-reports",
+    //     icon: SiLanggraph,
+    //     color: "bg-yellow-50 text-yellow-600 hover:bg-yellow-600",
+    // },
 ];
 
 export default function RootLayout({

@@ -31,31 +31,12 @@ import { toast } from "react-toastify";
 const page = () => {
   const params = useParams();
   const id = params?.driverId as string;
-  const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
   const [driver, setDriver] = useState<IDriverResponseDto>();
 
-  const [isDeleteOpen, setIsDeleteOpen] = useState(false);
-  const [isDeleting, setIsDeleting] = useState(false);
 
 
-  const handleDelete = async () => {
-    try {
-      setIsDeleting(true);
-      const response = await deleteDriverAsync(driver?.driverId as string)
-      if (response.success) {
-        toast.success(response.message)
-        router.push("/driver/get-all-driver")
-      }
-      else { toast.error(response.message) }
-      setIsDeleteOpen(false);
 
-    } catch (error) {
-      toast.error("Failed to delete driver");
-    } finally {
-      setIsDeleting(false);
-    }
-  };
   useEffect(() => {
     const fetchDriverAsync = async () => {
       try {
@@ -254,11 +235,7 @@ const page = () => {
                   >
                     <Edit className="w-6 h-6" />
                   </Link>
-                  <div onClick={() => setIsDeleteOpen(true)}
-                    className="bg-red-100 text-red-600 p-4 rounded-2xl hover:bg-red-600 hover:text-white transition-all duration-300">
-                    <Trash className="w-6 h-6" />
-                  </div>
-                  <div className="bg-red-100 text-red-600 p-4 rounded-2xl hover:bg-red-600 hover:text-white transition-all duration-300">
+                   <div className="bg-red-100 text-red-600 p-4 rounded-2xl hover:bg-red-600 hover:text-white transition-all duration-300">
                     <GrUserWorker className="w-6 h-6" />
                   </div>
                 </div>
@@ -290,16 +267,7 @@ const page = () => {
           </div>
         </div>
       </div>
-      <MidModal
-        isOpen={isDeleteOpen}
-        title="Delete Driver"
-        description="Are you sure you want to delete this driver? 
-        This action cannot be undone."
-        itemName={driver?.fullName}
-        isDeleting={isDeleting}
-        onConfirm={handleDelete}
-        onClose={() => setIsDeleteOpen(false)}
-      />
+      
     </Container>
   );
 };

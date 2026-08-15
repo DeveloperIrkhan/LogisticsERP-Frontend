@@ -22,9 +22,9 @@ import {
     SelectTrigger,
     SelectValue,
 } from "@/components/ui/select";
+import { IItemPurchaseUpdateDto, PaymentMode } from "@/modules/inventory/purchase/interfaces";
+import { getPurchaseByIdAsync, updatePurchaseAsync } from "@/modules/inventory/purchase/api";
 
-import { IItemPurchaseUpdateDto, PaymentMode } from "@/modules/itemPurchases/interfaces";
-import { getPurchaseByIdAsync, updatePurchaseAsync } from "@/modules/itemPurchases/api";
 
 const UpdatePurchase = () => {
     const params = useParams();

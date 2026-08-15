@@ -27,12 +27,12 @@ import {
     approveSaleAsync,
     rejectSaleAsync,
     markSalePaidAsync,
-} from "@/modules/itemSales/api";
+} from "@/modules/inventory/sale/api";
 import {
     IItemSaleResponseDto,
     ItemTransactionStatus,
     getSaleStatusStyle,
-} from "@/modules/itemSales/interfaces";
+} from "@/modules/inventory/sale/interfaces";
 import MidModal from "@/components/Modals/MidModal";
 
 const GetSaleById = () => {
@@ -79,7 +79,7 @@ const GetSaleById = () => {
             const res = await deleteSaleAsync(saleId);
             if (res.success) {
                 toast.success("Sale deleted successfully!");
-                router.push("/item-sale/view-all");
+                router.push("/inventory/item-sale/view-all");
             } else {
                 toast.error(res.message);
             }

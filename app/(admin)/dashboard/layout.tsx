@@ -37,9 +37,9 @@ export default function AdminLayout({
       <SlideMenu>
         <MenuItems
           icon={<Home size={20} />}
-          text="Home"
-          alert="Home"
-          href="/dashboard" />
+          text="Duties"
+          alert="Duties"
+          href="/dashboard/duty/get-all-duties" />
         <MenuItems
           icon={<BsGraphUpArrow size={20} />}
           text="Reports"
